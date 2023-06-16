@@ -20,6 +20,7 @@ public:
 
 	int zwroc_wo() const { return wartosc_odzywcza; };
 	int zwroc_r() const { return radosc; };
+
 	void wczytaj(const std::filesystem::path& sciezka) {
 		if (!tekstura.loadFromFile(sciezka.string())) {
 			std::cout << "ladowanie tekstury tla zakonczone niepowodzeniem" << std::endl;

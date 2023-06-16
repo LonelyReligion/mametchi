@@ -88,6 +88,7 @@ int main()
     sf::Text bufet("Bufet", font, 50);
     bufet.setFillColor(rozowy);
     bufet.setOrigin(sf::Vector2f(-350.f, -150.f));
+
     ekran ekran_jedzenia("OBRAZKI/kantyna/tlo.png", { bufet });
 
     ekran ekran_pokoju("obrazki/pokoj.png", {});
@@ -169,46 +170,6 @@ int main()
     };
     syty.setSmooth(false);
 
-    sf::Sprite glod_pasywny_0;
-    glod_pasywny_0.setOrigin(sf::Vector2f(-100.f, -200.f));
-    sf::Sprite glod_pasywny_1;
-    glod_pasywny_1.setOrigin(sf::Vector2f(-195.f, -200.f));
-    sf::Sprite glod_pasywny_2;
-    glod_pasywny_2.setOrigin(sf::Vector2f(-290.f, -200.f));
-    sf::Sprite glod_pasywny_3;
-    glod_pasywny_3.setOrigin(sf::Vector2f(-385.f, -200.f));
-    sf::Sprite glod_pasywny_4;
-    glod_pasywny_4.setOrigin(sf::Vector2f(-480.f, -200.f));
-
-    glod_pasywny_0.setTexture(syty);
-    glod_pasywny_1.setTexture(syty);
-    glod_pasywny_2.setTexture(syty);
-    glod_pasywny_3.setTexture(syty);
-    glod_pasywny_4.setTexture(syty);
-
-    sf::Sprite glod_aktywny_0;
-    glod_aktywny_0.setOrigin(sf::Vector2f(-100.f, -200.f));
-    sf::Sprite glod_aktywny_1;
-    glod_aktywny_1.setOrigin(sf::Vector2f(-195.f, -200.f));
-    sf::Sprite glod_aktywny_2;
-    glod_aktywny_2.setOrigin(sf::Vector2f(-290.f, -200.f));
-    sf::Sprite glod_aktywny_3;
-    glod_aktywny_3.setOrigin(sf::Vector2f(-385.f, -200.f));
-    sf::Sprite glod_aktywny_4;
-    glod_aktywny_4.setOrigin(sf::Vector2f(-480.f, -200.f));
-
-    glod_aktywny_0.setTexture(glodny);
-    glod_aktywny_1.setTexture(glodny);
-    glod_aktywny_2.setTexture(glodny);
-    glod_aktywny_3.setTexture(glodny);
-    glod_aktywny_4.setTexture(glodny);
-
-    std::vector<std::vector <sf::Sprite>> glod = {  { glod_pasywny_0, glod_aktywny_0 }, { glod_pasywny_1, glod_aktywny_1 },
-    { glod_pasywny_2, glod_aktywny_2 }, { glod_pasywny_3, glod_aktywny_3 }, { glod_pasywny_4, glod_aktywny_4 } };
-
-    std::vector<bool>wybor_glodu;
-
-    ////
     sf::Texture smutny;
     if (!smutny.loadFromFile("obrazki/statystyki/smutas.png")) {
         std::cout << "ladowanie tekstury ikonka smutas zakonczone niepowodzeniem" << std::endl;
@@ -221,45 +182,30 @@ int main()
     };
     syty.setSmooth(false);
 
-    sf::Sprite szczescie_pasywne_0;
-    szczescie_pasywne_0.setOrigin(sf::Vector2f(-100.f, -350.f));
-    sf::Sprite szczescie_pasywne_1;
-    szczescie_pasywne_1.setOrigin(sf::Vector2f(-195.f, -350.f));
-    sf::Sprite szczescie_pasywne_2;
-    szczescie_pasywne_2.setOrigin(sf::Vector2f(-290.f, -350.f));
-    sf::Sprite szczescie_pasywne_3;
-    szczescie_pasywne_3.setOrigin(sf::Vector2f(-385.f, -350.f));
-    sf::Sprite szczescie_pasywne_4;
-    szczescie_pasywne_4.setOrigin(sf::Vector2f(-480.f, -350.f));
+    std::vector<std::vector <sf::Sprite>> szczescie;
+    std::vector<std::vector <sf::Sprite>> glod;
 
-    szczescie_pasywne_0.setTexture(radosny);
-    szczescie_pasywne_1.setTexture(radosny);
-    szczescie_pasywne_2.setTexture(radosny);
-    szczescie_pasywne_3.setTexture(radosny);
-    szczescie_pasywne_4.setTexture(radosny);
-
-    sf::Sprite szczescie_aktywne_0;
-    szczescie_aktywne_0.setOrigin(sf::Vector2f(-100.f, -350.f));
-    sf::Sprite szczescie_aktywne_1;
-    szczescie_aktywne_1.setOrigin(sf::Vector2f(-195.f, -350.f));
-    sf::Sprite szczescie_aktywne_2;
-    szczescie_aktywne_2.setOrigin(sf::Vector2f(-290.f, -350.f));
-    sf::Sprite szczescie_aktywne_3;
-    szczescie_aktywne_3.setOrigin(sf::Vector2f(-385.f, -350.f));
-    sf::Sprite szczescie_aktywne_4;
-    szczescie_aktywne_4.setOrigin(sf::Vector2f(-480.f, -350.f));
-
-    szczescie_aktywne_0.setTexture(smutny);
-    szczescie_aktywne_1.setTexture(smutny);
-    szczescie_aktywne_2.setTexture(smutny);
-    szczescie_aktywne_3.setTexture(smutny);
-    szczescie_aktywne_4.setTexture(smutny);
-
-    std::vector<std::vector <sf::Sprite>> szczescie = { { szczescie_pasywne_0, szczescie_aktywne_0 }, { szczescie_pasywne_1, szczescie_aktywne_1 },
-    { szczescie_pasywne_2, szczescie_aktywne_2 }, { szczescie_pasywne_3, szczescie_aktywne_3 }, { szczescie_pasywne_4, szczescie_aktywne_4 } };
-
+    std::vector<bool>wybor_glodu;
     std::vector<bool> wybor_szczescia;
-    ////
+
+    auto first = -95.f;
+
+    for (int i = 0; i < 5; i++) {
+        sf::Sprite nasycony(syty);
+        sf::Sprite wyglodzony(glodny);
+
+        sf::Sprite uszczesliwiony(radosny);
+        sf::Sprite zasmucony(smutny);
+
+        nasycony.setOrigin(sf::Vector2f(-100.f + i * first, -200.f));
+        wyglodzony.setOrigin(sf::Vector2f(-100.f + i * first, -200.f));
+
+        uszczesliwiony.setOrigin(sf::Vector2f(-100.f + i * first, -350.f));
+        zasmucony.setOrigin(sf::Vector2f(-100.f + i * first, -350.f));
+
+        glod.push_back({nasycony, wyglodzony});
+        szczescie.push_back({ uszczesliwiony, zasmucony });
+    };
 
     //jedzenie
     bool jedzenie_tf = 0;
@@ -455,6 +401,9 @@ int main()
 
                                     imie.setString("imie: " + (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie());
                                     wiek.setString("wiek: " + std::to_string((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_wiek()));
+                                    
+                                    ekran_statystyk.ustaw_napis(1, imie);
+                                    ekran_statystyk.ustaw_napis(2, wiek);
                                 }
                                 else {
                                     instrukcja_logowania.setString("NIEPOPRAWNE HASLO. Podaj nazwe uzytkownika.");

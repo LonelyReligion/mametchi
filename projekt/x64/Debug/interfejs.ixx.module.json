@@ -1,0 +1,12 @@
+{
+    "Version": "1.1",
+    "Data": {
+        "Source": "c:\\users\\user\\desktop\\pk4\\repo projektu\\mametchi\\projekt\\interfejs.ixx",
+        "ProvidedModule": "interfejs",
+        "ImportedModules": [
+            "pole_tekstowe",
+            "guzik"
+        ],
+        "ImportedHeaderUnits": []
+    }
+}
