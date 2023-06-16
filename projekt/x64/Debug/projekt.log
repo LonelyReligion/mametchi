@@ -1,0 +1,27 @@
+﻿  Trwa skanowanie źródeł pod kątem zależności modułów...
+  zwierzak.ixx
+  jedzenie.ixx
+  przycisk.ixx
+E:\mimitchi\projekt\jedzenie.ixx(4,10): fatal  error C1083: Nie mo┐na otworzyŠ pliku do│╣cz: 'SFML/Graphics.hpp': No such file or directory
+E:\mimitchi\projekt\zwierzak.ixx(6,10): fatal  error C1083: Nie mo┐na otworzyŠ pliku do│╣cz: 'SFML/Graphics.hpp': No such file or directory
+E:\mimitchi\projekt\przycisk.ixx(1,10): fatal  error C1083: Nie mo┐na otworzyŠ pliku do│╣cz: 'SFML/Graphics.hpp': No such file or directory
+  interfejs.ixx
+  pole_tekstowe.ixx
+E:\mimitchi\projekt\interfejs.ixx(6,10): fatal  error C1083: Nie mo┐na otworzyŠ pliku do│╣cz: 'SFML/Graphics.hpp': No such file or directory
+E:\mimitchi\projekt\pole_tekstowe.ixx(1,10): fatal  error C1083: Nie mo┐na otworzyŠ pliku do│╣cz: 'SFML/Graphics.hpp': No such file or directory
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(454,5): warning MSB8074: Nie można odczytać pliku zależności modułu x64\Debug\interfejs.ixx.module.json: Oczekiwany element „root” z przestrzeni nazw „”.. Napotkano „None” o nazwie „”, przestrzeń nazw „”.  Kolejność kompilowania może być niepoprawna.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(454,5): warning MSB8074: Nie można odczytać pliku zależności modułu x64\Debug\jedzenie.ixx.module.json: Oczekiwany element „root” z przestrzeni nazw „”.. Napotkano „None” o nazwie „”, przestrzeń nazw „”.  Kolejność kompilowania może być niepoprawna.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(454,5): warning MSB8074: Nie można odczytać pliku zależności modułu x64\Debug\przycisk.ixx.module.json: Oczekiwany element „root” z przestrzeni nazw „”.. Napotkano „None” o nazwie „”, przestrzeń nazw „”.  Kolejność kompilowania może być niepoprawna.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(454,5): warning MSB8074: Nie można odczytać pliku zależności modułu x64\Debug\pole_tekstowe.ixx.module.json: Oczekiwany element „root” z przestrzeni nazw „”.. Napotkano „None” o nazwie „”, przestrzeń nazw „”.  Kolejność kompilowania może być niepoprawna.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(454,5): warning MSB8074: Nie można odczytać pliku zależności modułu x64\Debug\zwierzak.ixx.module.json: Oczekiwany element „root” z przestrzeni nazw „”.. Napotkano „None” o nazwie „”, przestrzeń nazw „”.  Kolejność kompilowania może być niepoprawna.
+  Trwa kompilowanie…
+  pole_tekstowe.ixx
+  interfejs.ixx
+  przycisk.ixx
+  zwierzak.ixx
+  jedzenie.ixx
+E:\mimitchi\projekt\przycisk.ixx(1,10): fatal  error C1083: Nie można otworzyć pliku dołącz: 'SFML/Graphics.hpp': No such file or directory
+E:\mimitchi\projekt\pole_tekstowe.ixx(1,10): fatal  error C1083: Nie można otworzyć pliku dołącz: 'SFML/Graphics.hpp': No such file or directory
+E:\mimitchi\projekt\interfejs.ixx(6,10): fatal  error C1083: Nie można otworzyć pliku dołącz: 'SFML/Graphics.hpp': No such file or directory
+E:\mimitchi\projekt\zwierzak.ixx(6,10): fatal  error C1083: Nie można otworzyć pliku dołącz: 'SFML/Graphics.hpp': No such file or directory
+E:\mimitchi\projekt\jedzenie.ixx(4,10): fatal  error C1083: Nie można otworzyć pliku dołącz: 'SFML/Graphics.hpp': No such file or directory

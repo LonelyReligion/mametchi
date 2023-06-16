@@ -1,0 +1,12 @@
+{
+    "Version": "1.1",
+    "Data": {
+        "Source": "c:\\users\\user\\desktop\\c++\\pk4\\mimitchi\\projekt\\zwierzak.ixx",
+        "ProvidedModule": "zwierzak",
+        "ImportedModules": [
+            "jedzenie",
+            "interfejs"
+        ],
+        "ImportedHeaderUnits": []
+    }
+}
