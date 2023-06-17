@@ -28,6 +28,8 @@ TODO
 > moze niech osobny watek generuje pozycje bobasa? 
 > watki do aktualizowania statystyk
 > wskazowka/instrukcja/strzaleczka z esc
+> przekazywac i trzymac teksty jako referencje zamiast ustawiania
+> statystyki sie znowu nie aktualizuja
 */
 
 int main()
@@ -86,34 +88,26 @@ int main()
     bobasek.wczytaj_sprite();
 
     //tla //zampknac w interface?
-    sf::Text bufet("Bufet", font, 50);
-    bufet.setFillColor(rozowy);
-    bufet.setOrigin(sf::Vector2f(-350.f, -150.f));
-
-    
-
-    ekran ekran_pokoju("obrazki/pokoj.png", {});
-
-    /////////////
-    
-    //menu 
     sf::Color kolor_tla_przyciskow = wanilia;
     sf::Color kolor_tekstu_przyciskow = rozowy;
     sf::Color kolor_tla_wcisniete = pomarancza;
     sf::Vector2f rozmiar_przyciskow = { 200, 50 };
 
-    //glowne menu
     przycisk staty("Statystyki", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 50, 20 }, font); //wezszy, inne kolory
     przycisk lodow("Bufet", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 20 }, font);
     przycisk zabaw("Zabawa", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 550, 20 }, font);
     przycisk sprza("Sprzatanie", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 550, 500 }, font);
     przycisk wczyt("Wczytaj", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 500 }, font);
     przycisk zapis("Zapisz", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 50, 500 }, font);
+    ekran ekran_pokoju("obrazki/pokoj.png", {}, { &staty, &lodow, &zabaw, &sprza, &wczyt, &zapis });
 
-    /// jedzenie
-    przycisk dania("Dania", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 250 }, font);
-    przycisk desery("Desery", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 350 }, font);
-    przycisk sklep("Sklep", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 450 }, font);
+    sf::Text wyjscie("Czy na pewno chcesz wyjsc z gry? \n Pamietaj, twoje dane nie zostana \nzapisane automatycznie!", font, 20);
+    wyjscie.setFillColor(rozowy);
+    wyjscie.setOrigin(sf::Vector2f(-250.f, -250.f));
+
+    ekran ekran_popupu("OBRAZKI/popup.png", { wyjscie });
+
+    /////////////
     /// okno
     sf::RenderWindow okno(sf::VideoMode(800, 600), "Moje zwierzatko!", sf::Style::Default); //titlebar, resize, close
     okno.setVerticalSyncEnabled(true); //synchronizacja czasu odswierzania z monitorem
@@ -209,54 +203,65 @@ int main()
     bool jedzenie_tf = 0;
     bool jemy_dania = 0;
     bool jemy_slodycze = 0;
+    bool wychodzimy = 0;
+
+    std::vector<sf::Text> informacje_o_daniu = {sf::Text("", font, 20), sf::Text("", font, 20)};
+    informacje_o_daniu[0].setOrigin(sf::Vector2f(-10.f, -475.f));
+    informacje_o_daniu[1].setOrigin(sf::Vector2f(-10.f, -500.f));
+
+    std::vector<sf::Text> informacje_o_przekasce = { sf::Text("", font, 20), sf::Text("", font, 20), sf::Text("", font, 20) };
+    informacje_o_przekasce[0].setOrigin(sf::Vector2f(-300.f, -25.f));
+    informacje_o_przekasce[1].setOrigin(sf::Vector2f(-300.f, -50.f));
+    informacje_o_przekasce[2].setOrigin(sf::Vector2f(-300.f, -75.f));
+
+    przycisk dania("Dania", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 250 }, font);
+    przycisk desery("Desery", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 350 }, font);
+    przycisk sklep("Sklep", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 450 }, font);
     
-    sf::Text informacje_o_daniu_0("INFO O DANIU", font, 20);
-    sf::Text informacje_o_daniu_1("INFO O DANIU DRUGA LINIJKA", font, 20);
-    informacje_o_daniu_0.setOrigin(sf::Vector2f(-50.f, -450.f));
-    informacje_o_daniu_1.setOrigin(sf::Vector2f(-50.f, -500.f));
+    sf::Text bufet("Bufet", font, 50);
+    bufet.setFillColor(rozowy);
+    bufet.setOrigin(sf::Vector2f(-350.f, -150.f));
 
-    sf::Text informacje_o_przekasce_0("INFO O PRZEKASCE", font, 20);
-    sf::Text informacje_o_przekasce_1("INFO O PRZEKASCE DRUGA LINIJKA", font, 20);
-    informacje_o_przekasce_0.setOrigin(sf::Vector2f(-350.f, -50.f));
-    informacje_o_przekasce_1.setOrigin(sf::Vector2f(-350.f, -100.f));
-
-    ekran ekran_jedzenia("OBRAZKI/kantyna/tlo.png", { bufet });
-    ekran ekran_dan("OBRAZKI/kantyna/lodowka.png", { informacje_o_daniu_0, informacje_o_daniu_1 });
-    ekran ekran_slodyczy("OBRAZKI/kantyna/taca.png", { informacje_o_przekasce_0, informacje_o_przekasce_1 });
+    ekran ekran_jedzenia("OBRAZKI/kantyna/tlo.png", { bufet }, { &dania, &desery, &sklep });
 
     przycisk salatka_zaznaczenie("Salatka", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 350, 200 }, font);
     przycisk truskawka_zaznaczenie("Truskawka", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 150, 275 }, font);
+
+    ekran ekran_dan("OBRAZKI/kantyna/lodowka.png", { informacje_o_daniu[0], informacje_o_daniu[1] }, {&salatka_zaznaczenie });
+    ekran ekran_slodyczy("OBRAZKI/kantyna/taca.png", { informacje_o_przekasce[0], informacje_o_przekasce[1], informacje_o_przekasce[2] }, { &truskawka_zaznaczenie });
 
     produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png");
     produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png");
 
     while (okno.isOpen()) {
         sf::Event zdarzenie;
-
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) { //enter
             login.ustawZaznaczenie(true);
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
             if (login.zwrocZaznaczenie())
                 login.ustawZaznaczenie(false);
-            else if (wyswietl_statystyki)
-                wyswietl_statystyki = 0;
-            else if (jedzenie_tf)
-                jedzenie_tf = 0;
-            else if (jemy_dania) {
-                jemy_dania = 0;
-            }
-            else if (jemy_slodycze) {
-                jemy_slodycze = 0;
-            }
-            else
-                ;//logika dotyczaca wyjscia z gry
         };
-
         while (okno.pollEvent(zdarzenie)) { //zwraca true, jezeli jakies zdarzenie oczekuje
             switch (zdarzenie.type)
             {
             ///
+            case sf::Event::KeyReleased:
+                if (zdarzenie.key.code == sf::Keyboard::Escape && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania)
+                {
+                    if (DEBUG) std::cout << "wywolano sekwencje wyjscia" << std::endl;
+                    wychodzimy = !wychodzimy;
+                }
+                else if (wyswietl_statystyki)
+                    wyswietl_statystyki = 0;
+                else if (jedzenie_tf)
+                    jedzenie_tf = 0;
+                else if (jemy_dania) {
+                    jemy_dania = 0;
+                }
+                else if (jemy_slodycze) {
+                    jemy_slodycze = 0;
+                };
             case sf::Event::MouseMoved:
                 if (jedzenie_tf) {
                     if (dania.myszanad(okno)) {
@@ -275,16 +280,36 @@ int main()
                     };
                 }
                 else if (jemy_dania) {
-                    if (salatka_zaznaczenie.myszanad(okno))
+                    if (salatka_zaznaczenie.myszanad(okno)) {
                         salatka_zaznaczenie.ustawkolortla(kolor_tla_wcisniete);
-                    else
+                        informacje_o_daniu[0].setString("Salatka");
+                        informacje_o_daniu[1].setString("Wartosc odzywcza: " + std::to_string(salatka.zwroc_wo()));
+                    }
+                    else {
                         salatka_zaznaczenie.ustawkolortla(kolor_tla_przyciskow);
+                        informacje_o_daniu[0].setString("");
+                        informacje_o_daniu[1].setString("");
+                    };
+                    ekran_dan.ustaw_napis(0, informacje_o_daniu[0]);
+                    ekran_dan.ustaw_napis(1, informacje_o_daniu[1]);
                 }
                 else if (jemy_slodycze) {
-                    if (truskawka_zaznaczenie.myszanad(okno))
+                    if (truskawka_zaznaczenie.myszanad(okno)) {
                         truskawka_zaznaczenie.ustawkolortla(kolor_tla_wcisniete);
-                    else
+                        informacje_o_przekasce[0].setString("Truskawka");
+                        if (DEBUG) std::cout << "Wartosc odzywcza truskawki: " << truskawka.zwroc_wo() << std::endl;
+                        informacje_o_przekasce[1].setString("Wartosc odzywcza: " + std::to_string(truskawka.zwroc_wo()));
+                        informacje_o_przekasce[2].setString("Szczescie: " + std::to_string(truskawka.zwroc_r()));
+                    }
+                    else {
                         truskawka_zaznaczenie.ustawkolortla(kolor_tla_przyciskow);
+                        informacje_o_przekasce[0].setString("");
+                        informacje_o_przekasce[1].setString("");
+                        informacje_o_przekasce[2].setString("");
+                    };
+                    ekran_slodyczy.ustaw_napis(0, informacje_o_przekasce[0]);
+                    ekran_slodyczy.ustaw_napis(1, informacje_o_przekasce[1]);
+                    ekran_slodyczy.ustaw_napis(2, informacje_o_przekasce[2]);
                 }
                 else if (staty.myszanad(okno)) {
                     staty.ustawkolortla(kolor_tla_wcisniete);
@@ -333,6 +358,14 @@ int main()
                         desery.ustawkolortla(kolor_tla_przyciskow);
                         sklep.ustawkolortla(kolor_tla_przyciskow);
                     };
+                }
+                else if (truskawka_zaznaczenie.myszanad(okno)) {
+                    (*baza_zwierzakow.at(inter.pobierzzalogowany())).nakarm(truskawka);
+                    if (DEBUG) std::cout << "Nasz zwierzak zjadl truskawke" << std::endl;
+                }
+                else if (salatka_zaznaczenie.myszanad(okno)) {
+                    (*baza_zwierzakow.at(inter.pobierzzalogowany())).nakarm(salatka);
+                    if (DEBUG) std::cout << "Nasz zwierzak zjadl salatke" << std::endl;
                 }
                 else if (staty.myszanad(okno)) {
                     if (DEBUG) std::cout << "staty przycisniete" << std::endl;
@@ -467,6 +500,8 @@ int main()
             };
         };
 
+
+
         okno.clear();
 
         //wyswietlamy rzeczy
@@ -490,36 +525,26 @@ int main()
         else if (jedzenie_tf) {
             ekran_jedzenia.rysuj_tlo(okno);
             okno.draw(bufet);
-
-            dania.drukujdo(okno);
-            desery.drukujdo(okno);
-            sklep.drukujdo(okno);
         }
         else if (jemy_dania) {
             ekran_dan.rysuj_tlo(okno);
             salatka.rysuj(okno, sf::Vector2f( - 350.f, -25.f ));
-            salatka_zaznaczenie.drukujdo(okno);
         }
         else if (jemy_slodycze) {
             ekran_slodyczy.rysuj_tlo(okno);
             truskawka.rysuj(okno, sf::Vector2f(-150.f, -100.f));
-            truskawka_zaznaczenie.drukujdo(okno);
         }
         else {
             static int i = 0;
             ekran_pokoju.rysuj_tlo(okno);
 
             (*baza_zwierzakow.at(inter.pobierzzalogowany())).idle_animation();
-            (* baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno);
+            (*baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno);
 
-            staty.drukujdo(okno);
-            lodow.drukujdo(okno);
-            zabaw.drukujdo(okno);
-            sprza.drukujdo(okno);
-            wczyt.drukujdo(okno);
-            zapis.drukujdo(okno);
         };
 
+        if (wychodzimy)
+            ekran_popupu.rysuj_tlo(okno, sf::Vector2f(-200.f, -150.f));
         okno.display(); //zrzut z bufora
     };
 

@@ -33,26 +33,6 @@ private:
 	std::map <produkt, int> dania;
 	std::map <produkt, int> przekaski;
 protected:
-	bool nakarm(const produkt & jedzenie) { 
-		if (!chory) {
-			if ((5 - jedzenie.zwroc_wo()) > glod)
-				glodny = glod + jedzenie.zwroc_wo();
-			else {
-				glodny = 5;
-			};
-
-			if (!jedzenie.zwroc_r() != 0) { //mamy do czynienia ze slodyczem
-				if ((5 - jedzenie.zwroc_r()) > szczescie)
-					szczescie = szczescie + jedzenie.zwroc_r();
-				else {
-					szczescie = 5;
-				};
-			};
-
-		};
-		return true; 
-	}; //zwraca informacje o tym czy sie powiodla akcja
-	bool baw() { return true; }; //zwraca informacje o tym czy sie powiodla akcja
 public:
 	stworzenie() : glod(1), szczescie(0), chory(0), glodny(1), zmeczony(0), smutny(1), imie(""), wiek(0), zywy(1) { if (DEBUG_Z) std::cout << "wywolano konstruktor bezargumentowy klasy stworzenie" << std::endl; };
 	virtual void wczytaj_sprite() { if (DEBUG_Z) std::cout << "Wczytuje sprite dla klasy stworzenie" << std::endl; };
@@ -70,7 +50,30 @@ public:
 
 	int zwroc_szczescie() { return szczescie; };
 	void ustaw_szczescie(const int& radowanie) { szczescie = radowanie; };
-friend interfejs;
+
+	void nakarm(const produkt& jedzenie) {
+		if (DEBUG_Z) std::cout << "Jemy" << std::endl;
+		if (!chory) {
+			if ((5 - jedzenie.zwroc_wo()) > glod) {
+				glod = glod + jedzenie.zwroc_wo();
+				if (DEBUG_Z) std::cout << zwroc_glod() << std::endl;
+			}
+			else {
+				glod = 5;
+			};
+
+			if (jedzenie.zwroc_r()) { //mamy do czynienia ze slodyczem
+				if ((5 - jedzenie.zwroc_r()) > szczescie)
+					szczescie = szczescie + jedzenie.zwroc_r();
+				else {
+					szczescie = 5;
+				};
+			};
+		};
+	}; //zwraca informacje o tym czy sie powiodla akcja
+	bool baw() { return true; }; //zwraca informacje o tym czy sie powiodla akcja
+
+	friend interfejs;
 };
 
 export class Bobas : public stworzenie {

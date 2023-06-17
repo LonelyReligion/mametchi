@@ -52,11 +52,11 @@ private:
 	sf::Sprite duch;
 	sf::Texture tekstura;
 	std::vector<sf::Text> teksty;
-	std::vector <przycisk> guziki;
+	std::vector <przycisk*> guziki;
 protected:
 public:
 	ekran() {};
-	ekran(const std::filesystem::path& sciezka, std::vector<sf::Text> t):teksty(t) { wczytaj_tlo(sciezka); };
+	ekran(const std::filesystem::path& sciezka, std::vector<sf::Text> t = {}, std::vector<przycisk*> p = {}) :teksty(t), guziki(p) { wczytaj_tlo(sciezka); };
 	void wczytaj_tlo(const std::filesystem::path & sciezka){
 		if (!tekstura.loadFromFile(sciezka.string())){
 			std::cout << "ladowanie tekstury tla zakonczone niepowodzeniem" << std::endl;
@@ -65,10 +65,13 @@ public:
 		duch.setTexture(tekstura);
 	};
 
-	void rysuj_tlo(sf::RenderWindow& okno) { 
+	void rysuj_tlo(sf::RenderWindow& okno, const sf::Vector2f& pozycja_tla = {0.f, 0.f}) {
+		duch.setOrigin(pozycja_tla);
 		okno.draw(duch);
 		for(auto & tekst : teksty)
-				okno.draw(tekst);
+			okno.draw(tekst);
+		for (auto& guzik : guziki)
+			(*guzik).drukujdo(okno);
 	};
 
 	void dodaj_tekst(const sf::Text& tekst) {
@@ -76,6 +79,6 @@ public:
 	};
 
 	std::vector<sf::Text> zwroc_napis() { return teksty; };
-
+	przycisk* zwroc_przycisk(int indeks) { return guziki.at(indeks); };
 	void ustaw_napis(const int& indeks, sf::Text& napis) { teksty.at(indeks) = napis; };
 };

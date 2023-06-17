@@ -24,7 +24,7 @@ public:
 
 	void wczytaj(const std::filesystem::path& sciezka) {
 		if (!tekstura.loadFromFile(sciezka.string())) {
-			std::cout << "ladowanie tekstury tla zakonczone niepowodzeniem" << std::endl;
+			std::cout << "ladowanie tekstury jedzenia zakonczone niepowodzeniem" << std::endl;
 		};
 		tekstura.setSmooth(false);
 		duch.setTexture(tekstura);
