@@ -27,6 +27,7 @@ TODO
 > wczytaj sprite moze byc wykonane tylko raz przy tworzeniu
 > moze niech osobny watek generuje pozycje bobasa? 
 > watki do aktualizowania statystyk
+> wskazowka/instrukcja/strzaleczka z esc
 */
 
 int main()
@@ -89,7 +90,7 @@ int main()
     bufet.setFillColor(rozowy);
     bufet.setOrigin(sf::Vector2f(-350.f, -150.f));
 
-    ekran ekran_jedzenia("OBRAZKI/kantyna/tlo.png", { bufet });
+    
 
     ekran ekran_pokoju("obrazki/pokoj.png", {});
 
@@ -113,9 +114,6 @@ int main()
     przycisk dania("Dania", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 250 }, font);
     przycisk desery("Desery", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 350 }, font);
     przycisk sklep("Sklep", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 450 }, font);
-    przycisk salatka_zaznaczenie("Salatka", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 150, 350 }, font);
-    przycisk truskawka_zaznaczenie("Salatka", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 150, 350 }, font);
-    
     /// okno
     sf::RenderWindow okno(sf::VideoMode(800, 600), "Moje zwierzatko!", sf::Style::Default); //titlebar, resize, close
     okno.setVerticalSyncEnabled(true); //synchronizacja czasu odswierzania z monitorem
@@ -211,9 +209,26 @@ int main()
     bool jedzenie_tf = 0;
     bool jemy_dania = 0;
     bool jemy_slodycze = 0;
+    
+    sf::Text informacje_o_daniu_0("INFO O DANIU", font, 20);
+    sf::Text informacje_o_daniu_1("INFO O DANIU DRUGA LINIJKA", font, 20);
+    informacje_o_daniu_0.setOrigin(sf::Vector2f(-50.f, -450.f));
+    informacje_o_daniu_1.setOrigin(sf::Vector2f(-50.f, -500.f));
 
-    produkt truskawka(2, 2, "/OBRAZKI/kantyna/truskawka.png");
-    produkt salatka(3, 0, "/OBRAZKI/kantyna/salatka.png");
+    sf::Text informacje_o_przekasce_0("INFO O PRZEKASCE", font, 20);
+    sf::Text informacje_o_przekasce_1("INFO O PRZEKASCE DRUGA LINIJKA", font, 20);
+    informacje_o_przekasce_0.setOrigin(sf::Vector2f(-350.f, -50.f));
+    informacje_o_przekasce_1.setOrigin(sf::Vector2f(-350.f, -100.f));
+
+    ekran ekran_jedzenia("OBRAZKI/kantyna/tlo.png", { bufet });
+    ekran ekran_dan("OBRAZKI/kantyna/lodowka.png", { informacje_o_daniu_0, informacje_o_daniu_1 });
+    ekran ekran_slodyczy("OBRAZKI/kantyna/taca.png", { informacje_o_przekasce_0, informacje_o_przekasce_1 });
+
+    przycisk salatka_zaznaczenie("Salatka", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 350, 200 }, font);
+    przycisk truskawka_zaznaczenie("Truskawka", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 150, 275 }, font);
+
+    produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png");
+    produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png");
 
     while (okno.isOpen()) {
         sf::Event zdarzenie;
@@ -323,18 +338,12 @@ int main()
                     if (DEBUG) std::cout << "staty przycisniete" << std::endl;
 
                     std::cout << "Poziom najedzenia zwierzaka " << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_glod() << std::endl;
-                    wybor_glodu.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_glod() == 0);
-                    wybor_glodu.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_glod() < 2);
-                    wybor_glodu.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_glod() < 3);
-                    wybor_glodu.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_glod() < 4);
-                    wybor_glodu.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_glod() != 5);
-
                     std::cout << "Poziom szczescia zwierzaka " << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_szczescie() << std::endl;
-                    wybor_szczescia.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_szczescie() == 0);
-                    wybor_szczescia.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_szczescie() < 2);
-                    wybor_szczescia.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_szczescie() < 3);
-                    wybor_szczescia.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_szczescie() < 4);
-                    wybor_szczescia.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_szczescie() != 5);
+
+                    for (int i = 1; i < 6; i++) {
+                        wybor_glodu.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_glod() < i);
+                        wybor_szczescia.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_szczescie() < i);
+                    };
 
                     wyswietl_statystyki = 1;
                     
@@ -487,11 +496,13 @@ int main()
             sklep.drukujdo(okno);
         }
         else if (jemy_dania) {
-            salatka.rysuj(okno, sf::Vector2f( - 100.f, -350.f ));
+            ekran_dan.rysuj_tlo(okno);
+            salatka.rysuj(okno, sf::Vector2f( - 350.f, -25.f ));
             salatka_zaznaczenie.drukujdo(okno);
         }
         else if (jemy_slodycze) {
-            truskawka.rysuj(okno, sf::Vector2f(-100.f, -350.f));
+            ekran_slodyczy.rysuj_tlo(okno);
+            truskawka.rysuj(okno, sf::Vector2f(-150.f, -100.f));
             truskawka_zaznaczenie.drukujdo(okno);
         }
         else {

@@ -13,6 +13,7 @@ private:
 
 	sf::Texture tekstura;
 	sf::Sprite duch;
+	sf::Vector2f pozycja;
 public:
 	produkt(const int & wo, const int & r, const std::filesystem::path & p) : wartosc_odzywcza(wo), radosc(r){
 		wczytaj(p);
