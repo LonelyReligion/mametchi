@@ -54,7 +54,7 @@ public:
 	void nakarm(const produkt& jedzenie) {
 		if (DEBUG_Z) std::cout << "Jemy" << std::endl;
 		if (!chory) {
-			if ((5 - jedzenie.zwroc_wo()) > glod) {
+			if ((glod + jedzenie.zwroc_wo()) < 5) {
 				glod = glod + jedzenie.zwroc_wo();
 				if (DEBUG_Z) std::cout << zwroc_glod() << std::endl;
 			}
@@ -63,7 +63,7 @@ public:
 			};
 
 			if (jedzenie.zwroc_r()) { //mamy do czynienia ze slodyczem
-				if ((5 - jedzenie.zwroc_r()) > szczescie)
+				if ((szczescie + jedzenie.zwroc_r()) < 5)
 					szczescie = szczescie + jedzenie.zwroc_r();
 				else {
 					szczescie = 5;

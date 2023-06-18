@@ -166,13 +166,13 @@ int main()
     if (!smutny.loadFromFile("obrazki/statystyki/smutas.png")) {
         std::cout << "ladowanie tekstury ikonka smutas zakonczone niepowodzeniem" << std::endl;
     };
-    glodny.setSmooth(false);
+    smutny.setSmooth(false);
 
     sf::Texture radosny;
     if (!radosny.loadFromFile("obrazki/statystyki/chichrok.png")) {
         std::cout << "ladowanie tekstury ikonka chichrok zakonczone niepowodzeniem" << std::endl;
     };
-    syty.setSmooth(false);
+    radosny.setSmooth(false);
 
     std::vector<std::vector <sf::Sprite>> szczescie;
     std::vector<std::vector <sf::Sprite>> glod;
@@ -369,17 +369,16 @@ int main()
                 }
                 else if (staty.myszanad(okno)) {
                     if (DEBUG) std::cout << "staty przycisniete" << std::endl;
-
+                    wybor_glodu.clear();
+                    wybor_szczescia.clear();
                     std::cout << "Poziom najedzenia zwierzaka " << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_glod() << std::endl;
                     std::cout << "Poziom szczescia zwierzaka " << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_szczescie() << std::endl;
-
+                    stworzenie* zal = baza_zwierzakow.at(inter.pobierzzalogowany());
                     for (int i = 1; i < 6; i++) {
-                        wybor_glodu.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_glod() < i);
-                        wybor_szczescia.push_back((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_szczescie() < i);
+                        wybor_glodu.push_back((*zal).zwroc_glod() < i);
+                        wybor_szczescia.push_back((*zal).zwroc_szczescie() < i);
                     };
-
-                    wyswietl_statystyki = 1;
-                    
+                    wyswietl_statystyki = true;
                 } 
                 else if (lodow.myszanad(okno)) {
                     std::cout << "lodow przycisniety" << std::endl;
@@ -515,10 +514,11 @@ int main()
         }
         else if (wyswietl_statystyki) {
             ekran_statystyk.rysuj_tlo(okno);
-
             for (int i = 0; i < 5; i++) {
-                okno.draw(glod[i][wybor_glodu[i]]);
-                okno.draw(szczescie[i][wybor_szczescia[i]]);
+                bool g = wybor_glodu[i];
+                bool s = wybor_szczescia[i];
+                okno.draw(glod[i][g]);
+                okno.draw(szczescie[i][s]);
             };
         
         }
