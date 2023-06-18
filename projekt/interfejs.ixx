@@ -81,4 +81,7 @@ public:
 	std::vector<sf::Text> zwroc_napis() { return teksty; };
 	przycisk* zwroc_przycisk(int indeks) { return guziki.at(indeks); };
 	void ustaw_napis(const int& indeks, sf::Text& napis) { teksty.at(indeks) = napis; };
+
+	void ustaw_teksty(std::vector<sf::Text> t) { teksty = t; };
+	void ustaw_przyciski(std::vector <przycisk*> p) { guziki = p; };
 };

@@ -33,5 +33,8 @@
     <ClCompile Include="przycisk.ixx">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="gra.ixx">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

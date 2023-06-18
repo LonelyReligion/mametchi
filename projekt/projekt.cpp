@@ -14,6 +14,7 @@ import interfejs;
 import jedzenie;
 import pole_tekstowe;
 import guzik;
+import gra;
 
 bool DEBUG = true;
 
@@ -29,11 +30,18 @@ TODO
 > watki do aktualizowania statystyk
 > wskazowka/instrukcja/strzaleczka z esc
 > przekazywac i trzymac teksty jako referencje zamiast ustawiania
-> statystyki sie znowu nie aktualizuja
+> jedzenie przy zabawie
+> tabela wynikow w grze, z najlepszymi zwierzakami?
 */
 
 int main()
 {
+    sf::Font font;
+    if (!font.loadFromFile("munro.ttf"))
+    {
+        std::cout << "Ladowanie fonta zakonczone niepowodzeniem" << std::endl;
+    };
+
     std::regex puste(".*\\s+.*"); //cos spacja cos
 
     interfejs inter;
@@ -42,6 +50,9 @@ int main()
     sf::Color wanilia(252, 234, 154);
     sf::Color pomarancza(247, 182, 101);
 
+    prawo_lewo pl("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png", font);
+
+    bool gramy = 0;
     //wczytaj bazy
     std::map<std::string, uzytkownik> baza_uzytkownikow; //nazwa uzytkownika, uzytkownik
     std::map<std::string, stworzenie *> baza_zwierzakow; //nazwa uzytkownika, wzkaznik na zwierzatko (konieczne do zastosowania polimorfizmu, tak aby wykonywaly sie odpowiednie wersje metod)
@@ -72,12 +83,6 @@ int main()
     by derivative works. The fonts and derivatives, however, cannot be released under any other type of license.
     The requirement for fonts to remain under this license does not apply to any document created using
     the fonts or their derivatives.*/
-
-    sf::Font font;
-    if (!font.loadFromFile("munro.ttf"))
-    {
-        std::cout << "Ladowanie fonta zakonczone niepowodzeniem" << std::endl;
-    };
 
     sf::Clock czas;
     sf::Time czas_od_wlaczenia_programu = czas.getElapsedTime(); //.restart() robi to samo i dodatkowo zeruje zegar, nie dziala poprawnie
@@ -249,7 +254,7 @@ int main()
             {
             ///
             case sf::Event::KeyReleased:
-                if (zdarzenie.key.code == sf::Keyboard::Escape && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania)
+                if (zdarzenie.key.code == sf::Keyboard::Escape && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy)
                 {
                     if (DEBUG) std::cout << "wywolano sekwencje wyjscia" << std::endl;
                     wychodzimy = !wychodzimy;
@@ -258,12 +263,12 @@ int main()
                     wyswietl_statystyki = 0;
                 else if (jedzenie_tf)
                     jedzenie_tf = 0;
-                else if (jemy_dania) {
+                else if (jemy_dania) 
                     jemy_dania = 0;
-                }
-                else if (jemy_slodycze) {
+                else if (jemy_slodycze) 
                     jemy_slodycze = 0;
-                };
+                else if(gramy)
+                    gramy = 0;
             case sf::Event::MouseMoved:
                 if (wychodzimy) {
                     if (tak.myszanad(okno))
@@ -352,23 +357,23 @@ int main()
                 break;
             case sf::Event::MouseButtonPressed:
                 if (wychodzimy) {
-                    if (tak.myszanad(okno))
+                    if (tak.myszanad(okno) && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy)
                         return 0;
-                    else if (nie.myszanad(okno))
+                    else if (nie.myszanad(okno) && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy)
                         wychodzimy = 0;
                 }
                 else if (jedzenie_tf) {
-                    if (dania.myszanad(okno)) {
+                    if (dania.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy) {
                         if(DEBUG) std::cout << "Bedziemy jesc dania glowne" << std::endl;
                         jemy_dania = 1;
                         jedzenie_tf = 0;
                     }
-                    else if (desery.myszanad(okno)) {
+                    else if (desery.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy) {
                         if (DEBUG) std::cout << "Bedziemy jesc desery" << std::endl;
                         jemy_slodycze = 1;
                         jedzenie_tf = 0;
                     }
-                    else if (sklep.myszanad(okno)) {
+                    else if (sklep.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy) {
                         if (DEBUG) std::cout << "Bedziemy kupowac jedzenie" << std::endl;
                     }
                     else {
@@ -377,15 +382,17 @@ int main()
                         sklep.ustawkolortla(kolor_tla_przyciskow);
                     };
                 }
-                else if (truskawka_zaznaczenie.myszanad(okno)) {
+                else if (truskawka_zaznaczenie.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf) {
                     (*baza_zwierzakow.at(inter.pobierzzalogowany())).nakarm(truskawka);
                     if (DEBUG) std::cout << "Nasz zwierzak zjadl truskawke" << std::endl;
+                    jemy_slodycze = 0;
                 }
-                else if (salatka_zaznaczenie.myszanad(okno)) {
+                else if (salatka_zaznaczenie.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf) {
                     (*baza_zwierzakow.at(inter.pobierzzalogowany())).nakarm(salatka);
                     if (DEBUG) std::cout << "Nasz zwierzak zjadl salatke" << std::endl;
+                    jemy_dania = 0;
                 }
-                else if (staty.myszanad(okno)) {
+                else if (staty.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
                     if (DEBUG) std::cout << "staty przycisniete" << std::endl;
                     wybor_glodu.clear();
                     wybor_szczescia.clear();
@@ -398,20 +405,21 @@ int main()
                     };
                     wyswietl_statystyki = true;
                 } 
-                else if (lodow.myszanad(okno)) {
+                else if (lodow.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
                     std::cout << "lodow przycisniety" << std::endl;
                     jedzenie_tf = 1;
                 }
-                else if (zabaw.myszanad(okno)) {
+                else if (zabaw.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
                     std::cout << "zabaw przycisniety" << std::endl;
+                    gramy = 1;
                 }
-                else if (sprza.myszanad(okno)) {
+                else if (sprza.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
                     std::cout << "sprza przycisnieta" << std::endl;
                 }
-                else if (wczyt.myszanad(okno)) {
+                else if (wczyt.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
                     std::cout << "wczyt przycisniety" << std::endl;
                 }
-                else if (zapis.myszanad(okno)) {
+                else if (zapis.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
                     std::cout << "zapis przycisniety" << std::endl;
                 };
                 break;
@@ -551,6 +559,9 @@ int main()
         else if (jemy_slodycze) {
             ekran_slodyczy.rysuj_tlo(okno);
             truskawka.rysuj(okno, sf::Vector2f(-150.f, -100.f));
+        }
+        else if (gramy) {
+            pl.rysuj(okno);  
         }
         else {
             static int i = 0;

@@ -94,7 +94,6 @@ public:
 		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa bobasa" << std::endl;
 		duszek_bobasa.setOrigin(pozycja_bobasa); //x, y (0,0) jest w lewym gornym rogu
 	};
-
 	void idle_animation() {
 		//if (DEBUG_Z) std::cout << "Wyswietlam animacje petli dla klasy bobas" << std::endl;
 		static std::vector<sf::Vector2f> pobierzpozycjebobasa = { { 3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { -3.f, 3.f },
