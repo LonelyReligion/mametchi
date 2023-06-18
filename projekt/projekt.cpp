@@ -105,7 +105,9 @@ int main()
     wyjscie.setFillColor(rozowy);
     wyjscie.setOrigin(sf::Vector2f(-250.f, -250.f));
 
-    ekran ekran_popupu("OBRAZKI/popup.png", { wyjscie });
+    przycisk tak("TAK", { 100,50 }, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 350 }, font);
+    przycisk nie("NIE", { 100,50 }, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 425, 350 }, font);
+    ekran ekran_popupu("OBRAZKI/popup.png", { wyjscie }, { &tak, &nie });
 
     /////////////
     /// okno
@@ -235,7 +237,7 @@ int main()
 
     while (okno.isOpen()) {
         sf::Event zdarzenie;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) { //enter
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && !wychodzimy) { //enter
             login.ustawZaznaczenie(true);
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
@@ -263,7 +265,17 @@ int main()
                     jemy_slodycze = 0;
                 };
             case sf::Event::MouseMoved:
-                if (jedzenie_tf) {
+                if (wychodzimy) {
+                    if (tak.myszanad(okno))
+                        tak.ustawkolortla(kolor_tla_wcisniete);
+                    else if (nie.myszanad(okno))
+                        nie.ustawkolortla(kolor_tla_wcisniete);
+                    else {
+                        nie.ustawkolortla(kolor_tla_przyciskow);
+                        tak.ustawkolortla(kolor_tla_przyciskow);
+                    }
+                }
+                else if (jedzenie_tf) {
                     if (dania.myszanad(okno)) {
                         dania.ustawkolortla(kolor_tla_wcisniete);
                     }
@@ -339,7 +351,13 @@ int main()
                 };
                 break;
             case sf::Event::MouseButtonPressed:
-                if (jedzenie_tf) {
+                if (wychodzimy) {
+                    if (tak.myszanad(okno))
+                        return 0;
+                    else if (nie.myszanad(okno))
+                        wychodzimy = 0;
+                }
+                else if (jedzenie_tf) {
                     if (dania.myszanad(okno)) {
                         if(DEBUG) std::cout << "Bedziemy jesc dania glowne" << std::endl;
                         jemy_dania = 1;
@@ -410,7 +428,7 @@ int main()
                 break;
              }
             case sf::Event::KeyPressed : {
-                if (!zalogowany) {
+                if (!zalogowany && !wychodzimy) {
                     if (zdarzenie.key.code == sf::Keyboard::LShift || zdarzenie.key.code == sf::Keyboard::RShift) { //zatwierdzony
                         if (!mamylogin) {
                             std::cout << "Mamy login: " << login.zwroctekst() << std::endl;
@@ -478,7 +496,7 @@ int main()
                         };
                     };
                 }
-                else if ((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie() == "") {
+                else if (zalogowany && (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie() == "") {
                     if (zdarzenie.key.code == sf::Keyboard::LShift || zdarzenie.key.code == sf::Keyboard::RShift) { //zatwierdzony
                         (*baza_zwierzakow.at(inter.pobierzzalogowany())).ustaw_imie(login.zwroctekst());
                         if (DEBUG) std::cout << "Twoj zwierzak ma na imie " << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie() << std::endl;

@@ -1,7 +1,7 @@
 {
     "Version": "1.1",
     "Data": {
-        "Source": "c:\\users\\user\\desktop\\c++\\pk4\\mimitchi\\projekt\\interfejs.ixx",
+        "Source": "c:\\users\\user\\desktop\\c++\\pk4\\mametchi\\projekt\\interfejs.ixx",
         "ProvidedModule": "interfejs",
         "ImportedModules": [
             "pole_tekstowe",
