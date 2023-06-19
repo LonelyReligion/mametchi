@@ -57,10 +57,23 @@ void idle_animation(std::promise<sf::Vector2f> & prom) {
     };
 };
 
-void pozycja_slonca(std::promise<sf::Vector2f>& prom) {};
+void pozycja_slonca(std::promise<sf::Vector2f>&& prom, bool & wyspanie, sf::Clock &czas_od_poludnia) {
+    if (czas_od_poludnia.getElapsedTime().asSeconds() >= 230) {
+        wyspanie = 0;
+        prom.set_value(sf::Vector2f(0.f, 0.f));
+    }
+    else
+        prom.set_value(sf::Vector2f(0.015f, 0.01f));
+};
 
 int main()
 {
+    bool wyspanie = 1;
+    sf::Clock czas_od_poludnia;
+    sf::Clock czas; //_od_wlaczenia_programu;
+
+    //.restart() robi to samo i dodatkowo zeruje zegar, nie dziala poprawnie
+
     sf::Font font;
     if (!font.loadFromFile("munro.ttf"))
     {
@@ -109,8 +122,6 @@ int main()
     The requirement for fonts to remain under this license does not apply to any document created using
     the fonts or their derivatives.*/
 
-    sf::Clock czas;
-     //.restart() robi to samo i dodatkowo zeruje zegar, nie dziala poprawnie
     stworzenie zwierze;
     
     //ladowanie bobasa, powinno byc zamkniete w klasie, zostawione w mainie na potrzeby testowania
@@ -600,6 +611,7 @@ int main()
                         ekran_statystyk.ustaw_napis(2, wiek);
                     };
                 };
+                czas_od_poludnia.restart();
                 break;
             }
             default: {
@@ -662,20 +674,24 @@ int main()
             std::future<sf::Vector2f> fut_sloneczne = prom_sloneczne.get_future();
 
             std::thread pozycja(idle_animation, std::ref(prom));
-            std::thread pozycja_sloneczna(, std::ref(prom_sloneczne));
+            std::thread pozycja_sloneczna(pozycja_slonca, std::move(prom_sloneczne), std::ref(wyspanie), std::ref(czas_od_poludnia));
 
             static int i = 0;
             okno.clear(sf::Color(186, 240, 255));
             
             okno.draw(duszek_slonca);
             duszek_slonca.move(fut_sloneczne.get());
-
+            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 230)
+            {
+                //zmieniamy niebo iwyswietlamy przycisk, gdy przycisk animacja spania, reset zegara, reset nieba
+            }
             okno.draw(duszek_chmur);
             ekran_pokoju.rysuj_tlo(okno);
 
             (*baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
             
             pozycja.join();
+            pozycja_sloneczna.join();
         };
 
         if (wychodzimy)
