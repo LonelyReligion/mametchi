@@ -85,7 +85,7 @@ int main()
     the fonts or their derivatives.*/
 
     sf::Clock czas;
-    sf::Time czas_od_wlaczenia_programu = czas.getElapsedTime(); //.restart() robi to samo i dodatkowo zeruje zegar, nie dziala poprawnie
+     //.restart() robi to samo i dodatkowo zeruje zegar, nie dziala poprawnie
     stworzenie zwierze;
     
     //ladowanie bobasa, powinno byc zamkniete w klasie, zostawione w mainie na potrzeby testowania
@@ -143,6 +143,7 @@ int main()
 
     //// staty
     bool wyswietl_statystyki = 0;
+    bool zaklad = 0;
 
     sf::Text imie("", font, 30);
     imie.setFillColor(sf::Color::White);
@@ -152,10 +153,22 @@ int main()
     wiek.setFillColor(sf::Color::White);
     wiek.setOrigin(sf::Vector2f(-150.f, -150.f));
 
+    sf::Text suma("", font, 30);
+    suma.setFillColor(sf::Color::Black);
+    suma.setOrigin(sf::Vector2f(-525.f, -525.f));
+
     sf::Text statystyki("STATYSTYKI", font, 50);
     statystyki.setFillColor(sf::Color::White);
     statystyki.setOrigin(sf::Vector2f(-300.f, 0.f));
-    ekran ekran_statystyk("obrazki/statystyki/statystyki.png", {statystyki, imie, wiek});
+    ekran ekran_statystyk("obrazki/statystyki/statystyki.png", {statystyki, imie, wiek, suma});
+
+    sf::Texture mamona;
+    if (!mamona.loadFromFile("obrazki/statystyki/ects.png")) {
+        std::cout << "ladowanie tekstury pieniazka zakonczone niepowodzeniem" << std::endl;
+    };
+    mamona.setSmooth(false);
+    sf::Sprite s_mamona(mamona);
+    s_mamona.setOrigin(sf::Vector2f(-400.f, -500.f));
 
     sf::Texture glodny;
     if (!glodny.loadFromFile("obrazki/statystyki/glodny_ikonka.png")) {
@@ -240,6 +253,8 @@ int main()
     produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png");
     produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png");
 
+    sf::Clock opoznienie;
+
     while (okno.isOpen()) {
         sf::Event zdarzenie;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && !wychodzimy) { //enter
@@ -254,7 +269,7 @@ int main()
             {
             ///
             case sf::Event::KeyReleased:
-                if (zdarzenie.key.code == sf::Keyboard::Escape && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy)
+                if (zdarzenie.key.code == sf::Keyboard::Escape && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy)//wychodzimy
                 {
                     if (DEBUG) std::cout << "wywolano sekwencje wyjscia" << std::endl;
                     wychodzimy = !wychodzimy;
@@ -263,12 +278,16 @@ int main()
                     wyswietl_statystyki = 0;
                 else if (jedzenie_tf)
                     jedzenie_tf = 0;
-                else if (jemy_dania) 
+                else if (jemy_dania)
                     jemy_dania = 0;
-                else if (jemy_slodycze) 
+                else if (jemy_slodycze)
                     jemy_slodycze = 0;
-                else if(gramy)
+                else if (gramy) {
                     gramy = 0;
+                    zaklad = 0;
+                    opoznienie.restart();
+                    pl.wczytaj_sprite("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png");
+                };
             case sf::Event::MouseMoved:
                 if (wychodzimy) {
                     if (tak.myszanad(okno))
@@ -328,6 +347,14 @@ int main()
                     ekran_slodyczy.ustaw_napis(1, informacje_o_przekasce[1]);
                     ekran_slodyczy.ustaw_napis(2, informacje_o_przekasce[2]);
                 }
+                else if (gramy && !zaklad) {
+                    if ((*pl.zwroc_przyciski()[0]).myszanad(okno)) {
+                        (*pl.zwroc_przyciski()[0]).ustawkolortla(sf::Color(238, 255, 204));
+                    }
+                    else if ((*pl.zwroc_przyciski()[1]).myszanad(okno)) {
+                        (*pl.zwroc_przyciski()[1]).ustawkolortla(sf::Color(238, 255, 204));
+                    };
+                }
                 else if (staty.myszanad(okno)) {
                     staty.ustawkolortla(kolor_tla_wcisniete);
                 }
@@ -353,6 +380,8 @@ int main()
                     sprza.ustawkolortla(kolor_tla_przyciskow);
                     wczyt.ustawkolortla(kolor_tla_przyciskow);
                     zapis.ustawkolortla(kolor_tla_przyciskow);
+                    (*pl.zwroc_przyciski()[1]).ustawkolortla(sf::Color(17, 26, 0));
+                    (*pl.zwroc_przyciski()[0]).ustawkolortla(sf::Color(17, 26, 0));
                 };
                 break;
             case sf::Event::MouseButtonPressed:
@@ -363,17 +392,17 @@ int main()
                         wychodzimy = 0;
                 }
                 else if (jedzenie_tf) {
-                    if (dania.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy) {
+                    if (dania.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !gramy) {
                         if(DEBUG) std::cout << "Bedziemy jesc dania glowne" << std::endl;
                         jemy_dania = 1;
                         jedzenie_tf = 0;
                     }
-                    else if (desery.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy) {
+                    else if (desery.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !gramy) {
                         if (DEBUG) std::cout << "Bedziemy jesc desery" << std::endl;
                         jemy_slodycze = 1;
                         jedzenie_tf = 0;
                     }
-                    else if (sklep.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy) {
+                    else if (sklep.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !gramy) {
                         if (DEBUG) std::cout << "Bedziemy kupowac jedzenie" << std::endl;
                     }
                     else {
@@ -382,12 +411,12 @@ int main()
                         sklep.ustawkolortla(kolor_tla_przyciskow);
                     };
                 }
-                else if (truskawka_zaznaczenie.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf) {
+                else if (truskawka_zaznaczenie.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_dania && !gramy && !jedzenie_tf) {
                     (*baza_zwierzakow.at(inter.pobierzzalogowany())).nakarm(truskawka);
                     if (DEBUG) std::cout << "Nasz zwierzak zjadl truskawke" << std::endl;
                     jemy_slodycze = 0;
                 }
-                else if (salatka_zaznaczenie.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf) {
+                else if (salatka_zaznaczenie.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_slodycze && !gramy && !jedzenie_tf) {
                     (*baza_zwierzakow.at(inter.pobierzzalogowany())).nakarm(salatka);
                     if (DEBUG) std::cout << "Nasz zwierzak zjadl salatke" << std::endl;
                     jemy_dania = 0;
@@ -403,6 +432,8 @@ int main()
                         wybor_glodu.push_back((*zal).zwroc_glod() < i);
                         wybor_szczescia.push_back((*zal).zwroc_szczescie() < i);
                     };
+                    suma.setString(std::to_string(baza_uzytkownikow[inter.pobierzzalogowany()].zwrocects()));
+                    ekran_statystyk.ustaw_napis(3, suma);
                     wyswietl_statystyki = true;
                 } 
                 else if (lodow.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
@@ -421,6 +452,17 @@ int main()
                 }
                 else if (zapis.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
                     std::cout << "zapis przycisniety" << std::endl;
+                }
+                else if (gramy && !zaklad) {
+                    opoznienie.restart();
+                    if ((*pl.zwroc_przyciski()[0]).myszanad(okno)) {
+                        baza_uzytkownikow[inter.pobierzzalogowany()].dodajects(pl.zwroc_nagrode(false)); //int
+                        zaklad = 1;
+                    }
+                    else if ((*pl.zwroc_przyciski()[1]).myszanad(okno)) {
+                        baza_uzytkownikow[inter.pobierzzalogowany()].dodajects(pl.zwroc_nagrode(true)); //int
+                        zaklad = 1;
+                    };
                 };
                 break;
             case sf::Event::Closed : {
@@ -540,6 +582,7 @@ int main()
         }
         else if (wyswietl_statystyki) {
             ekran_statystyk.rysuj_tlo(okno);
+            okno.draw(s_mamona);
             for (int i = 0; i < 5; i++) {
                 bool g = wybor_glodu[i];
                 bool s = wybor_szczescia[i];
@@ -562,6 +605,12 @@ int main()
         }
         else if (gramy) {
             pl.rysuj(okno);  
+            if (zaklad && opoznienie.getElapsedTime().asSeconds() >= 5) {
+                gramy = 0;
+                zaklad = 0;
+                opoznienie.restart();
+                pl.wczytaj_sprite("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png");
+            };
         }
         else {
             static int i = 0;
@@ -577,6 +626,6 @@ int main()
         okno.display(); //zrzut z bufora
     };
 
-    std::cout << "Minelo " << czas_od_wlaczenia_programu.asSeconds() << " sekund od uruchomienia programu." << std::endl;
+    std::cout << "Minelo " << czas.getElapsedTime().asSeconds() << " sekund od uruchomienia programu." << std::endl;
     return 0;
 }

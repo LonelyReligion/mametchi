@@ -25,6 +25,25 @@ public:
 
 	void ustaw_haslo(const std::string& nowe_haslo) {};
 	std::string zwroc_haslo() { return haslo; };
+
+	void dodajects(const int& nagroda)
+	{
+		ects += nagroda;
+	};
+
+	bool usunects(const int& cena) //zwraca false jezeli nie masz wystarczajaco duzo srodkow
+	{
+		if (ects >= cena) {
+			ects -= cena;
+			return true;
+		}
+		else 
+			return false;
+	};
+
+	int zwrocects() {
+		return ects;
+	};
 };
 
 export class interfejs {
@@ -44,7 +63,6 @@ public:
 		//do zaimplementowania
 		return true;
 	};
-
 };
 
 export class ekran {
@@ -79,6 +97,7 @@ public:
 	};
 
 	std::vector<sf::Text> zwroc_napis() { return teksty; };
+	std::vector<przycisk*> zwroc_przyciski() { return guziki; };
 	przycisk* zwroc_przycisk(int indeks) { return guziki.at(indeks); };
 	void ustaw_napis(const int& indeks, sf::Text& napis) { teksty.at(indeks) = napis; };
 
