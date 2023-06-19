@@ -37,7 +37,7 @@ public:
 	stworzenie() : glod(1), szczescie(0), chory(0), glodny(1), zmeczony(0), smutny(1), imie(""), wiek(0), zywy(1) { if (DEBUG_Z) std::cout << "wywolano konstruktor bezargumentowy klasy stworzenie" << std::endl; };
 	virtual void wczytaj_sprite() { if (DEBUG_Z) std::cout << "Wczytuje sprite dla klasy stworzenie" << std::endl; };
 	virtual void idle_animation() { if( DEBUG_Z ) std::cout << "Wyswietlam animacje petli dla klasy stworzenie" << std::endl; };
-	virtual void drukuj_do(sf::RenderWindow& okno) {};
+	virtual void drukuj_do(sf::RenderWindow& okno, sf::Vector2f delta) {};
 
 	std::string zwroc_imie() { return imie; };
 	void ustaw_imie(const std::string& miano) { imie = miano; };
@@ -94,30 +94,9 @@ public:
 		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa bobasa" << std::endl;
 		duszek_bobasa.setOrigin(pozycja_bobasa); //x, y (0,0) jest w lewym gornym rogu
 	};
-	void idle_animation() {
-		//if (DEBUG_Z) std::cout << "Wyswietlam animacje petli dla klasy bobas" << std::endl;
-		static std::vector<sf::Vector2f> pobierzpozycjebobasa = { { 3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { -3.f, 3.f },
-																  { -3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { 3.f, 3.f } }; //f bo to floaty
-		static int i = 0; //iterator
-		static int ctr = 0; //liczy do 30
 
-		if (ctr != 30) {
-			duszek_bobasa.move(pobierzpozycjebobasa[i]);
-			ctr += 1;
-		}
-		else {
-			if (i == pobierzpozycjebobasa.size() - 1) { //todo zmienic na operator trojargumentowy
-				i = 0;
-			}
-			else {
-				i++;
-			};
-			ctr = 0;
-			idle_animation();
-		};
-	};
-
-	void drukuj_do(sf::RenderWindow& okno) {
+	void drukuj_do(sf::RenderWindow& okno, sf::Vector2f delta) {
+		duszek_bobasa.move(delta);
 		okno.draw(duszek_bobasa);
 	};
 };

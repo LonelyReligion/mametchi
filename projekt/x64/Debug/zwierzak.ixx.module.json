@@ -1,12 +1,29 @@
 {
-    "Version": "1.1",
-    "Data": {
-        "Source": "c:\\users\\user\\desktop\\pk4\\repo projektu\\mametchi\\projekt\\zwierzak.ixx",
-        "ProvidedModule": "zwierzak",
-        "ImportedModules": [
-            "jedzenie",
-            "interfejs"
-        ],
-        "ImportedHeaderUnits": []
-    }
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "x64\\Debug\\zwierzak.ixx.obj",
+            "outputs": [
+                "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\vc143.pdb",
+                "x64\\Debug\\",
+                "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\zwierzak.ixx.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "zwierzak",
+                    "source-path": "c:\\users\\user\\desktop\\c++\\pk4\\mametchi\\projekt\\zwierzak.ixx",
+                    "is-interface": true
+                }
+            ],
+            "requires": [
+                {
+                    "logical-name": "jedzenie"
+                },
+                {
+                    "logical-name": "interfejs"
+                }
+            ]
+        }
+    ]
 }

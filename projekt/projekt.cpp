@@ -6,8 +6,11 @@
 #include <map>
 #include <vector>
 #include <sstream>
+
 #include <regex> //sprawdzanie logina i hasla
 #include <filesystem> //lokalizacja tla, mozliwie pozostalych spriteow
+#include <thread> //pozycja bobasa
+#include <future>
 
 import zwierzak;
 import interfejs;
@@ -33,6 +36,28 @@ TODO
 > jedzenie przy zabawie
 > tabela wynikow w grze, z najlepszymi zwierzakami?
 */
+void idle_animation(std::promise<sf::Vector2f> & prom) {
+    static std::vector<sf::Vector2f> pobierzpozycjebobasa = { { 3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { -3.f, 3.f },
+                                                              { -3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { 3.f, 3.f } }; //f bo to floaty
+    static int i = 0; //iterator
+    static int ctr = 0; //liczy do 30
+    if (ctr != 30) {
+        ctr += 1;
+        prom.set_value(pobierzpozycjebobasa[i]);
+    }
+    else {
+        if (i == pobierzpozycjebobasa.size() - 1) {
+            i = 0;
+        }
+        else {
+            i++;
+        };
+        ctr = 0;
+        idle_animation(prom);
+    };
+};
+
+void pozycja_slonca(std::promise<sf::Vector2f>& prom) {};
 
 int main()
 {
@@ -105,6 +130,23 @@ int main()
     przycisk wczyt("Wczytaj", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 500 }, font);
     przycisk zapis("Zapisz", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 50, 500 }, font);
     ekran ekran_pokoju("obrazki/pokoj.png", {}, { &staty, &lodow, &zabaw, &sprza, &wczyt, &zapis });
+
+    sf::Texture chmury;
+    sf::Sprite duszek_chmur;
+    if (!chmury.loadFromFile("obrazki/chmury.png")) {
+        std::cout << "ladowanie tekstury chmur zakonczone niepowodzeniem" << std::endl;
+    };
+    chmury.setSmooth(false);
+    duszek_chmur.setTexture(chmury);
+
+    sf::Texture slonce;
+    sf::Sprite duszek_slonca;
+    if (!slonce.loadFromFile("obrazki/slonce.png")) {
+        std::cout << "ladowanie tekstury slonca zakonczone niepowodzeniem" << std::endl;
+    };
+    slonce.setSmooth(false);
+    duszek_slonca.setTexture(slonce);
+    duszek_slonca.setOrigin(sf::Vector2f(-425.f, -100.f));
 
     sf::Text wyjscie("Czy na pewno chcesz wyjsc z gry? \n Pamietaj, twoje dane nie zostana \nzapisane automatycznie!", font, 20);
     wyjscie.setFillColor(rozowy);
@@ -613,12 +655,27 @@ int main()
             };
         }
         else {
+            std::promise<sf::Vector2f> prom;
+            std::future<sf::Vector2f> fut = prom.get_future();
+
+            std::promise<sf::Vector2f> prom_sloneczne;
+            std::future<sf::Vector2f> fut_sloneczne = prom_sloneczne.get_future();
+
+            std::thread pozycja(idle_animation, std::ref(prom));
+            std::thread pozycja_sloneczna(, std::ref(prom_sloneczne));
+
             static int i = 0;
+            okno.clear(sf::Color(186, 240, 255));
+            
+            okno.draw(duszek_slonca);
+            duszek_slonca.move(fut_sloneczne.get());
+
+            okno.draw(duszek_chmur);
             ekran_pokoju.rysuj_tlo(okno);
 
-            (*baza_zwierzakow.at(inter.pobierzzalogowany())).idle_animation();
-            (*baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno);
-
+            (*baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
+            
+            pozycja.join();
         };
 
         if (wychodzimy)
