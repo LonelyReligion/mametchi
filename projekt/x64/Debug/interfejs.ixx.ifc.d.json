@@ -150,6 +150,7 @@
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.33.31629\\include\\xfilesystem_abi.h",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.33.31629\\include\\iomanip",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.33.31629\\include\\list",
+            "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.33.31629\\include\\fstream",
             "c:\\users\\user\\desktop\\pk4\\repo projektu\\mametchi\\sfml\\include\\sfml\\graphics.hpp",
             "c:\\users\\user\\desktop\\pk4\\repo projektu\\mametchi\\sfml\\include\\sfml\\window.hpp",
             "c:\\users\\user\\desktop\\pk4\\repo projektu\\mametchi\\sfml\\include\\sfml\\system.hpp",
@@ -233,6 +234,14 @@
             {
                 "Name": "guzik",
                 "BMI": "C:\\Users\\User\\Desktop\\PK4\\REPO PROJEKTU\\mametchi\\projekt\\x64\\Debug\\przycisk.ixx.ifc"
+            },
+            {
+                "Name": "zwierzak",
+                "BMI": "C:\\Users\\User\\Desktop\\PK4\\REPO PROJEKTU\\mametchi\\projekt\\x64\\Debug\\zwierzak.ixx.ifc"
+            },
+            {
+                "Name": "jedzenie",
+                "BMI": "C:\\Users\\User\\Desktop\\PK4\\REPO PROJEKTU\\mametchi\\projekt\\x64\\Debug\\jedzenie.ixx.ifc"
             }
         ],
         "ImportedHeaderUnits": []

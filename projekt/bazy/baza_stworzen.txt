@@ -1,0 +1,9 @@
+	std::string imie_rodzica;
+	std::string imie;
+	int glod; //0(glodny) - 5(nie glodny)
+	int szczescie; //0 - 5
+	int wiek;
+	bool zywy = 1;
+	bool wyspany = 1;
+	std::map <produkt, int> dania;
+	std::map <produkt, int> przekaski;

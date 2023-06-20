@@ -4,8 +4,7 @@
         "Source": "c:\\users\\user\\desktop\\pk4\\repo projektu\\mametchi\\projekt\\zwierzak.ixx",
         "ProvidedModule": "zwierzak",
         "ImportedModules": [
-            "jedzenie",
-            "interfejs"
+            "jedzenie"
         ],
         "ImportedHeaderUnits": []
     }

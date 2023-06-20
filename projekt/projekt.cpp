@@ -23,7 +23,8 @@ bool DEBUG = true;
 
 /*
 TODO
-> guzik do spania
+> miganie przy budzeniu
+>najezdzanie mysza na dobranoc
 > logowanie jako metoda klasy interface
 > wczytywanie bazy uzytkownikow
 > wczytywanie baz zwierzakow
@@ -96,11 +97,13 @@ int main()
     prawo_lewo pl("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png", font);
     bool spimy = 0;
     bool gramy = 0;
+
+
     //wczytaj bazy
     std::map<std::string, uzytkownik> baza_uzytkownikow; //nazwa uzytkownika, uzytkownik
     std::map<std::string, stworzenie *> baza_zwierzakow; //nazwa uzytkownika, wzkaznik na zwierzatko (konieczne do zastosowania polimorfizmu, tak aby wykonywaly sie odpowiednie wersje metod)
 
-    if (!inter.wczytaj_baze_uzytkownikow()) {
+    if (!inter.wczytaj_baze_uzytkownikow("/bazy/baza_uzytkownikow.txt")) {
         std::cout << "Ladowanie bazy uzytkownikow nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
         std::cout << "Sprawdz poprawnosc danych w pliku i sprobuj ponownie." << std::endl;
         std::cout << "WSKAZOWKA: Sprawdz czy wszystkie wiersze zawieraja nazwe uzytkownika i haslo. " << std::endl;
@@ -108,13 +111,19 @@ int main()
         return 0;
     };
 
-    if (!inter.wczytaj_baze_zwierzakow()) {
+    if (!inter.wczytaj_baze_zwierzakow("/bazy/baza_stworzen.txt")) {
         std::cout << "Ladowanie bazy zwierzakow nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
         std::cout << "Sprawdz poprawnosc danych w pliku i sprobuj ponownie." << std::endl;
         return 0;
     };
 
-    uzytkownik testowy("admin", "admin");
+    if (!inter.wczytaj_baze_jedzenia("/bazy/baza_jedzenia.txt")) {
+        std::cout << "Ladowanie bazy jedzenia nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
+        std::cout << "Sprawdz poprawnosc danych w pliku i sprobuj ponownie." << std::endl;
+        return 0;
+    };
+
+    uzytkownik testowy("admin1", "admin1");
     stworzenie testowe();
 
     baza_uzytkownikow[testowy.zwroc_nazwa_uzytkownika()] = testowy;
@@ -318,8 +327,8 @@ int main()
     ekran ekran_dan("OBRAZKI/kantyna/lodowka.png", { informacje_o_daniu[0], informacje_o_daniu[1] }, {&salatka_zaznaczenie });
     ekran ekran_slodyczy("OBRAZKI/kantyna/taca.png", { informacje_o_przekasce[0], informacje_o_przekasce[1], informacje_o_przekasce[2] }, { &truskawka_zaznaczenie });
 
-    produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png");
-    produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png");
+    produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png", "truskawka");
+    produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png", "salatka");
 
     sf::Clock opoznienie;
 

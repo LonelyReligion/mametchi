@@ -1,13 +1,16 @@
 #include <iostream>
 #include <string>
+//#include <cstring>
 #include <map>
 #include <filesystem>
+#include <fstream>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
 import pole_tekstowe;
 import guzik;
+import zwierzak;
 
 export module interfejs;
 
@@ -16,6 +19,7 @@ private:
 	std::string nazwa_uzytkownika;
 	std::string haslo;
 	int ects = 0;//waluta
+
 protected:
 public:
 	uzytkownik() : nazwa_uzytkownika("null"), haslo("null") {};
@@ -49,18 +53,35 @@ public:
 export class interfejs {
 private:
 	std::string zalogowany;
+
+	std::map<std::string, uzytkownik> baza_uzytkownikow;
+	std::map<std::string, stworzenie*> baza_zwierzakow;
+
+	std::vector<stworzenie> stworzenia;
+	std::vector<Bobas> bobasy;
+
 protected:
 public:
 	std::string pobierzzalogowany() { return zalogowany; };
 	void ustawzalogowany(const std::string & zal) { zalogowany = zal; };
-	static bool wczytaj_baze_uzytkownikow() {
+
+	bool wczytaj_baze_uzytkownikow(const std::filesystem::path & p) {
 		//sprawdzamy duplikaty
 		//ignorujemy puste pola
 		//czytamy linijka po linijce
+		std::ifstream is(p);
 		return true;
 	};
-	static bool wczytaj_baze_zwierzakow() {
+	
+	bool wczytaj_baze_zwierzakow(const std::filesystem::path& p) {
 		//do zaimplementowania
+		std::ifstream is(p);
+		return true;
+	};
+
+	bool wczytaj_baze_jedzenia(const std::filesystem::path& p) {
+		//do zaimplementowania
+		std::ifstream is(p);
 		return true;
 	};
 };

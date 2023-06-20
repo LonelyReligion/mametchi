@@ -5,7 +5,8 @@
         "ProvidedModule": "interfejs",
         "ImportedModules": [
             "pole_tekstowe",
-            "guzik"
+            "guzik",
+            "zwierzak"
         ],
         "ImportedHeaderUnits": []
     }

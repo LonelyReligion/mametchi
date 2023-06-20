@@ -8,6 +8,7 @@ export module jedzenie;
 
 export class produkt {
 private:
+	std::string nazwa; //unikalna nazwa dania
 	int wartosc_odzywcza;
 	int radosc;
 
@@ -15,7 +16,7 @@ private:
 	sf::Sprite duch;
 	sf::Vector2f pozycja;
 public:
-	produkt(const int & wo, const int & r, const std::filesystem::path & p) : wartosc_odzywcza(wo), radosc(r){
+	produkt(const int & wo, const int & r, const std::filesystem::path & p, const std::string & n) : wartosc_odzywcza(wo), radosc(r), nazwa(n) {
 		wczytaj(p);
 	};
 

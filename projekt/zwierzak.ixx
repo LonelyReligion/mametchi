@@ -10,8 +10,6 @@ import jedzenie;
 
 bool DEBUG_Z = true;
 
-import interfejs;
-
 export module zwierzak;
 
 export class stworzenie {
@@ -23,10 +21,10 @@ private:
 	int szczescie; //0 - 5
 	int wiek;
 
-	bool chory = 0;
-	bool glodny = 0;
-	bool zmeczony = 0;
-	bool smutny = 0;
+	//bool chory = 0;
+	//bool glodny = 0;
+	//bool zmeczony = 0;
+	//bool smutny = 0;
 
 	bool zywy = 1;
 	bool wyspany = 1;
@@ -35,7 +33,7 @@ private:
 	std::map <produkt, int> przekaski;
 protected:
 public:
-	stworzenie() : glod(1), szczescie(0), chory(0), glodny(1), zmeczony(0), smutny(1), imie(""), wiek(0), zywy(1) { if (DEBUG_Z) std::cout << "wywolano konstruktor bezargumentowy klasy stworzenie" << std::endl; };
+	stworzenie() : glod(1), szczescie(0), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) { if (DEBUG_Z) std::cout << "wywolano konstruktor bezargumentowy klasy stworzenie" << std::endl; };
 	virtual void wczytaj_sprite() { if (DEBUG_Z) std::cout << "Wczytuje sprite dla klasy stworzenie" << std::endl; };
 	virtual void idle_animation() { if( DEBUG_Z ) std::cout << "Wyswietlam animacje petli dla klasy stworzenie" << std::endl; };
 	virtual void drukuj_do(sf::RenderWindow& okno, sf::Vector2f delta) {};
@@ -56,7 +54,7 @@ public:
 
 	void nakarm(const produkt& jedzenie) {
 		if (DEBUG_Z) std::cout << "Jemy" << std::endl;
-		if (!chory) {
+		//if (!chory) {
 			if ((glod + jedzenie.zwroc_wo()) < 5) {
 				glod = glod + jedzenie.zwroc_wo();
 				if (DEBUG_Z) std::cout << zwroc_glod() << std::endl;
@@ -72,12 +70,11 @@ public:
 					szczescie = 5;
 				};
 			};
-		};
+		//};
 	}; //zwraca informacje o tym czy sie powiodla akcja
 	bool zwrocwyspany() { return wyspany; };
 	void ustawwyspany(const bool & spanie) { wyspany = spanie; };
 
-	friend interfejs;
 };
 
 export class Bobas : public stworzenie {

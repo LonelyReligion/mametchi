@@ -1,4 +1,10 @@
 ﻿  Trwa skanowanie źródeł pod kątem zależności modułów...
+  interfejs.ixx
+  Trwa kompilowanie…
+  interfejs.ixx
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(15,24): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
+  gra.ixx
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\gra.ixx(11,18): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
   projekt.cpp
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\projekt.cpp(118,16): warning C4930: "stworzenie testowe(void)": prototypowana funkcja nie została wywołana (czy definicja zmiennej była zamierzona?)
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\projekt.cpp(127,16): warning C4930: "stworzenie testowe(void)": prototypowana funkcja nie została wywołana (czy definicja zmiennej była zamierzona?)
   projekt.vcxproj -> C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\x64\Debug\projekt.exe
