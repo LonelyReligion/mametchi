@@ -40,6 +40,7 @@ public:
 	virtual void idle_animation() { if( DEBUG_Z ) std::cout << "Wyswietlam animacje petli dla klasy stworzenie" << std::endl; };
 	virtual void drukuj_do(sf::RenderWindow& okno, sf::Vector2f delta) {};
 	virtual void spij(sf::Clock& budzik, sf::RenderWindow& okno) {};
+	virtual sf::Sprite* zwroc_sprite() { return new sf::Sprite(); };
 
 	std::string zwroc_imie() { return imie; };
 	void ustaw_imie(const std::string& miano) { imie = miano; };
@@ -88,6 +89,7 @@ private:
 	sf::Texture spiacy_bobas;
 protected:
 public:
+	sf::Sprite* zwroc_sprite() { return &duszek_bobasa; };
 	virtual void wczytaj_sprite() { 
 		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl; 
 		if (!bobas.loadFromFile("obrazki/postaci/niemowle.png")) {

@@ -1,4 +1,4 @@
 ﻿  Trwa skanowanie źródeł pod kątem zależności modułów...
   projekt.cpp
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\projekt.cpp(112,16): warning C4930: "stworzenie testowe(void)": prototypowana funkcja nie została wywołana (czy definicja zmiennej była zamierzona?)
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\projekt.cpp(118,16): warning C4930: "stworzenie testowe(void)": prototypowana funkcja nie została wywołana (czy definicja zmiennej była zamierzona?)
   projekt.vcxproj -> C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\x64\Debug\projekt.exe

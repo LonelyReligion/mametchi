@@ -33,11 +33,17 @@ TODO
 > przekazywac i trzymac teksty jako referencje zamiast ustawiania
 > tabela wynikow w grze, z najlepszymi zwierzakami? (ranges)
 */
-void idle_animation(std::promise<sf::Vector2f> & prom) {
+void idle_animation(std::promise<sf::Vector2f> & prom, bool restart) {
     static std::vector<sf::Vector2f> pobierzpozycjebobasa = { { 3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { -3.f, 3.f },
                                                               { -3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { 3.f, 3.f } }; //f bo to floaty
     static int i = 0; //iterator
     static int ctr = 0; //liczy do 30
+
+    if (restart)
+    {
+        i = 0; //iterator
+        ctr = 0; //liczy do 30
+    };
 
     if (ctr != 30) {
         ctr += 1;
@@ -51,7 +57,7 @@ void idle_animation(std::promise<sf::Vector2f> & prom) {
             i++;
         };
         ctr = 0;
-        idle_animation(prom);
+        idle_animation(prom, 0);
     };
 };
 
@@ -681,38 +687,42 @@ int main()
         }
         else {
             static bool b = false;
+            static bool raz_po = false;
+
             std::promise<sf::Vector2f> prom;
             std::future<sf::Vector2f> fut = prom.get_future();
 
             std::promise<sf::Vector2f> prom_sloneczne;
             std::future<sf::Vector2f> fut_sloneczne = prom_sloneczne.get_future();
 
-            std::thread pozycja(idle_animation, std::ref(prom));
             std::thread pozycja_sloneczna(pozycja_slonca, std::move(prom_sloneczne), std::ref(*baza_zwierzakow.at(inter.pobierzzalogowany())), std::ref(czas_od_poludnia));
 
             //static int i = 0;
 
             if (czas_od_poludnia.getElapsedTime().asSeconds() >= 10)//230
             {
-                okno.clear(sf::Color(71, 108, 194));
-                okno.draw(duszek_gwiazd);
-                ekran_pokoju.rysuj_tlo(okno);
-
                 if (DEBUG) std::cout << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwrocwyspany() << std::endl;
-                if (!(*baza_zwierzakow.at(inter.pobierzzalogowany())).zwrocwyspany()) {
-                    if (spimy) {
-                        (*baza_zwierzakow.at(inter.pobierzzalogowany())).spij(budzik, okno); // to po przycisnieciu guzika
-                        if (!b) budzik.restart();
+                if (!(*baza_zwierzakow.at(inter.pobierzzalogowany())).zwrocwyspany()) { //jesli nie wyspany
+                    
+                    //////////////
+                    okno.clear(sf::Color(71, 108, 194));//ok
+                    okno.draw(duszek_gwiazd);
+                    ekran_pokoju.rysuj_tlo(okno);
+                    //////////////
+
+                    if (spimy) {//jezeli guzik zostal wcisniety
+                        if (!b) budzik.restart(); //raz na spanie
+                        (*baza_zwierzakow.at(inter.pobierzzalogowany())).spij(budzik, okno); //w koncu robi sie wyspany
                         b = true;
                     }
-                    else
-                        dobranoc.drukujdo(okno);
+                    else {
+                        dobranoc.drukujdo(okno); //guzik
+                    };
                 }
-                else {
-                    (*baza_zwierzakow.at(inter.pobierzzalogowany())).wczytaj_sprite();
-                    (*baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
+                else { //jezeli wyspany
+                    (*(*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_sprite()).setPosition(sf::Vector2f(0.f, 0.f));
                     czas_od_poludnia.restart();
-                    b = false;
+                    raz_po = 1;
                 }
                 //zmieniamy niebo i wyswietlamy przycisk, gdy przycisk animacja spania, reset zegara, reset nieba
             }
@@ -723,15 +733,24 @@ int main()
                 okno.draw(duszek_chmur);
                 ekran_pokoju.rysuj_tlo(okno);
                 spimy = 0;
+                b = false;
             };
 
-            if(!spimy)
+            if (raz_po) {
+                std::thread pozycja(idle_animation, std::ref(prom), 1);//resetujemy pozycje bobasa
                 (*baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
+                pozycja.join();
+                raz_po = false;
+            }
+            else if (!spimy) {
+                std::thread pozycja(idle_animation, std::ref(prom), 0);
+                (*baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
+                pozycja.join();
+            };
+
             
-            pozycja.join();
             pozycja_sloneczna.join();
         };
-
         if (wychodzimy)
             ekran_popupu.rysuj_tlo(okno, sf::Vector2f(-200.f, -150.f));
         okno.display(); //zrzut z bufora
