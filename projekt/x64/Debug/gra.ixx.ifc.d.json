@@ -232,8 +232,16 @@
                 "BMI": "C:\\Users\\User\\Desktop\\PK4\\REPO PROJEKTU\\mametchi\\projekt\\x64\\Debug\\interfejs.ixx.ifc"
             },
             {
+                "Name": "zwierzak",
+                "BMI": "C:\\Users\\User\\Desktop\\PK4\\REPO PROJEKTU\\mametchi\\projekt\\x64\\Debug\\zwierzak.ixx.ifc"
+            },
+            {
                 "Name": "guzik",
                 "BMI": "C:\\Users\\User\\Desktop\\PK4\\REPO PROJEKTU\\mametchi\\projekt\\x64\\Debug\\przycisk.ixx.ifc"
+            },
+            {
+                "Name": "jedzenie",
+                "BMI": "C:\\Users\\User\\Desktop\\PK4\\REPO PROJEKTU\\mametchi\\projekt\\x64\\Debug\\jedzenie.ixx.ifc"
             }
         ],
         "ImportedHeaderUnits": []

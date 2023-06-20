@@ -29,6 +29,7 @@ private:
 	bool smutny = 0;
 
 	bool zywy = 1;
+	bool wyspany = 1;
 
 	std::map <produkt, int> dania;
 	std::map <produkt, int> przekaski;
@@ -38,6 +39,7 @@ public:
 	virtual void wczytaj_sprite() { if (DEBUG_Z) std::cout << "Wczytuje sprite dla klasy stworzenie" << std::endl; };
 	virtual void idle_animation() { if( DEBUG_Z ) std::cout << "Wyswietlam animacje petli dla klasy stworzenie" << std::endl; };
 	virtual void drukuj_do(sf::RenderWindow& okno, sf::Vector2f delta) {};
+	virtual void spij(sf::Clock& budzik, sf::RenderWindow& okno) {};
 
 	std::string zwroc_imie() { return imie; };
 	void ustaw_imie(const std::string& miano) { imie = miano; };
@@ -71,7 +73,8 @@ public:
 			};
 		};
 	}; //zwraca informacje o tym czy sie powiodla akcja
-	bool baw() { return true; }; //zwraca informacje o tym czy sie powiodla akcja
+	bool zwrocwyspany() { return wyspany; };
+	void ustawwyspany(const bool & spanie) { wyspany = spanie; };
 
 	friend interfejs;
 };
@@ -80,11 +83,13 @@ export class Bobas : public stworzenie {
 private:
 	sf::Sprite duszek_bobasa;
 	sf::Texture bobas; //musimy przechowywac i teksture i sprite'a poniewaz sprite przechowuje tylko pointer do tekstury
+
+	sf::Sprite duszek_spiacego_bobasa;
+	sf::Texture spiacy_bobas;
 protected:
 public:
 	virtual void wczytaj_sprite() { 
-		if (DEBUG_Z) std::cout << "Wczytuje sprite dla klasy bobas" << std::endl; 
-		sf::Vector2f pozycja_bobasa(-300.f, -250.f);
+		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl; 
 		if (!bobas.loadFromFile("obrazki/postaci/niemowle.png")) {
 			std::cout << "ladowanie tekstury bobasa zakonczone niepowodzeniem" << std::endl;
 		};
@@ -92,11 +97,29 @@ public:
 		duszek_bobasa.setTexture(bobas);
 
 		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa bobasa" << std::endl;
-		duszek_bobasa.setOrigin(pozycja_bobasa); //x, y (0,0) jest w lewym gornym rogu
+		duszek_bobasa.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
+
+		if (!spiacy_bobas.loadFromFile("obrazki/postaci/niemowle_spi.png")) {
+			std::cout << "ladowanie tekstury spiacego bobasa zakonczone niepowodzeniem" << std::endl;
+		};
+		spiacy_bobas.setSmooth(false);
+		duszek_spiacego_bobasa.setTexture(spiacy_bobas);
+		duszek_spiacego_bobasa.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
 	};
 
 	void drukuj_do(sf::RenderWindow& okno, sf::Vector2f delta) {
 		duszek_bobasa.move(delta);
 		okno.draw(duszek_bobasa);
 	};
+
+	void spij(sf::Clock & budzik, sf::RenderWindow & okno) {	
+		if (budzik.getElapsedTime().asSeconds() <= 10) {
+			okno.draw(duszek_spiacego_bobasa);
+		}
+		else {
+			ustawwyspany(true);
+		};
+		//drukujemy czekamy zmieniamy stan
+	};
+
 };

@@ -23,24 +23,22 @@ bool DEBUG = true;
 
 /*
 TODO
+> guzik do spania
 > logowanie jako metoda klasy interface
 > wczytywanie bazy uzytkownikow
 > wczytywanie baz zwierzakow
-> staty
 > wczytywanie zwierzakow
-> wczytaj sprite moze byc wykonane tylko raz przy tworzeniu
-> moze niech osobny watek generuje pozycje bobasa? 
 > watki do aktualizowania statystyk
 > wskazowka/instrukcja/strzaleczka z esc
 > przekazywac i trzymac teksty jako referencje zamiast ustawiania
-> jedzenie przy zabawie
-> tabela wynikow w grze, z najlepszymi zwierzakami?
+> tabela wynikow w grze, z najlepszymi zwierzakami? (ranges)
 */
 void idle_animation(std::promise<sf::Vector2f> & prom) {
     static std::vector<sf::Vector2f> pobierzpozycjebobasa = { { 3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { -3.f, 3.f },
                                                               { -3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { 3.f, 3.f } }; //f bo to floaty
     static int i = 0; //iterator
     static int ctr = 0; //liczy do 30
+
     if (ctr != 30) {
         ctr += 1;
         prom.set_value(pobierzpozycjebobasa[i]);
@@ -57,20 +55,21 @@ void idle_animation(std::promise<sf::Vector2f> & prom) {
     };
 };
 
-void pozycja_slonca(std::promise<sf::Vector2f>&& prom, bool & wyspanie, sf::Clock &czas_od_poludnia) {
-    if (czas_od_poludnia.getElapsedTime().asSeconds() >= 230) {
-        wyspanie = 0;
-        prom.set_value(sf::Vector2f(0.f, 0.f));
-    }
-    else
+void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::Clock &czas_od_poludnia) {
+    if (czas_od_poludnia.getElapsedTime().asSeconds() < 10) //230
         prom.set_value(sf::Vector2f(0.015f, 0.01f));
+    else {
+        stwor.ustawwyspany(false);
+        prom.set_value(sf::Vector2f(0.f, 0.f));
+    };
+        
 };
 
 int main()
 {
-    bool wyspanie = 1;
-    sf::Clock czas_od_poludnia;
+    sf::Clock czas_od_poludnia; //zrobic zegar i sprawdzac interwaly zamiast mnozyc zegary?
     sf::Clock czas; //_od_wlaczenia_programu;
+    sf::Clock budzik;
 
     //.restart() robi to samo i dodatkowo zeruje zegar, nie dziala poprawnie
 
@@ -89,7 +88,7 @@ int main()
     sf::Color pomarancza(247, 182, 101);
 
     prawo_lewo pl("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png", font);
-
+    bool spimy = 0;
     bool gramy = 0;
     //wczytaj bazy
     std::map<std::string, uzytkownik> baza_uzytkownikow; //nazwa uzytkownika, uzytkownik
@@ -134,6 +133,8 @@ int main()
     sf::Color kolor_tla_wcisniete = pomarancza;
     sf::Vector2f rozmiar_przyciskow = { 200, 50 };
 
+    przycisk dobranoc("DOBRANOC", { 200,50 }, 20, sf::Color(48, 90, 255), sf::Color(250, 233, 135), {300, 400}, font);
+
     przycisk staty("Statystyki", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 50, 20 }, font); //wezszy, inne kolory
     przycisk lodow("Bufet", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 20 }, font);
     przycisk zabaw("Zabawa", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 550, 20 }, font);
@@ -149,6 +150,14 @@ int main()
     };
     chmury.setSmooth(false);
     duszek_chmur.setTexture(chmury);
+
+    sf::Texture gwiazdy;
+    sf::Sprite duszek_gwiazd;
+    if (!gwiazdy.loadFromFile("obrazki/gwiazdy.png")) {
+        std::cout << "ladowanie tekstury gwiazd zakonczone niepowodzeniem" << std::endl;
+    };
+    gwiazdy.setSmooth(false);
+    duszek_gwiazd.setTexture(gwiazdy);
 
     sf::Texture slonce;
     sf::Sprite duszek_slonca;
@@ -464,12 +473,12 @@ int main()
                         sklep.ustawkolortla(kolor_tla_przyciskow);
                     };
                 }
-                else if (truskawka_zaznaczenie.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_dania && !gramy && !jedzenie_tf) {
+                else if (jemy_slodycze && truskawka_zaznaczenie.myszanad(okno) && !wychodzimy) {
                     (*baza_zwierzakow.at(inter.pobierzzalogowany())).nakarm(truskawka);
                     if (DEBUG) std::cout << "Nasz zwierzak zjadl truskawke" << std::endl;
                     jemy_slodycze = 0;
                 }
-                else if (salatka_zaznaczenie.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !jemy_slodycze && !gramy && !jedzenie_tf) {
+                else if (jemy_dania && salatka_zaznaczenie.myszanad(okno) && !wychodzimy) {
                     (*baza_zwierzakow.at(inter.pobierzzalogowany())).nakarm(salatka);
                     if (DEBUG) std::cout << "Nasz zwierzak zjadl salatke" << std::endl;
                     jemy_dania = 0;
@@ -506,14 +515,18 @@ int main()
                 else if (zapis.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
                     std::cout << "zapis przycisniety" << std::endl;
                 }
+                else if (dobranoc.myszanad(okno) && !wychodzimy) {
+                    std::cout << "spimy przycisniete" << std::endl;
+                    spimy = 1;
+                }
                 else if (gramy && !zaklad) {
                     opoznienie.restart();
                     if ((*pl.zwroc_przyciski()[0]).myszanad(okno)) {
-                        baza_uzytkownikow[inter.pobierzzalogowany()].dodajects(pl.zwroc_nagrode(false)); //int
+                        baza_uzytkownikow[inter.pobierzzalogowany()].dodajects(pl.zwroc_nagrode(false, baza_zwierzakow[inter.pobierzzalogowany()])); //int
                         zaklad = 1;
                     }
                     else if ((*pl.zwroc_przyciski()[1]).myszanad(okno)) {
-                        baza_uzytkownikow[inter.pobierzzalogowany()].dodajects(pl.zwroc_nagrode(true)); //int
+                        baza_uzytkownikow[inter.pobierzzalogowany()].dodajects(pl.zwroc_nagrode(true, baza_zwierzakow[inter.pobierzzalogowany()])); //int
                         zaklad = 1;
                     };
                 };
@@ -667,6 +680,7 @@ int main()
             };
         }
         else {
+            static bool b = false;
             std::promise<sf::Vector2f> prom;
             std::future<sf::Vector2f> fut = prom.get_future();
 
@@ -674,21 +688,45 @@ int main()
             std::future<sf::Vector2f> fut_sloneczne = prom_sloneczne.get_future();
 
             std::thread pozycja(idle_animation, std::ref(prom));
-            std::thread pozycja_sloneczna(pozycja_slonca, std::move(prom_sloneczne), std::ref(wyspanie), std::ref(czas_od_poludnia));
+            std::thread pozycja_sloneczna(pozycja_slonca, std::move(prom_sloneczne), std::ref(*baza_zwierzakow.at(inter.pobierzzalogowany())), std::ref(czas_od_poludnia));
 
-            static int i = 0;
-            okno.clear(sf::Color(186, 240, 255));
-            
-            okno.draw(duszek_slonca);
-            duszek_slonca.move(fut_sloneczne.get());
-            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 230)
+            //static int i = 0;
+
+            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 10)//230
             {
-                //zmieniamy niebo iwyswietlamy przycisk, gdy przycisk animacja spania, reset zegara, reset nieba
-            }
-            okno.draw(duszek_chmur);
-            ekran_pokoju.rysuj_tlo(okno);
+                okno.clear(sf::Color(71, 108, 194));
+                okno.draw(duszek_gwiazd);
+                ekran_pokoju.rysuj_tlo(okno);
 
-            (*baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
+                if (DEBUG) std::cout << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwrocwyspany() << std::endl;
+                if (!(*baza_zwierzakow.at(inter.pobierzzalogowany())).zwrocwyspany()) {
+                    if (spimy) {
+                        (*baza_zwierzakow.at(inter.pobierzzalogowany())).spij(budzik, okno); // to po przycisnieciu guzika
+                        if (!b) budzik.restart();
+                        b = true;
+                    }
+                    else
+                        dobranoc.drukujdo(okno);
+                }
+                else {
+                    (*baza_zwierzakow.at(inter.pobierzzalogowany())).wczytaj_sprite();
+                    (*baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
+                    czas_od_poludnia.restart();
+                    b = false;
+                }
+                //zmieniamy niebo i wyswietlamy przycisk, gdy przycisk animacja spania, reset zegara, reset nieba
+            }
+            else {
+                okno.clear(sf::Color(186, 240, 255)); //ok
+                okno.draw(duszek_slonca);
+                duszek_slonca.move(fut_sloneczne.get());
+                okno.draw(duszek_chmur);
+                ekran_pokoju.rysuj_tlo(okno);
+                spimy = 0;
+            };
+
+            if(!spimy)
+                (*baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
             
             pozycja.join();
             pozycja_sloneczna.join();

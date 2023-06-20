@@ -6,6 +6,7 @@
 #include <random>
 
 import interfejs;
+import zwierzak;
 
 export module gra;
 // singleton?
@@ -71,9 +72,10 @@ public:
 		okno.draw(obroty[animacja_stworka()]);
 	};
 
-	int zwroc_nagrode(bool obstawiana_wartosc) {
+	int zwroc_nagrode(bool obstawiana_wartosc, stworzenie * gracz) {
 		if (obstawiana_wartosc == animacja_stworka()) {
 			wczytaj_sprite("OBRAZKI/POSTACI/NIEMOWLE_RADOSC.png");
+			(*gracz).ustaw_szczescie((*gracz).zwroc_szczescie() + 1);
 			return 100;
 		}
 		else {
