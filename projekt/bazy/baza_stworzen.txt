@@ -1,9 +1,2 @@
-	std::string imie_rodzica;
-	std::string imie;
-	int glod; //0(glodny) - 5(nie glodny)
-	int szczescie; //0 - 5
-	int wiek;
-	bool zywy = 1;
-	bool wyspany = 1;
-	std::map <produkt, int> dania;
-	std::map <produkt, int> przekaski;
+typ		imie_rodzica		imie		glod		szczescie	wiek		zywy		wyspany		dania		przekaski
+bobas		admin			pimpek		3		2		2		1		1		salatka;	truskawka;

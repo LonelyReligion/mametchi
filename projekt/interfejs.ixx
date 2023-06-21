@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-//#include <cstring>
+#include <sstream>
 #include <map>
 #include <filesystem>
 #include <fstream>
@@ -11,6 +11,8 @@
 import pole_tekstowe;
 import guzik;
 import zwierzak;
+
+bool DEBUG_I = 1;
 
 export module interfejs;
 
@@ -23,7 +25,7 @@ private:
 protected:
 public:
 	uzytkownik() : nazwa_uzytkownika("null"), haslo("null") {};
-	uzytkownik(const std::string& nu, const std::string& h) : nazwa_uzytkownika(nu), haslo(h) {};
+	uzytkownik(const std::string& nu, const std::string& h, const int & waluta) : nazwa_uzytkownika(nu), haslo(h), ects(waluta) {};
 	void ustaw_nazwa_uzytkownika(const std::string& nowa_nazwa) {};
 	std::string zwroc_nazwa_uzytkownika() { return nazwa_uzytkownika; };
 
@@ -66,24 +68,93 @@ public:
 	void ustawzalogowany(const std::string & zal) { zalogowany = zal; };
 
 	bool wczytaj_baze_uzytkownikow(const std::filesystem::path & p) {
+		if (DEBUG_I) std::cout << "Wczytujemy baze uzytkownikow" << std::endl;
 		//sprawdzamy duplikaty
 		//ignorujemy puste pola
 		//czytamy linijka po linijce
 		std::ifstream is(p);
+		std::string linijka;
+		std::getline(is, linijka);//ignorujemy pierwsza linijke
+		while (std::getline(is, linijka))
+		{
+			std::stringstream ss(linijka);
+			std::string nazwa, haslo;
+			int waluta;
+			if (!(ss >> nazwa >> haslo >> waluta)) {
+				if (DEBUG_I) std::cout << "nie wczytalismy uzytkownika" << std::endl;
+				break;
+			}; // blad: niepelna linijka
+			uzytkownik nowy (nazwa, haslo, waluta);
+			baza_uzytkownikow[nazwa] = nowy;
+			if (DEBUG_I) std::cout << "Wczytalismy uzytkownika o nazwie " << nazwa << std::endl;
+		}
 		return true;
 	};
 	
-	bool wczytaj_baze_zwierzakow(const std::filesystem::path& p) {
-		//do zaimplementowania
+	bool wczytaj_baze_zwierzakow(const std::filesystem::path& p, const std::map<std::string, produkt>& baza_dan) {
+		if (DEBUG_I) std::cout << "Wczytujemy baze zwierzakow" << std::endl;
 		std::ifstream is(p);
+		std::string linijka;
+		std::getline(is, linijka);//ignorujemy pierwsza linijke
+		while (std::getline(is, linijka))
+		{
+			std::stringstream ss(linijka);
+
+			std::string typ, rodzic, imie;
+			int glod, szczescie, wiek;
+			bool zywy, wyspany;
+			std::map <produkt, int> dania;
+			std::map <produkt, int> przekaski;
+
+			if (!(ss >> typ >> rodzic>> imie >> glod >> szczescie >> wiek >> zywy >> wyspany)) {
+				if (DEBUG_I) std::cout << "nie wczytalismy zwierzaka" << std::endl;
+				break;
+			}; // blad: niepelna linijka
+			
+			char c;
+			std::string jedzenie;
+			while (ss >> c && c != ';' ) {
+				if (c == ',') {
+					try {
+						dania[jedzenie] = baza_dan.at(jedzenie);
+					}
+					catch (const std::out_of_range& oor) {
+						if (DEBUG_I) std::cout << "nie wczytalismy jedzenia, bo nie istnieje w bazie" << std::endl;
+					};
+					jedzenie = "";
+				}
+				else {
+					jedzenie += c;
+				};
+			};
+			jedzenie = "";
+			while (ss >> c && c != ";") {
+				if (c == ",") {
+					try {
+						przekaski[jedzenie]baza_dan.at(jedzenie);
+					}
+					catch (const std::out_of_range& oor) {
+						if (DEBUG_I) std::cout << "nie wczytalismy jedzenia, bo nie istnieje w bazie" << std::endl;
+					};
+					jedzenie = "";
+				}
+				else {
+					jedzenie += c;
+				};
+			};
+			if(typ == bobas)
+				Bobas nowy(rodzic, imie, glod, szczescie, wiek, zywy, wyspany, dania, przekaski);
+
+			baza_uzytkownikow[nazwa] = nowy;
+			if (DEBUG_I) std::cout << "Wczytalismy uzytkownika o nazwie " << nazwa << std::endl;
+		}
+		
 		return true;
 	};
 
-	bool wczytaj_baze_jedzenia(const std::filesystem::path& p) {
-		//do zaimplementowania
-		std::ifstream is(p);
-		return true;
-	};
+	std::map<std::string, uzytkownik>* zwroc_baze_uzytkownikow() { return &baza_uzytkownikow; };
+	std::map<std::string, stworzenie*>* zwroc_baze_zwierzakow() { return &baza_zwierzakow; };
+
 };
 
 export class ekran {

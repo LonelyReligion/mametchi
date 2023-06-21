@@ -2,9 +2,22 @@
   interfejs.ixx
   Trwa kompilowanie…
   interfejs.ixx
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(15,24): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
-  gra.ixx
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\gra.ixx(11,18): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
-  projekt.cpp
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\projekt.cpp(127,16): warning C4930: "stworzenie testowe(void)": prototypowana funkcja nie została wywołana (czy definicja zmiennej była zamierzona?)
-  projekt.vcxproj -> C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\x64\Debug\projekt.exe
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(17,24): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(119,1): error C2679: dwuargumentowy "[": nie znaleziono żadnego operatora, który przyjmuje prawostronny operand typu "std::string" (lub nie istnieje akceptowalna konwersja)
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\map(322,18): message : może to być „int &std::map<produkt,int,std::less<produkt>,std::allocator<std::pair<const produkt,int>>>::operator [](const produkt &)”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\map(151,18): message : lub       "int &std::map<produkt,int,std::less<produkt>,std::allocator<std::pair<const produkt,int>>>::operator [](produkt &&)"
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(119,1): message : podczas próby dopasowania listy argumentów "(std::map<produkt,int,std::less<produkt>,std::allocator<std::pair<const produkt,int>>>, std::string)"
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(131,1): error C2446: "!=": brak konwersji z "const char [2]" na "int"
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(131,27): message : Brak kontekstu, w którym ta konwersja jest możliwa
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(132,1): error C2446: "==": brak konwersji z "const char [2]" na "int"
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(132,14): message : Brak kontekstu, w którym ta konwersja jest możliwa
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(134,1): error C2679: dwuargumentowy "[": nie znaleziono żadnego operatora, który przyjmuje prawostronny operand typu "std::string" (lub nie istnieje akceptowalna konwersja)
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\map(322,18): message : może to być „int &std::map<produkt,int,std::less<produkt>,std::allocator<std::pair<const produkt,int>>>::operator [](const produkt &)”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\map(151,18): message : lub       "int &std::map<produkt,int,std::less<produkt>,std::allocator<std::pair<const produkt,int>>>::operator [](produkt &&)"
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(134,1): message : podczas próby dopasowania listy argumentów "(std::map<produkt,int,std::less<produkt>,std::allocator<std::pair<const produkt,int>>>, std::string)"
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(134,26): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „baza_dan”
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(134,37): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(145,14): error C2065: "bobas": niezadeklarowany identyfikator
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(148,22): error C2065: "nazwa": niezadeklarowany identyfikator
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(148,31): error C2065: "nowy": niezadeklarowany identyfikator
+C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(149,69): error C2065: "nazwa": niezadeklarowany identyfikator

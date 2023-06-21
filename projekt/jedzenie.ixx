@@ -16,6 +16,7 @@ private:
 	sf::Sprite duch;
 	sf::Vector2f pozycja;
 public:
+	produkt() : wartosc_odzywcza(0), radosc(0), nazwa("") {};
 	produkt(const int & wo, const int & r, const std::filesystem::path & p, const std::string & n) : wartosc_odzywcza(wo), radosc(r), nazwa(n) {
 		wczytaj(p);
 	};

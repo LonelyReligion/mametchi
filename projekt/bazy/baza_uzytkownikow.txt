@@ -1,2 +1,3 @@
 nazwa_uzytkownika	haslo		ects
 admin			admin		1000
+lolo

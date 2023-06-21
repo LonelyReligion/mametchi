@@ -23,16 +23,18 @@ bool DEBUG = true;
 
 /*
 TODO
-> miganie przy budzeniu
->najezdzanie mysza na dobranoc
-> logowanie jako metoda klasy interface
-> wczytywanie bazy uzytkownikow
-> wczytywanie baz zwierzakow
-> wczytywanie zwierzakow
-> watki do aktualizowania statystyk
-> wskazowka/instrukcja/strzaleczka z esc
-> przekazywac i trzymac teksty jako referencje zamiast ustawiania
-> tabela wynikow w grze, z najlepszymi zwierzakami? (ranges)
+> miganie przy budzeniu (bug)
+> najezdzanie mysza na dobranoc (kosmetyczne)(latwe)
+> logowanie jako metoda klasy interface 
+> wczytywanie bazy uzytkownikow (konieczne)
+> wczytywanie baz zwierzakow (konieczne)
+> wczytywanie zwierzakow (konieczne)
+> watki do aktualizowania statystyk (przydatne)(trune)
+> wskazowka/instrukcja/strzaleczka z esc (niekonieczne)
+> przekazywac i trzymac teksty jako referencje zamiast ustawiania (przydatne)(inwazyjne)
+> tabela wynikow w grze, z najlepszymi zwierzakami? (ranges)(wakacje)
+> rozwazyc dodanie wagi do zwierzaka i jedzenia (wakacje)
+> im wiecej wygranych pod rzad tym wieksza wygrana
 */
 void idle_animation(std::promise<sf::Vector2f> & prom, bool restart) {
     static std::vector<sf::Vector2f> pobierzpozycjebobasa = { { 3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { -3.f, 3.f },
@@ -63,10 +65,10 @@ void idle_animation(std::promise<sf::Vector2f> & prom, bool restart) {
 };
 
 void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::Clock &czas_od_poludnia) {
-    if (czas_od_poludnia.getElapsedTime().asSeconds() < 10) //230
+    if (czas_od_poludnia.getElapsedTime().asSeconds() < 230) //230
         prom.set_value(sf::Vector2f(0.015f, 0.01f));
     else {
-        stwor.ustawwyspany(false);
+        stwor.ustaw_wyspany(false);
         prom.set_value(sf::Vector2f(0.f, 0.f));
     };
         
@@ -100,10 +102,16 @@ int main()
 
 
     //wczytaj bazy
+    std::map<std::string, produkt> baza_dan;
+    produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png", "truskawka");
+    produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png", "salatka");
+    baza_dan["truskawka"] = truskawka;
+    baza_dan["salatka"] = salatka;
+
     std::map<std::string, uzytkownik> baza_uzytkownikow; //nazwa uzytkownika, uzytkownik
     std::map<std::string, stworzenie *> baza_zwierzakow; //nazwa uzytkownika, wzkaznik na zwierzatko (konieczne do zastosowania polimorfizmu, tak aby wykonywaly sie odpowiednie wersje metod)
 
-    if (!inter.wczytaj_baze_uzytkownikow("/bazy/baza_uzytkownikow.txt")) {
+    if (!inter.wczytaj_baze_uzytkownikow("bazy/baza_uzytkownikow.txt")) { //musi byc pierwsza!
         std::cout << "Ladowanie bazy uzytkownikow nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
         std::cout << "Sprawdz poprawnosc danych w pliku i sprobuj ponownie." << std::endl;
         std::cout << "WSKAZOWKA: Sprawdz czy wszystkie wiersze zawieraja nazwe uzytkownika i haslo. " << std::endl;
@@ -111,19 +119,16 @@ int main()
         return 0;
     };
 
-    if (!inter.wczytaj_baze_zwierzakow("/bazy/baza_stworzen.txt")) {
+    if (!inter.wczytaj_baze_zwierzakow("bazy/baza_stworzen.txt", baza_dan)) {
         std::cout << "Ladowanie bazy zwierzakow nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
         std::cout << "Sprawdz poprawnosc danych w pliku i sprobuj ponownie." << std::endl;
         return 0;
     };
 
-    if (!inter.wczytaj_baze_jedzenia("/bazy/baza_jedzenia.txt")) {
-        std::cout << "Ladowanie bazy jedzenia nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
-        std::cout << "Sprawdz poprawnosc danych w pliku i sprobuj ponownie." << std::endl;
-        return 0;
-    };
+    baza_uzytkownikow = *(inter.zwroc_baze_uzytkownikow());
+    //baza_zwierzakow = *(inter.zwroc_baze_zwierzakow());
 
-    uzytkownik testowy("admin1", "admin1");
+    uzytkownik testowy("admin1", "admin1", 0);
     stworzenie testowe();
 
     baza_uzytkownikow[testowy.zwroc_nazwa_uzytkownika()] = testowy;
@@ -326,9 +331,6 @@ int main()
 
     ekran ekran_dan("OBRAZKI/kantyna/lodowka.png", { informacje_o_daniu[0], informacje_o_daniu[1] }, {&salatka_zaznaczenie });
     ekran ekran_slodyczy("OBRAZKI/kantyna/taca.png", { informacje_o_przekasce[0], informacje_o_przekasce[1], informacje_o_przekasce[2] }, { &truskawka_zaznaczenie });
-
-    produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png", "truskawka");
-    produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png", "salatka");
 
     sf::Clock opoznienie;
 
@@ -584,9 +586,13 @@ int main()
                                 if (kod == baza_uzytkownikow.at(nazwa_uzytkownika).zwroc_haslo()) {
                                     inter.ustawzalogowany(baza_uzytkownikow.at(nazwa_uzytkownika).zwroc_nazwa_uzytkownika());
                                     zalogowany = 1;
-                                    if ((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie() == "") {
+                                    try { 
+                                        (*baza_zwierzakow.at(inter.pobierzzalogowany()));
+                                    }
+                                    catch(const std::out_of_range& oor) {
                                         instrukcja_logowania.setString("Nadaj imie swojemu pupilowi!");
                                         ekran_logowania.ustaw_napis(0, instrukcja_logowania);
+                                        baza_zwierzakow[inter.pobierzzalogowany()] = new Bobas();
                                     };
 
                                     imie.setString("imie: " + (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie());
@@ -607,7 +613,7 @@ int main()
                                 kod = login.zwroctekst();
                                 if (!std::regex_match(kod, puste) && !kod.empty()) {
                                     std::cout << "kod niepusty bez bialych znakow" << std::endl;
-                                    baza_uzytkownikow[nazwa_uzytkownika] = uzytkownik(nazwa_uzytkownika, kod);
+                                    baza_uzytkownikow[nazwa_uzytkownika] = uzytkownik(nazwa_uzytkownika, kod, 0);
                                     baza_zwierzakow[nazwa_uzytkownika] = new Bobas();
                                     inter.ustawzalogowany(nazwa_uzytkownika);
                                     stworzenie* tmp = baza_zwierzakow.at(inter.pobierzzalogowany());
@@ -708,10 +714,10 @@ int main()
 
             //static int i = 0;
 
-            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 10)//230
+            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 230)//230
             {
-                if (DEBUG) std::cout << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwrocwyspany() << std::endl;
-                if (!(*baza_zwierzakow.at(inter.pobierzzalogowany())).zwrocwyspany()) { //jesli nie wyspany
+                if (DEBUG) std::cout << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_wyspany() << std::endl;
+                if (!(*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_wyspany()) { //jesli nie wyspany
                     
                     //////////////
                     okno.clear(sf::Color(71, 108, 194));//ok

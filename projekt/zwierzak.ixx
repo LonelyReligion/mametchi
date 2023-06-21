@@ -33,24 +33,12 @@ private:
 	std::map <produkt, int> przekaski;
 protected:
 public:
-	stworzenie() : glod(1), szczescie(0), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) { if (DEBUG_Z) std::cout << "wywolano konstruktor bezargumentowy klasy stworzenie" << std::endl; };
+	stworzenie() : glod(0), szczescie(0), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) { if (DEBUG_Z) std::cout << "wywolano konstruktor bezargumentowy klasy stworzenie" << std::endl; };
 	virtual void wczytaj_sprite() { if (DEBUG_Z) std::cout << "Wczytuje sprite dla klasy stworzenie" << std::endl; };
 	virtual void idle_animation() { if( DEBUG_Z ) std::cout << "Wyswietlam animacje petli dla klasy stworzenie" << std::endl; };
 	virtual void drukuj_do(sf::RenderWindow& okno, sf::Vector2f delta) {};
 	virtual void spij(sf::Clock& budzik, sf::RenderWindow& okno) {};
 	virtual sf::Sprite* zwroc_sprite() { return new sf::Sprite(); };
-
-	std::string zwroc_imie() { return imie; };
-	void ustaw_imie(const std::string& miano) { imie = miano; };
-
-	int zwroc_wiek() { return wiek; };
-	void ustaw_wiek(const int& lata) { wiek = lata; };
-
-	int zwroc_glod() { return glod; };
-	void ustaw_glod(const int& am) { glod = am; };
-
-	int zwroc_szczescie() { return szczescie; };
-	void ustaw_szczescie(const int& radowanie) { szczescie = radowanie; };
 
 	void nakarm(const produkt& jedzenie) {
 		if (DEBUG_Z) std::cout << "Jemy" << std::endl;
@@ -72,9 +60,37 @@ public:
 			};
 		//};
 	}; //zwraca informacje o tym czy sie powiodla akcja
-	bool zwrocwyspany() { return wyspany; };
-	void ustawwyspany(const bool & spanie) { wyspany = spanie; };
 
+	////////////// get-ery i set-ery
+	std::string zwroc_imie_rodzica() { return imie_rodzica; };
+	void ustaw_imie_rodzica(const std::string& rodzic) { imie_rodzica = rodzic; };
+
+	std::string zwroc_imie() { return imie; };
+	void ustaw_imie(const std::string& miano) { imie = miano; };
+
+	int zwroc_glod() { return glod; };
+	void ustaw_glod(const int& am) { glod = am; };
+
+	int zwroc_szczescie() { return szczescie; };
+	void ustaw_szczescie(const int& radowanie) { szczescie = radowanie; };
+
+	int zwroc_wiek() { return wiek; };
+	void ustaw_wiek(const int& lata) { wiek = lata; };
+
+	bool zwroc_zywy() { return zywy; };
+	void ustaw_zywy(const bool& zycie) { zywy = zycie; };
+
+	bool zwroc_wyspany() { return wyspany; };
+	void ustaw_wyspany(const bool & spanie) { wyspany = spanie; };
+
+	std::map <produkt, int> zwroc_dania() { return dania; };
+	void ustaw_dania(const std::map <produkt, int>& menu) { dania = menu; };
+
+	std::map <produkt, int> zwroc_przekaski() { return przekaski; };
+	void ustaw_przekaski(const std::map <produkt, int> & menu) { przekaski = menu; };
+	/////////////
+
+	void postarz() { wiek += 1; };
 };
 
 export class Bobas : public stworzenie {
@@ -86,6 +102,29 @@ private:
 	sf::Texture spiacy_bobas;
 protected:
 public:
+	Bobas() { 
+		(*this).wczytaj_sprite();
+		(*this).ustaw_dania({});
+		(*this).ustaw_przekaski({});
+	};
+
+	Bobas(const std::string& rodzic, const std::string& miano, const int& glodzik,
+		const int& radosc, const int& lata, const bool& zyje, const bool& wypoczety,
+		const std::map <produkt, int>& pozywienie, const std::map <produkt, int>& slodycze)
+	{
+		(*this).ustaw_imie_rodzica(rodzic);
+		(*this).ustaw_imie(miano);
+		(*this).ustaw_glod(glodzik);
+		(*this).ustaw_szczescie(radosc);
+		(*this).ustaw_wiek(lata);
+		(*this).ustaw_zywy(zyje);
+		(*this).ustaw_wyspany(wypoczety);
+		(*this).ustaw_dania(pozywienie);
+		(*this).ustaw_przekaski(slodycze);
+
+		(*this).wczytaj_sprite();
+	};
+
 	sf::Sprite* zwroc_sprite() { return &duszek_bobasa; };
 	virtual void wczytaj_sprite() { 
 		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl; 
@@ -116,7 +155,7 @@ public:
 			okno.draw(duszek_spiacego_bobasa);
 		}
 		else {
-			ustawwyspany(true);
+			ustaw_wyspany(true);
 		};
 		//drukujemy czekamy zmieniamy stan
 	};
