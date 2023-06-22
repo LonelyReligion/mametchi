@@ -643,6 +643,7 @@ int main()
                 else if (zalogowany && (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie() == "") {
                     if (zdarzenie.key.code == sf::Keyboard::LShift || zdarzenie.key.code == sf::Keyboard::RShift) { //zatwierdzony
                         (*baza_zwierzakow.at(inter.pobierzzalogowany())).ustaw_imie(login.zwroctekst());
+                        (*baza_zwierzakow.at(inter.pobierzzalogowany())).wczytaj_sprite();
                         if (DEBUG) std::cout << "Twoj zwierzak ma na imie " << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie() << std::endl;
 
                         imie.setString("imie: " + (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie());

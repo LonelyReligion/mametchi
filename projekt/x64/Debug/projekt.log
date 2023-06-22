@@ -1,18 +1,4 @@
 ﻿  Trwa skanowanie źródeł pod kątem zależności modułów...
-  interfejs.ixx
-  Trwa kompilowanie…
-  interfejs.ixx
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(18,24): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(75,24): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(79,35): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(87,24): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(94,22): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(89,35): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(99,35): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(171,38): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\interfejs.ixx(186,38): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
-  gra.ixx
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\gra.ixx(11,18): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
   projekt.cpp
 C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\projekt.cpp(597,59): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
 C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\projekt.cpp(599,68): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
