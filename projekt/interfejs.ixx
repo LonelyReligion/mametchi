@@ -4,6 +4,7 @@
 #include <map>
 #include <filesystem>
 #include <fstream>
+#include <typeinfo>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -26,6 +27,7 @@ protected:
 public:
 	uzytkownik() : nazwa_uzytkownika("null"), haslo("null") {};
 	uzytkownik(const std::string& nu, const std::string& h, const int & waluta) : nazwa_uzytkownika(nu), haslo(h), ects(waluta) {};
+	
 	void ustaw_nazwa_uzytkownika(const std::string& nowa_nazwa) {};
 	std::string zwroc_nazwa_uzytkownika() { return nazwa_uzytkownika; };
 
@@ -59,13 +61,61 @@ private:
 	std::map<std::string, uzytkownik> baza_uzytkownikow;
 	std::map<std::string, stworzenie*> baza_zwierzakow;
 
-	std::vector<stworzenie> stworzenia;
 	std::vector<Bobas> bobasy;
+	//inne ewolucje beda mialy inne vectory
 
 protected:
 public:
 	std::string pobierzzalogowany() { return zalogowany; };
 	void ustawzalogowany(const std::string & zal) { zalogowany = zal; };
+
+	void dodaj_do_bazy_uzytkownikow(uzytkownik& u) { 
+		if (DEBUG_I) std::cout << "dodajemy do bazy uzytkownikow" << std::endl;
+		try {
+			baza_uzytkownikow.at(u.zwroc_nazwa_uzytkownika());
+			std::cout << "OSTRZEZENIE: UZYTKOWNIK O PODANEJ NAZWIE JUZ ISTNIEJE" << std::endl;
+			std::cout << "STAN BAZY NIE ULEGNIE ZMIANIE" << std::endl;
+		}
+		catch (const std::out_of_range& oor) {
+			baza_uzytkownikow[u.zwroc_nazwa_uzytkownika()] = u;
+		};
+	};
+
+	bool dodaj_do_bazy_zwierzakow(Bobas & bobo) {//dla kazdej klasy-dziecka inna metoda jest konieczna
+		if (DEBUG_I) std::cout << "dodajemy do bazy zwierzakow" << std::endl;
+		try {
+			baza_uzytkownikow.at(bobo.zwroc_imie_rodzica()); ///rodzic istnieje
+		}
+		catch (const std::out_of_range& oor) {
+			return false;
+		};
+
+		try {
+			baza_zwierzakow.at(bobo.zwroc_imie_rodzica());
+			std::cout << "OSTRZEZENIE: ZWIERZAK O PODANEJ NAZWIE JUZ ISTNIEJE" << std::endl;
+			std::cout << "STAN BAZY NIE ULEGNIE ZMIANIE" << std::endl;
+			return false;
+		}
+		catch (const std::out_of_range& oor) {
+			//bobasy.push_back(bobo); ///glFlush()
+			//baza_zwierzakow[bobo.zwroc_imie_rodzica()] = &bobasy.back();
+			//bobasy.back().wczytaj_sprite();
+			return true;
+		};
+	};
+
+	bool zapisz_baze_uzytkownikow(const std::filesystem::path& p){
+		std::ofstream os(p);
+		os << "nazwa_uzytkownika\t\thaslo\t\tects" << std::endl;
+		for (auto u : baza_uzytkownikow) {
+			os << u.second.zwroc_nazwa_uzytkownika() << "\t\t" << u.second.zwroc_haslo() << "\t\t" << u.second.zwrocects() << std::endl;
+		};
+		return true;
+	};
+
+	bool zapisz_baze_zwierzakow(const std::filesystem::path& p){
+		return true;
+	};
 
 	bool wczytaj_baze_uzytkownikow(const std::filesystem::path & p) {
 		if (DEBUG_I) std::cout << "Wczytujemy baze uzytkownikow" << std::endl;
@@ -91,7 +141,7 @@ public:
 		return true;
 	};
 	
-	bool wczytaj_baze_zwierzakow(const std::filesystem::path& p, const std::map<std::string, produkt>& baza_dan) {
+	bool wczytaj_baze_zwierzakow(const std::filesystem::path& p, const std::map<std::string, produkt*>& baza_dan) {
 		if (DEBUG_I) std::cout << "Wczytujemy baze zwierzakow" << std::endl;
 		std::ifstream is(p);
 		std::string linijka;
@@ -103,8 +153,8 @@ public:
 			std::string typ, rodzic, imie;
 			int glod, szczescie, wiek;
 			bool zywy, wyspany;
-			std::map <produkt, int> dania;
-			std::map <produkt, int> przekaski;
+			std::vector <produkt> dania;
+			std::vector <produkt> przekaski;
 
 			if (!(ss >> typ >> rodzic>> imie >> glod >> szczescie >> wiek >> zywy >> wyspany)) {
 				if (DEBUG_I) std::cout << "nie wczytalismy zwierzaka" << std::endl;
@@ -116,10 +166,10 @@ public:
 			while (ss >> c && c != ';' ) {
 				if (c == ',') {
 					try {
-						dania[jedzenie] = baza_dan.at(jedzenie);
+						dania.push_back(*baza_dan.at(jedzenie));
 					}
 					catch (const std::out_of_range& oor) {
-						if (DEBUG_I) std::cout << "nie wczytalismy jedzenia, bo nie istnieje w bazie" << std::endl;
+						if (DEBUG_I) std::cout << "nie wczytalismy jedzenia (danie), bo nie istnieje w bazie" << std::endl;
 					};
 					jedzenie = "";
 				}
@@ -128,13 +178,13 @@ public:
 				};
 			};
 			jedzenie = "";
-			while (ss >> c && c != ";") {
-				if (c == ",") {
+			while (ss >> c && c != ';') {
+				if (c == ',') {
 					try {
-						przekaski[jedzenie]baza_dan.at(jedzenie);
+						przekaski.push_back(*baza_dan.at(jedzenie));
 					}
 					catch (const std::out_of_range& oor) {
-						if (DEBUG_I) std::cout << "nie wczytalismy jedzenia, bo nie istnieje w bazie" << std::endl;
+						if (DEBUG_I) std::cout << "nie wczytalismy jedzenia (slodycz), bo nie istnieje w bazie" << std::endl;
 					};
 					jedzenie = "";
 				}
@@ -142,11 +192,15 @@ public:
 					jedzenie += c;
 				};
 			};
-			if(typ == bobas)
-				Bobas nowy(rodzic, imie, glod, szczescie, wiek, zywy, wyspany, dania, przekaski);
 
-			baza_uzytkownikow[nazwa] = nowy;
-			if (DEBUG_I) std::cout << "Wczytalismy uzytkownika o nazwie " << nazwa << std::endl;
+			if (typ == "bobas") {
+				Bobas nowy(rodzic, imie, glod, szczescie, wiek, zywy, wyspany, dania, przekaski);
+				bobasy.push_back(nowy);
+				bobasy.back().wczytaj_sprite();
+				baza_zwierzakow[rodzic] = &bobasy.back();
+			};
+
+			if (DEBUG_I) std::cout << "Wczytalismy zwierzaka o imieniu  " << imie << std::endl;
 		}
 		
 		return true;

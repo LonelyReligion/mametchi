@@ -29,8 +29,8 @@ private:
 	bool zywy = 1;
 	bool wyspany = 1;
 
-	std::map <produkt, int> dania;
-	std::map <produkt, int> przekaski;
+	std::vector <produkt> dania;
+	std::vector <produkt> przekaski;
 protected:
 public:
 	stworzenie() : glod(0), szczescie(0), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) { if (DEBUG_Z) std::cout << "wywolano konstruktor bezargumentowy klasy stworzenie" << std::endl; };
@@ -83,11 +83,11 @@ public:
 	bool zwroc_wyspany() { return wyspany; };
 	void ustaw_wyspany(const bool & spanie) { wyspany = spanie; };
 
-	std::map <produkt, int> zwroc_dania() { return dania; };
-	void ustaw_dania(const std::map <produkt, int>& menu) { dania = menu; };
+	std::vector <produkt> zwroc_dania() { return dania; };
+	void ustaw_dania(const std::vector <produkt>& menu) { dania = menu; };
 
-	std::map <produkt, int> zwroc_przekaski() { return przekaski; };
-	void ustaw_przekaski(const std::map <produkt, int> & menu) { przekaski = menu; };
+	std::vector <produkt> zwroc_przekaski() { return przekaski; };
+	void ustaw_przekaski(const std::vector <produkt> & menu) { przekaski = menu; };
 	/////////////
 
 	void postarz() { wiek += 1; };
@@ -103,14 +103,13 @@ private:
 protected:
 public:
 	Bobas() { 
-		(*this).wczytaj_sprite();
 		(*this).ustaw_dania({});
 		(*this).ustaw_przekaski({});
 	};
 
 	Bobas(const std::string& rodzic, const std::string& miano, const int& glodzik,
 		const int& radosc, const int& lata, const bool& zyje, const bool& wypoczety,
-		const std::map <produkt, int>& pozywienie, const std::map <produkt, int>& slodycze)
+		const std::vector <produkt>& pozywienie, const std::vector <produkt>& slodycze)
 	{
 		(*this).ustaw_imie_rodzica(rodzic);
 		(*this).ustaw_imie(miano);
@@ -121,11 +120,10 @@ public:
 		(*this).ustaw_wyspany(wypoczety);
 		(*this).ustaw_dania(pozywienie);
 		(*this).ustaw_przekaski(slodycze);
-
-		(*this).wczytaj_sprite();
 	};
 
 	sf::Sprite* zwroc_sprite() { return &duszek_bobasa; };
+
 	virtual void wczytaj_sprite() { 
 		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl; 
 		if (!bobas.loadFromFile("obrazki/postaci/niemowle.png")) {
@@ -137,11 +135,14 @@ public:
 		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa bobasa" << std::endl;
 		duszek_bobasa.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
 
+		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl;
 		if (!spiacy_bobas.loadFromFile("obrazki/postaci/niemowle_spi.png")) {
 			std::cout << "ladowanie tekstury spiacego bobasa zakonczone niepowodzeniem" << std::endl;
 		};
 		spiacy_bobas.setSmooth(false);
 		duszek_spiacego_bobasa.setTexture(spiacy_bobas);
+
+		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa bobasa" << std::endl;
 		duszek_spiacego_bobasa.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
 	};
 

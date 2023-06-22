@@ -35,6 +35,8 @@ TODO
 > tabela wynikow w grze, z najlepszymi zwierzakami? (ranges)(wakacje)
 > rozwazyc dodanie wagi do zwierzaka i jedzenia (wakacje)
 > im wiecej wygranych pod rzad tym wieksza wygrana
+> wyswietlac jedzenie tylko jesli zwierzak ma je w lodowce
+>sprawdzac czy nazwy zwierzakow sie nie powtarzaja
 */
 void idle_animation(std::promise<sf::Vector2f> & prom, bool restart) {
     static std::vector<sf::Vector2f> pobierzpozycjebobasa = { { 3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { -3.f, 3.f },
@@ -76,6 +78,9 @@ void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::C
 
 int main()
 {
+    std::filesystem::path plik_uzytkownikow("bazy/baza_uzytkownikow.txt");
+    std::filesystem::path plik_zwierzakow("bazy/baza_stworzen.txt");
+
     sf::Clock czas_od_poludnia; //zrobic zegar i sprawdzac interwaly zamiast mnozyc zegary?
     sf::Clock czas; //_od_wlaczenia_programu;
     sf::Clock budzik;
@@ -102,16 +107,19 @@ int main()
 
 
     //wczytaj bazy
-    std::map<std::string, produkt> baza_dan;
+    std::map<std::string, produkt*> baza_dan;
+    if (DEBUG) std::cout << "wczytujemy teksture truskawki" << std::endl;
     produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png", "truskawka");
+    if (DEBUG) std::cout << "wczytujemy teksture salatki" << std::endl;
     produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png", "salatka");
-    baza_dan["truskawka"] = truskawka;
-    baza_dan["salatka"] = salatka;
+    if (DEBUG) std::cout << "wczystujemy dania do baz" << std::endl;
+    baza_dan["truskawka"] = &truskawka;
+    baza_dan["salatka"] = &salatka;
 
     std::map<std::string, uzytkownik> baza_uzytkownikow; //nazwa uzytkownika, uzytkownik
-    std::map<std::string, stworzenie *> baza_zwierzakow; //nazwa uzytkownika, wzkaznik na zwierzatko (konieczne do zastosowania polimorfizmu, tak aby wykonywaly sie odpowiednie wersje metod)
+    std::map<std::string, stworzenie*> baza_zwierzakow; //nazwa uzytkownika, wzkaznik na zwierzatko (konieczne do zastosowania polimorfizmu, tak aby wykonywaly sie odpowiednie wersje metod)
 
-    if (!inter.wczytaj_baze_uzytkownikow("bazy/baza_uzytkownikow.txt")) { //musi byc pierwsza!
+    if (!inter.wczytaj_baze_uzytkownikow(plik_uzytkownikow)) { //musi byc pierwsza!
         std::cout << "Ladowanie bazy uzytkownikow nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
         std::cout << "Sprawdz poprawnosc danych w pliku i sprobuj ponownie." << std::endl;
         std::cout << "WSKAZOWKA: Sprawdz czy wszystkie wiersze zawieraja nazwe uzytkownika i haslo. " << std::endl;
@@ -119,20 +127,17 @@ int main()
         return 0;
     };
 
-    if (!inter.wczytaj_baze_zwierzakow("bazy/baza_stworzen.txt", baza_dan)) {
+    if (!inter.wczytaj_baze_zwierzakow(plik_zwierzakow, baza_dan)) {
         std::cout << "Ladowanie bazy zwierzakow nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
         std::cout << "Sprawdz poprawnosc danych w pliku i sprobuj ponownie." << std::endl;
         return 0;
     };
 
     baza_uzytkownikow = *(inter.zwroc_baze_uzytkownikow());
-    //baza_zwierzakow = *(inter.zwroc_baze_zwierzakow());
+    baza_zwierzakow = *(inter.zwroc_baze_zwierzakow());
 
-    uzytkownik testowy("admin1", "admin1", 0);
-    stworzenie testowe();
-
-    baza_uzytkownikow[testowy.zwroc_nazwa_uzytkownika()] = testowy;
-    baza_zwierzakow[testowy.zwroc_nazwa_uzytkownika()] = new stworzenie();
+    //Bobas testowy_bobas("admin1", "portos", 4, 1, 3, 1, 1, { salatka }, { truskawka });
+    //inter.dodaj_do_bazy_zwierzakow(testowy_bobas);
 
     /*The OFL allows the licensed fonts to be used, studied, modified and redistributed freely as
     long as they are not sold by themselves. The fonts, including any derivative works, can be bundled,
@@ -465,8 +470,10 @@ int main()
                 break;
             case sf::Event::MouseButtonPressed:
                 if (wychodzimy) {
-                    if (tak.myszanad(okno) && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy)
+                    if (tak.myszanad(okno) && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy) {
+                        inter.zapisz_baze_uzytkownikow(plik_uzytkownikow);
                         return 0;
+                    }
                     else if (nie.myszanad(okno) && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy)
                         wychodzimy = 0;
                 }
@@ -587,7 +594,7 @@ int main()
                                     inter.ustawzalogowany(baza_uzytkownikow.at(nazwa_uzytkownika).zwroc_nazwa_uzytkownika());
                                     zalogowany = 1;
                                     try { 
-                                        (*baza_zwierzakow.at(inter.pobierzzalogowany()));
+                                        baza_zwierzakow.at(inter.pobierzzalogowany());
                                     }
                                     catch(const std::out_of_range& oor) {
                                         instrukcja_logowania.setString("Nadaj imie swojemu pupilowi!");
@@ -772,5 +779,6 @@ int main()
     };
 
     std::cout << "Minelo " << czas.getElapsedTime().asSeconds() << " sekund od uruchomienia programu." << std::endl;
+    inter.zapisz_baze_uzytkownikow(plik_uzytkownikow);
     return 0;
 }
