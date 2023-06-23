@@ -115,6 +115,7 @@
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\clocale",
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.22000.0\\ucrt\\locale.h",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\string",
+            "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\sstream",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\map",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\xtree",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\xnode_handle.h",
@@ -128,7 +129,6 @@
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\forward_list",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\optional",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\xsmf_control.h",
-            "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\sstream",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\vector",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\xloctime",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\format",
@@ -152,6 +152,7 @@
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\stop_token",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\iomanip",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\list",
+            "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\fstream",
             "c:\\users\\user\\desktop\\c++\\pk4\\mametchi\\sfml\\include\\sfml\\graphics.hpp",
             "c:\\users\\user\\desktop\\c++\\pk4\\mametchi\\sfml\\include\\sfml\\window.hpp",
             "c:\\users\\user\\desktop\\c++\\pk4\\mametchi\\sfml\\include\\sfml\\system.hpp",
@@ -227,7 +228,24 @@
             "c:\\users\\user\\desktop\\c++\\pk4\\mametchi\\sfml\\include\\sfml\\graphics\\text.hpp",
             "c:\\users\\user\\desktop\\c++\\pk4\\mametchi\\sfml\\include\\sfml\\graphics\\vertexbuffer.hpp"
         ],
-        "ImportedModules": [],
+        "ImportedModules": [
+            {
+                "Name": "pole_tekstowe",
+                "BMI": "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\pole_tekstowe.ixx.ifc.dt"
+            },
+            {
+                "Name": "guzik",
+                "BMI": "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\przycisk.ixx.ifc.dt"
+            },
+            {
+                "Name": "zwierzak",
+                "BMI": "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\zwierzak.ixx.ifc.dt"
+            },
+            {
+                "Name": "jedzenie",
+                "BMI": "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\jedzenie.ixx.ifc.dt"
+            }
+        ],
         "ImportedHeaderUnits": []
     }
 }

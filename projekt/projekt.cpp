@@ -534,10 +534,13 @@ int main()
                     std::cout << "sprza przycisnieta" << std::endl;
                 }
                 else if (wczyt.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
-                    std::cout << "wczyt przycisniety" << std::endl;
+                    std::cout << "wczytano baze uzytkownikow" << std::endl;
+                    inter.wczytaj_baze_uzytkownikow(plik_uzytkownikow);
+                    //inter.wczytaj_baze_zwierzakow(plik_zwierzakow, baza_dan);
                 }
                 else if (zapis.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
-                    std::cout << "zapis przycisniety" << std::endl;
+                    std::cout << "zapisano baze uzytkownikow" << std::endl;
+                    inter.zapisz_baze_uzytkownikow(plik_uzytkownikow);
                 }
                 else if (dobranoc.myszanad(okno) && !wychodzimy) {
                     std::cout << "spimy przycisniete" << std::endl;

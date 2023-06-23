@@ -231,10 +231,6 @@
             {
                 "Name": "jedzenie",
                 "BMI": "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\jedzenie.ixx.ifc.dt"
-            },
-            {
-                "Name": "interfejs",
-                "BMI": "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\interfejs.ixx.ifc.dt"
             }
         ],
         "ImportedHeaderUnits": []

@@ -4,7 +4,8 @@
         "Source": "c:\\users\\user\\desktop\\c++\\pk4\\mametchi\\projekt\\gra.ixx",
         "ProvidedModule": "gra",
         "ImportedModules": [
-            "interfejs"
+            "interfejs",
+            "zwierzak"
         ],
         "ImportedHeaderUnits": []
     }

@@ -107,7 +107,7 @@ public:
 	bool zapisz_baze_uzytkownikow(const std::filesystem::path& p){
 		std::ofstream os(p);
 		os << "nazwa_uzytkownika\t\thaslo\t\tects" << std::endl;
-		for (auto u : baza_uzytkownikow) {
+		for (auto & u : baza_uzytkownikow) {
 			os << u.second.zwroc_nazwa_uzytkownika() << "\t\t" << u.second.zwroc_haslo() << "\t\t" << u.second.zwrocects() << std::endl;
 		};
 		return true;

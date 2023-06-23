@@ -1,5 +1,5 @@
 ﻿  Trwa skanowanie źródeł pod kątem zależności modułów...
   projekt.cpp
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\projekt.cpp(597,59): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
-C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\projekt\projekt.cpp(599,68): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
-  projekt.vcxproj -> C:\Users\User\Desktop\PK4\REPO PROJEKTU\mametchi\x64\Debug\projekt.exe
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(600,59): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(602,68): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
+  projekt.vcxproj -> C:\Users\user\Desktop\C++\pk4\mametchi\x64\Debug\projekt.exe
