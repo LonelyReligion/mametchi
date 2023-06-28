@@ -1,3 +1,9 @@
+/*********************************************************************
+ * @file  jedzenie.ixx
+ *
+ * @brief Implementacja i deklaracja klasy produkt.
+ *********************************************************************/
+
 #include <iostream>
 #include <filesystem>
 
@@ -6,11 +12,15 @@
 
 export module jedzenie;
 
+/**
+* @class produkt
+* @brief Obiekt klasy produkt reprezentuje rodzaj produktu spozywczego.
+*/
 export class produkt {
 private:
-	std::string nazwa; //unikalna nazwa dania
-	int wartosc_odzywcza;
-	int radosc;
+	std::string nazwa;  ///< Unikalna nazwa produktu.
+	int wartosc_odzywcza;  ///< Ile punktow zostanie dodanych do statystyk stworzenia.
+	int radosc;  ///< Ile punktow zostanie dodanych do statystyk stworzenia.
 
 	sf::Texture tekstura;
 	sf::Sprite duch;
@@ -24,6 +34,11 @@ public:
 	int zwroc_wo() const { return wartosc_odzywcza; };
 	int zwroc_r() const { return radosc; };
 
+	/**
+	* @brief Wczytuje teksture z podanej sciezki.
+	*
+	* @param sciezka.
+	*/
 	void wczytaj(const std::filesystem::path& sciezka) {
 		if (!tekstura.loadFromFile(sciezka.string())) {
 			std::cout << "ladowanie tekstury jedzenia zakonczone niepowodzeniem" << std::endl;
@@ -32,6 +47,12 @@ public:
 		duch.setTexture(tekstura);
 	};
 
+	/**
+	* @brief Rysuje produkt do okna.
+	*
+	* @param okno to okno, do ktorego rysujemy produkt.
+	* @param gdzie wskazuje na lokalizacje, w ktorej ma sie znalezc sprite. 
+	*/
 	void rysuj(sf::RenderWindow& okno, sf::Vector2f gdzie) {
 		duch.setOrigin(gdzie);
 		okno.draw(duch);

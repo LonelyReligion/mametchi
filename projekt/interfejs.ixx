@@ -1,3 +1,8 @@
+/*********************************************************************
+ * @file  interfejs.ixx
+ *
+ * @brief Implementacja i deklaracja klas uzytkownik, interfejs i ekran.
+ *********************************************************************/
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -17,11 +22,15 @@ bool DEBUG_I = 1;
 
 export module interfejs;
 
+/**
+* @class uzytkownik
+* @brief Klasa reprezentujaca uzytkownika. 
+*/
 export class uzytkownik {
 private:
 	std::string nazwa_uzytkownika;
 	std::string haslo;
-	int ects = 0;//waluta
+	int ects = 0;///< waluta
 
 protected:
 public:
@@ -54,6 +63,10 @@ public:
 	};
 };
 
+/**
+* @class interfejs
+* @brief Klasa reprezentujaca interfejs, zarzadzajaca bazami. 
+*/
 export class interfejs {
 private:
 	std::string zalogowany;
@@ -81,29 +94,34 @@ public:
 		};
 	};
 
-	bool dodaj_do_bazy_zwierzakow(Bobas & bobo) {//dla kazdej klasy-dziecka inna metoda jest konieczna
-		if (DEBUG_I) std::cout << "dodajemy do bazy zwierzakow" << std::endl;
-		try {
-			baza_uzytkownikow.at(bobo.zwroc_imie_rodzica()); ///rodzic istnieje
-		}
-		catch (const std::out_of_range& oor) {
-			return false;
-		};
+	//bool dodaj_do_bazy_zwierzakow(Bobas & bobo) {//dla kazdej klasy-dziecka inna metoda jest konieczna
+	//	if (DEBUG_I) std::cout << "dodajemy do bazy zwierzakow" << std::endl;
+	//	try {
+	//		baza_uzytkownikow.at(bobo.zwroc_imie_rodzica()); //rodzic istnieje
+	//	}
+	//	catch (const std::out_of_range& oor) {
+	//		return false;
+	//	};
 
-		try {
-			baza_zwierzakow.at(bobo.zwroc_imie_rodzica());
-			std::cout << "OSTRZEZENIE: ZWIERZAK O PODANEJ NAZWIE JUZ ISTNIEJE" << std::endl;
-			std::cout << "STAN BAZY NIE ULEGNIE ZMIANIE" << std::endl;
-			return false;
-		}
-		catch (const std::out_of_range& oor) {
-			//bobasy.push_back(bobo); ///glFlush()
-			//baza_zwierzakow[bobo.zwroc_imie_rodzica()] = &bobasy.back();
-			//bobasy.back().wczytaj_sprite();
-			return true;
-		};
-	};
+	//	try {
+	//		baza_zwierzakow.at(bobo.zwroc_imie_rodzica());
+	//		std::cout << "OSTRZEZENIE: ZWIERZAK O PODANEJ NAZWIE JUZ ISTNIEJE" << std::endl;
+	//		std::cout << "STAN BAZY NIE ULEGNIE ZMIANIE" << std::endl;
+	//		return false;
+	//	}
+	//	catch (const std::out_of_range& oor) {
+	//		//bobasy.push_back(bobo); ///glFlush()
+	//		//baza_zwierzakow[bobo.zwroc_imie_rodzica()] = &bobasy.back();
+	//		//bobasy.back().wczytaj_sprite();
+	//		return true;
+	//	};
+	//};
 
+	/**
+	* @brief Zapisuje baze uzytkownikow w podanej lokalizacji.
+	*
+	* @param sciezka pod ktora zapiszemy baze
+	*/
 	bool zapisz_baze_uzytkownikow(const std::filesystem::path& p){
 		std::ofstream os(p);
 		os << "nazwa_uzytkownika\t\thaslo\t\tects" << std::endl;
@@ -113,10 +131,15 @@ public:
 		return true;
 	};
 
-	bool zapisz_baze_zwierzakow(const std::filesystem::path& p){
-		return true;
-	};
+	//bool zapisz_baze_zwierzakow(const std::filesystem::path& p){
+	//	return true;
+	//};
 
+	/**
+	* @brief Wczytuje baze uzytkownikow z podanej lokalizacji.
+	*
+	* @param sciezka, z ktorej wczytujemy baze
+	*/
 	bool wczytaj_baze_uzytkownikow(const std::filesystem::path & p) {
 		if (DEBUG_I) std::cout << "Wczytujemy baze uzytkownikow" << std::endl;
 		//sprawdzamy duplikaty
@@ -141,6 +164,12 @@ public:
 		return true;
 	};
 	
+	/**
+	* @brief Wczytuje baze zwierzakow z podanej lokalizacji.
+	*
+	* @param sciezka, z ktorej wczytujemy baze
+	* @param baza zawierajaca w sobie wszytskie dostepne dania
+	*/
 	bool wczytaj_baze_zwierzakow(const std::filesystem::path& p, const std::map<std::string, produkt*>& baza_dan) {
 		if (DEBUG_I) std::cout << "Wczytujemy baze zwierzakow" << std::endl;
 		std::ifstream is(p);
@@ -211,9 +240,13 @@ public:
 
 };
 
+/**
+* @class ekran
+* @brief Klasa reprezentujaca przyciski, tlo i teksty wyswietlane na ekranie. 
+*/
 export class ekran {
 private:
-	sf::Sprite duch;
+	sf::Sprite duch; ///< sprite tla
 	sf::Texture tekstura;
 	std::vector<sf::Text> teksty;
 	std::vector <przycisk*> guziki;

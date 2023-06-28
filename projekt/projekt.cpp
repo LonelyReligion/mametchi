@@ -1,4 +1,9 @@
-﻿#include <SFML/Graphics.hpp>
+/*********************************************************************
+ * @file  projekt.cpp
+ *
+ * @brief main
+ *********************************************************************/
+#include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
 #include <iostream>
@@ -23,12 +28,8 @@ bool DEBUG = true;
 
 /*
 TODO
-> miganie przy budzeniu (bug)
 > najezdzanie mysza na dobranoc (kosmetyczne)(latwe)
 > logowanie jako metoda klasy interface 
-> wczytywanie bazy uzytkownikow (konieczne)
-> wczytywanie baz zwierzakow (konieczne)
-> wczytywanie zwierzakow (konieczne)
 > watki do aktualizowania statystyk (przydatne)(trune)
 > wskazowka/instrukcja/strzaleczka z esc (niekonieczne)
 > przekazywac i trzymac teksty jako referencje zamiast ustawiania (przydatne)(inwazyjne)
@@ -36,7 +37,16 @@ TODO
 > rozwazyc dodanie wagi do zwierzaka i jedzenia (wakacje)
 > im wiecej wygranych pod rzad tym wieksza wygrana
 > wyswietlac jedzenie tylko jesli zwierzak ma je w lodowce
->sprawdzac czy nazwy zwierzakow sie nie powtarzaja
+> sprawdzac czy nazwy zwierzakow sie nie powtarzaja
+> wyjscie ze tylko przy esc
+> printscr resetuje spanie
+*/
+
+/**
+* @brief Ustala przesuniecie swierzaka w czasie odtwarzania animacji skakania po pokoju.
+*
+* @param[out] prom sluzy do przekazywania wektora, o ktory nalezy przesunac zwierzaka
+* @param restart mowi o tym czy animacje powinnismy zaczac od poczatku, czy od momentu, w ktorym ostatnio skonczylismy
 */
 void idle_animation(std::promise<sf::Vector2f> & prom, bool restart) {
     static std::vector<sf::Vector2f> pobierzpozycjebobasa = { { 3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { -3.f, 3.f },
@@ -66,8 +76,15 @@ void idle_animation(std::promise<sf::Vector2f> & prom, bool restart) {
     };
 };
 
+/**
+* @brief Ustala pozycje slonca za oknem oraz zmienia status wyspania stworzenia.
+*
+* @param[out] prom sluzy do przekazywania wektora, o ktory nalezy przesunac slonce
+* @param stwor to stworzenie, ktore spi - ktoremu zmieni sie wartosc pola wyspany
+* @param czas_od_poludnia informuje nas o godzinie
+*/
 void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::Clock &czas_od_poludnia) {
-    if (czas_od_poludnia.getElapsedTime().asSeconds() < 230) //230
+    if (czas_od_poludnia.getElapsedTime().asSeconds() < 10) //230
         prom.set_value(sf::Vector2f(0.015f, 0.01f));
     else {
         stwor.ustaw_wyspany(false);
@@ -166,7 +183,7 @@ int main()
     przycisk sprza("Sprzatanie", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 550, 500 }, font);
     przycisk wczyt("Wczytaj", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 500 }, font);
     przycisk zapis("Zapisz", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 50, 500 }, font);
-    ekran ekran_pokoju("obrazki/pokoj.png", {}, { &staty, &lodow, &zabaw, &sprza, &wczyt, &zapis });
+    ekran ekran_pokoju("obrazki/pokoj.png", {}, { &staty, &lodow, &zabaw, /*&sprza,*/ &wczyt, &zapis});
 
     sf::Texture chmury;
     sf::Sprite duszek_chmur;
@@ -281,11 +298,11 @@ int main()
     };
     radosny.setSmooth(false);
 
-    std::vector<std::vector <sf::Sprite>> szczescie;
-    std::vector<std::vector <sf::Sprite>> glod;
+    std::vector<std::vector <sf::Sprite>> szczescie;///< Przechowuje parami sprite'y odpowiadajace szczesciu w statystykach 
+    std::vector<std::vector <sf::Sprite>> glod;///< Przechowuje parami sprite'y odpowiadajace glodowi w statystykach 
 
-    std::vector<bool>wybor_glodu;
-    std::vector<bool> wybor_szczescia;
+    std::vector<bool>wybor_glodu;///< Przechowuje informacje o tym czy dany poziom glodu zostal zaspokojony
+    std::vector<bool> wybor_szczescia;///< Przechowuje informacje o tym czy dany poziom szczescia zostal osiagniety
 
     auto first = -95.f;
 
@@ -348,7 +365,7 @@ int main()
             if (login.zwrocZaznaczenie())
                 login.ustawZaznaczenie(false);
         };
-        while (okno.pollEvent(zdarzenie)) { //zwraca true, jezeli jakies zdarzenie oczekuje
+        while (okno.pollEvent(zdarzenie)) {///<zwraca true, jezeli jakies zdarzenie oczekuje
             switch (zdarzenie.type)
             {
             ///
@@ -449,7 +466,7 @@ int main()
                     zabaw.ustawkolortla(kolor_tla_wcisniete);
                 }
                 else if (sprza.myszanad(okno)) {
-                    sprza.ustawkolortla(kolor_tla_wcisniete);
+                    ;// sprza.ustawkolortla(kolor_tla_wcisniete);
                 }
                 else if (wczyt.myszanad(okno)) {
                     wczyt.ustawkolortla(kolor_tla_wcisniete);
@@ -461,7 +478,7 @@ int main()
                     staty.ustawkolortla(kolor_tla_przyciskow);
                     lodow.ustawkolortla(kolor_tla_przyciskow);
                     zabaw.ustawkolortla(kolor_tla_przyciskow);
-                    sprza.ustawkolortla(kolor_tla_przyciskow);
+                    //sprza.ustawkolortla(kolor_tla_przyciskow);
                     wczyt.ustawkolortla(kolor_tla_przyciskow);
                     zapis.ustawkolortla(kolor_tla_przyciskow);
                     (*pl.zwroc_przyciski()[1]).ustawkolortla(sf::Color(17, 26, 0));
@@ -531,7 +548,7 @@ int main()
                     gramy = 1;
                 }
                 else if (sprza.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
-                    std::cout << "sprza przycisnieta" << std::endl;
+                    //std::cout << "sprza przycisnieta" << std::endl;
                 }
                 else if (wczyt.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
                     std::cout << "wczyt przycisniety" << std::endl;
@@ -722,7 +739,7 @@ int main()
 
             //static int i = 0;
 
-            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 230)//230
+            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 10)//230
             {
                 if (DEBUG) std::cout << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_wyspany() << std::endl;
                 if (!(*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_wyspany()) { //jesli nie wyspany

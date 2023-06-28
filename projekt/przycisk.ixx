@@ -1,3 +1,9 @@
+/*********************************************************************
+ * @file  przycisk.ixx
+ *
+ * @brief Deklaracja i implementacja klasy przycisk.
+ *********************************************************************/
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
@@ -8,10 +14,14 @@
 bool DEBUG_P = 1;
 export module guzik;
 
+/**
+* @class przycisk
+* @brief Interaktywny przycisk. 
+*/
 export class przycisk {
 private:
-	sf::RectangleShape prostokat;
-	sf::Text tekst;
+	sf::RectangleShape prostokat; ///< Tlo przycisku.
+	sf::Text tekst; ///< Tekst na przycisku.
 protected:
 public:
 	przycisk() {};
@@ -47,22 +57,33 @@ public:
 		tekst.setPosition({x, y});
 	};
 
+	/**
+	* @brief Rysuje przycisk do okna.
+	*
+	* @param okno to okno, do ktorego rysujemy przycisk.
+	*/
 	void drukujdo(sf::RenderWindow &okno) {
 		okno.draw(prostokat);
 		okno.draw(tekst);
 	};
 
+	/**
+	* @brief Sprawdza czy kursor znajduje sie nad przyciskiem.
+	*
+	* @param okno to okno, do ktorego rysujemy przycisk.
+	*/
 	bool myszanad(sf::RenderWindow& okno) {
-		double myszax = sf::Mouse::getPosition(okno).x;
-		double myszay = sf::Mouse::getPosition(okno).y;
+		double myszax = sf::Mouse::getPosition(okno).x;  
+		double myszay = sf::Mouse::getPosition(okno).y; 
 
 		double guzikx = prostokat.getPosition().x;
-		double guziky = prostokat.getPosition().y;
+		double guziky = prostokat.getPosition().y;  
 
-		double xplusszer = guzikx + prostokat.getLocalBounds().width;
-		double ypluswys = guziky + prostokat.getLocalBounds().height;
+		double xplusszer = guzikx + prostokat.getLocalBounds().width;  
+		double ypluswys = guziky + prostokat.getLocalBounds().height; 
 
-		if (myszax < xplusszer && myszax > guzikx && myszay < ypluswys && myszay > guziky) //czy jest w konturze
+		if (myszax < xplusszer && myszax > guzikx && myszay < ypluswys && myszay > guziky)
+			//na pozniej: czy nie powinno byc <=
 			return true;
 		else
 			return false;

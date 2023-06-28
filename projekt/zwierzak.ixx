@@ -1,3 +1,8 @@
+/*********************************************************************
+ * @file  zwierzak.ixx
+ *
+ * @brief Implementacja i deklaracja klas stworzenie i Bobas.
+ *********************************************************************/
 #include <iostream>
 #include <string>
 #include <filesystem> //do wczytywania spriteu bobasa?
@@ -12,14 +17,18 @@ bool DEBUG_Z = true;
 
 export module zwierzak;
 
+/**
+* @class stworzenie
+* @brief Klasa stworzenie nie posiadająca obiektów. 
+*/
 export class stworzenie {
 private:
-	std::string imie_rodzica;
-	std::string imie;
+	std::string imie_rodzica; ///< nazwa uzytkownika
+	std::string imie; ///< nazwa obiektu
 
-	int glod; //0(glodny) - 5(nie glodny)
-	int szczescie; //0 - 5
-	int wiek;
+	int glod; ///< 0(glodny) - 5(nie glodny)
+	int szczescie; ///< 0 - 5
+	int wiek; ///< ile dob przezyl
 
 	//bool chory = 0;
 	//bool glodny = 0;
@@ -90,9 +99,17 @@ public:
 	void ustaw_przekaski(const std::vector <produkt> & menu) { przekaski = menu; };
 	/////////////
 
+	/**
+	* @brief Zwieksza wiek o 1.
+	*
+	*/
 	void postarz() { wiek += 1; };
 };
 
+/**
+* @class Bobas
+* @brief Klasa reprezentujaca najmłodszy stopień ewolucji. 
+*/
 export class Bobas : public stworzenie {
 private:
 	sf::Sprite duszek_bobasa;
@@ -124,6 +141,9 @@ public:
 
 	sf::Sprite* zwroc_sprite() { return &duszek_bobasa; };
 
+	/**
+	* @brief Wczytuje tekstury ze stalej lokalizacji.
+	*/
 	virtual void wczytaj_sprite() { 
 		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl; 
 		if (!bobas.loadFromFile("obrazki/postaci/niemowle.png")) {
@@ -146,11 +166,23 @@ public:
 		duszek_spiacego_bobasa.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
 	};
 
+	/**
+	* @brief Wyswietla Bobasa na ekranie.
+	*
+	* @param okno to okno, do ktorego rysujemy spiacego bobasa
+	* @param delta to wektor, o ktory przesuniemy Bobasa np. podczas wyswietlania animacji
+	*/
 	void drukuj_do(sf::RenderWindow& okno, sf::Vector2f delta) {
 		duszek_bobasa.move(delta);
 		okno.draw(duszek_bobasa);
 	};
 
+	/**
+	* @brief Wyswietla aniamcje snu i aktualizuje statystyki Bobasa.
+	*
+	* @param budzik informuje nas o tym jak dlugo spi bobas i czy nadeszla pora aby sie obudzil
+	* @param okno to okno, do ktorego rysujemy spiacego bobasa
+	*/
 	void spij(sf::Clock & budzik, sf::RenderWindow & okno) {	
 		if (budzik.getElapsedTime().asSeconds() <= 10) {
 			okno.draw(duszek_spiacego_bobasa);

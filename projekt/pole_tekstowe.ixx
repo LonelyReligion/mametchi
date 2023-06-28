@@ -1,3 +1,9 @@
+/*********************************************************************
+ * @file  pole_tekstowe.ixx
+ *
+ * @brief Deklaracja i implementacja klasy pole.
+ *********************************************************************/
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <sstream>
@@ -8,14 +14,23 @@
 
 export module pole_tekstowe;
 
+/**
+* @class Pole
+* @brief Klasa reprezentujaca pole tekstowe.
+*/
 export class Pole {
 private:
-	sf::Text pole;
-	std::ostringstream tekst;
-	bool zaznaczone = false;
-	bool limit = false;
-	int limit_int;
+	sf::Text pole; ///< Tekst wyswietlany w polu.
+	std::ostringstream tekst; ///< Strumien, do ktorego wpisujemy teskt.
+	bool zaznaczone = false;///< Czy pole zostalo zaznaczone - jest aktywne do wpisywania.
+	bool limit = false; ///< Czy mamy narzucowny limit znakow.
+	int limit_int; ///< Ile maksymalnie znakow mozemy wpisac.
 
+	/**
+	* @brief Wypisuje znaki.
+	*
+	* @param znak to znak wpisany.
+	*/
 	void wejscie(int znak) {
 		if (znak != DELETE && znak != ENTER && znak != ESC) {
 			tekst << static_cast<char>(znak);
@@ -32,6 +47,10 @@ private:
 		pole.setString(tekst.str() + "_");
 	};
 
+	/**
+	* @brief Usuwa ostatnia litere.
+	*
+	*/
 	void  usunostatnialitere() {
 		std::string og = tekst.str();
 		std::string nowy = "";
@@ -103,6 +122,11 @@ public:
 		okno.draw(pole);
 	};
 
+	/**
+	* @brief Zarzadza tym co sie dzieje po wpisaniu znaku. Wywoluje usunostatnialitere() lub wejscie(znak).
+	*
+	* @param zdarzenie przechowuje w sobie wpisany znak.
+	*/
 	void wpisany(sf::Event zdarzenie) {
 		if (zaznaczone) {
 			int znak = zdarzenie.text.unicode;
@@ -121,4 +145,5 @@ public:
 			};
 		};
 	};
+
 };

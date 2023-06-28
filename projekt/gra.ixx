@@ -1,3 +1,9 @@
+/*********************************************************************
+ * @file  gra.ixx
+ *
+ * @brief Implementacja i deklaracja klasy prawo_lewo.
+ *********************************************************************/
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
@@ -10,18 +16,29 @@ import zwierzak;
 
 export module gra;
 // singleton?
+/**
+* @class prawo_lewo
+* @brief Klasa reprezentujaca gre prawo-lewo.
+*/
 export class prawo_lewo {
 private:
 	sf::Sprite stworek;
 	sf::Sprite stworek_prawo;
 	
-	sf::Texture bobas_lewo;//nie musi byc bobas
+	//nie musi byc bobas
+	sf::Texture bobas_lewo; ///< tektura stworzenia (niekoniecznie bobasa) obroconego w lewo
 	sf::Texture bobas_prawo;
 
 	ekran widok_gry;
 	std::vector<przycisk> przyciski;
 	std::vector<sf::Sprite> obroty;
 public:
+	/**
+	* @brief Wywoluje wczytaj_sprite(sciezka) i  wczytuje ekran gry.
+	*
+	* @param p to sciezka wskazujaca na sprite stworzenia obroconego w lewo.
+	* @param font to uzywany font.
+	*/
 	prawo_lewo(std::filesystem::path p, sf::Font& font) {
 		wczytaj_sprite(p);
 
@@ -37,6 +54,11 @@ public:
 		widok_gry.ustaw_przyciski({ &przyciski[1], &przyciski[0]});
 	};
 
+	/**
+	* @brief Wczytuje sprite stworzenia bioracego udzial w grze. Stworzenie obrocone w prawo to lustrzane odbicie wczytanej tekstury.
+	*
+	* @param p to sciezka wskazujaca na sprite stworzenia obroconego w lewo.
+	*/
 	void wczytaj_sprite(std::filesystem::path p) {
 		if (!bobas_lewo.loadFromFile(p.string())) {
 			std::cout << "ladowanie tekstury stworka bioracego udzial w grze zakonczone niepowodzeniem" << std::endl;
@@ -54,6 +76,10 @@ public:
 		return widok_gry.zwroc_przyciski();
 	};
 
+	/**
+	* @brief Zwraca informacje czy stworzenie ma byc obrocone w prawo czy w lewo.
+	*
+	*/
 	bool animacja_stworka() {
 		static bool moneta = 1;
 		static int licznik = 50;
@@ -72,6 +98,14 @@ public:
 		okno.draw(obroty[animacja_stworka()]);
 	};
 
+	/**
+	* @brief Wywoluje wczytaj_sprite(sciezka) i  wczytuje ekran gry.
+	*
+	* @param obstawiana_wartosc reprezentuje wybor gracza.
+	* @param gracz - wskaznik na stworzenie biorace udzial w grze.
+	* 
+	* @return punkty, ktore w mainie zostana przypisane do konta uzytkownika.
+	*/
 	int zwroc_nagrode(bool obstawiana_wartosc, stworzenie * gracz) {
 		if (obstawiana_wartosc == animacja_stworka()) {
 			wczytaj_sprite("OBRAZKI/POSTACI/NIEMOWLE_RADOSC.png");
