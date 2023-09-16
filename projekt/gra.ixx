@@ -32,6 +32,8 @@ private:
 	ekran widok_gry;
 	std::vector<przycisk> przyciski;
 	std::vector<sf::Sprite> obroty;
+
+	sf::Font czcionka;
 public:
 	/**
 	* @brief Wywoluje wczytaj_sprite(sciezka) i  wczytuje ekran gry.
@@ -42,15 +44,11 @@ public:
 	prawo_lewo(std::filesystem::path p, sf::Font& font) {
 		wczytaj_sprite(p);
 
-		sf::Text tytul("Prawo czy Lewo?", font, 50);
-		tytul.setFillColor(sf::Color(0, 77, 0));
-		tytul.setOrigin(sf::Vector2f(-225.f, -100.f));
+		czcionka = font; 
 
 		przyciski.push_back(przycisk("PRAWO", { 150,75 }, 30, sf::Color(238, 255, 204), sf::Color(17, 26, 0), { 450, 425 }, font));
 		przyciski.push_back(przycisk("LEWO", { 150, 75 }, 30, sf::Color(238, 255, 204), sf::Color(17, 26, 0), { 200, 425 }, font));
-
-		widok_gry.wczytaj_tlo("OBRAZKI/gaming.png");
-		widok_gry.ustaw_teksty({ tytul });
+		
 		widok_gry.ustaw_przyciski({ &przyciski[1], &przyciski[0]});
 	};
 
@@ -108,13 +106,26 @@ public:
 	*/
 	int zwroc_nagrode(bool obstawiana_wartosc, stworzenie * gracz) {
 		if (obstawiana_wartosc == animacja_stworka()) {
+			widok_gry.wczytaj_tlo("OBRAZKI/sala_gier/prawo_lewo/gaming_wygrana.png");
 			wczytaj_sprite("OBRAZKI/POSTACI/NIEMOWLE_RADOSC.png");
+			widok_gry.ustaw_teksty({ sf::Text() });
 			(*gracz).ustaw_szczescie((*gracz).zwroc_szczescie() + 1);
 			return 100;
 		}
 		else {
+			widok_gry.wczytaj_tlo("OBRAZKI/sala_gier/prawo_lewo/gaming_przegrana.png");
 			wczytaj_sprite("OBRAZKI/POSTACI/NIEMOWLE_SMUTEK.png");
+			widok_gry.ustaw_teksty({ sf::Text() });
 			return 0;
 		};
+	};
+
+	void reset() {
+		sf::Text tytul("Prawo czy Lewo?", czcionka, 50);
+		tytul.setFillColor(sf::Color(0, 77, 0));
+		tytul.setOrigin(sf::Vector2f(-225.f, -100.f));
+
+		widok_gry.wczytaj_tlo("OBRAZKI/sala_gier/prawo_lewo/gaming.png");
+		widok_gry.ustaw_teksty({ tytul });
 	};
 };;

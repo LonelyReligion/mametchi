@@ -250,22 +250,24 @@ private:
 	sf::Texture tekstura;
 	std::vector<sf::Text> teksty;
 	std::vector <przycisk*> guziki;
+	bool aktywny;
 protected:
 public:
 	ekran() {};
 	ekran(const std::filesystem::path& sciezka, std::vector<sf::Text> t = {}, std::vector<przycisk*> p = {}) :teksty(t), guziki(p) { wczytaj_tlo(sciezka); };
-	void wczytaj_tlo(const std::filesystem::path & sciezka){
-		if (!tekstura.loadFromFile(sciezka.string())){
+	void wczytaj_tlo(const std::filesystem::path& sciezka) {
+		if (!tekstura.loadFromFile(sciezka.string())) {
 			std::cout << "ladowanie tekstury tla zakonczone niepowodzeniem" << std::endl;
 		};
 		tekstura.setSmooth(false);
 		duch.setTexture(tekstura);
 	};
 
-	void rysuj_tlo(sf::RenderWindow& okno, const sf::Vector2f& pozycja_tla = {0.f, 0.f}) {
+	void rysuj_tlo(sf::RenderWindow& okno, const sf::Vector2f& pozycja_tla = { 0.f, 0.f }) {
 		duch.setOrigin(pozycja_tla);
 		okno.draw(duch);
-		for(auto & tekst : teksty)
+		aktywny = true;
+		for (auto& tekst : teksty)
 			okno.draw(tekst);
 		for (auto& guzik : guziki)
 			(*guzik).drukujdo(okno);
@@ -282,4 +284,8 @@ public:
 
 	void ustaw_teksty(std::vector<sf::Text> t) { teksty = t; };
 	void ustaw_przyciski(std::vector <przycisk*> p) { guziki = p; };
+
+	void wylacz() { aktywny = false; };
+	void wlacz() { aktywny = true; };
+	bool czy_aktywny() { return aktywny; };
 };
