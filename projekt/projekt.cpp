@@ -67,7 +67,7 @@ void idle_animation(std::promise<sf::Vector2f> & prom, bool restart) {
 };
 
 void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::Clock &czas_od_poludnia) {
-    if (czas_od_poludnia.getElapsedTime().asSeconds() < 230) //230
+    if (czas_od_poludnia.getElapsedTime().asSeconds() < 10) //230
         prom.set_value(sf::Vector2f(0.015f, 0.01f));
     else {
         stwor.ustaw_wyspany(false);
@@ -78,6 +78,7 @@ void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::C
 
 int main()
 {
+    bool pw = false;
     std::filesystem::path plik_uzytkownikow("bazy/baza_uzytkownikow.txt");
     std::filesystem::path plik_zwierzakow("bazy/baza_stworzen.txt");
 
@@ -166,7 +167,7 @@ int main()
     przycisk sprza("Sprzatanie", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 550, 500 }, font);
     przycisk wczyt("Wczytaj", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 500 }, font);
     przycisk zapis("Zapisz", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 50, 500 }, font);
-    ekran ekran_pokoju("obrazki/pokoj.png", {}, { &staty, &lodow, &zabaw, &sprza, &wczyt, &zapis });
+    ekran ekran_pokoju("obrazki/pokoj.png", {}, { &staty, &lodow, &zabaw, /*&sprza,*/ &wczyt, &zapis});
 
     sf::Texture chmury;
     sf::Sprite duszek_chmur;
@@ -531,12 +532,14 @@ int main()
                     gramy = 1;
                 }
                 else if (sprza.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
-                    std::cout << "sprza przycisnieta" << std::endl;
+                    //std::cout << "sprza przycisnieta" << std::endl;
                 }
                 else if (wczyt.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
-                    std::cout << "wczytano baze uzytkownikow" << std::endl;
+                    std::cout << "wczytano bazy" << std::endl;
                     inter.wczytaj_baze_uzytkownikow(plik_uzytkownikow);
-                    //inter.wczytaj_baze_zwierzakow(plik_zwierzakow, baza_dan);
+                    inter.wczytaj_baze_zwierzakow(plik_zwierzakow, baza_dan);
+                    pw = true;
+
                 }
                 else if (zapis.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
                     std::cout << "zapisano baze uzytkownikow" << std::endl;
@@ -725,7 +728,7 @@ int main()
 
             //static int i = 0;
 
-            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 230)//230
+            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 10)//230
             {
                 if (DEBUG) std::cout << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_wyspany() << std::endl;
                 if (!(*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_wyspany()) { //jesli nie wyspany
@@ -762,11 +765,12 @@ int main()
                 b = false;
             };
 
-            if (raz_po) {
+            if (raz_po || pw) {
                 std::thread pozycja(idle_animation, std::ref(prom), 1);//resetujemy pozycje bobasa
                 (*baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
                 pozycja.join();
                 raz_po = false;
+                pw = false;
             }
             else if (!spimy) {
                 std::thread pozycja(idle_animation, std::ref(prom), 0);

@@ -143,6 +143,9 @@ public:
 	
 	bool wczytaj_baze_zwierzakow(const std::filesystem::path& p, const std::map<std::string, produkt*>& baza_dan) {
 		if (DEBUG_I) std::cout << "Wczytujemy baze zwierzakow" << std::endl;
+		baza_zwierzakow.clear();
+		bobasy.clear();
+
 		std::ifstream is(p);
 		std::string linijka;
 		std::getline(is, linijka);//ignorujemy pierwsza linijke
