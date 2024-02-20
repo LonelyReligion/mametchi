@@ -21,6 +21,8 @@ private:
 	int szczescie; //0 - 5
 	int wiek;
 
+	int wygrane_pod_rzad = 0; /*liczba wygranych gier prawo-lewo pod rzad, decyduje o bonusie, roboczo: resetuj¹ sie przy ka¿dej nowej sesji gry*/
+
 	//bool chory = 0;
 	//bool glodny = 0;
 	//bool zmeczony = 0;
@@ -40,6 +42,15 @@ public:
 	virtual void spij(sf::Clock& budzik, sf::RenderWindow& okno) {};
 	virtual sf::Sprite* zwroc_sprite() { return new sf::Sprite(); };
 
+	void zeruj_wygrane_pod_rzad() {
+		wygrane_pod_rzad = 0;
+	}
+	void inkrementuj_wygrane_pod_rzad() {
+		wygrane_pod_rzad += 1;
+	}
+	int get_wygrane_pod_rzad() {
+		return wygrane_pod_rzad;
+	}
 	void nakarm(const produkt& jedzenie) {
 		if (DEBUG_Z) std::cout << "Jemy" << std::endl;
 		//if (!chory) {

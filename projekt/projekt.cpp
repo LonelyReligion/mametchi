@@ -34,10 +34,18 @@ TODO
 > przekazywac i trzymac teksty jako referencje zamiast ustawiania (przydatne)(inwazyjne)
 > tabela wynikow w grze, z najlepszymi zwierzakami? (ranges)(wakacje)
 > rozwazyc dodanie wagi do zwierzaka i jedzenia (wakacje)
-> im wiecej wygranych pod rzad tym wieksza wygrana
 > wyswietlac jedzenie tylko jesli zwierzak ma je w lodowce
->sprawdzac czy nazwy zwierzakow sie nie powtarzaja
+> sprawdzac czy nazwy zwierzakow sie nie powtarzaja
 */
+
+std::map<std::string, uzytkownik> baza_uzytkownikow; //nazwa uzytkownika, uzytkownik
+std::map<std::string, stworzenie*> baza_zwierzakow; //nazwa uzytkownika, wzkaznik na zwierzatko (konieczne do zastosowania polimorfizmu, tak aby wykonywaly sie odpowiednie wersje metod)
+
+bool unikatowa_nazwa_zwierzaka(std::string nazwa) {
+    //do zaimplementowania
+    return true;
+}
+
 void idle_animation(std::promise<sf::Vector2f> & prom, bool restart) {
     static std::vector<sf::Vector2f> pobierzpozycjebobasa = { { 3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { -3.f, 3.f },
                                                               { -3.f, -3.f }, { -3.f, 3.f }, { -3.f, -3.f }, { 3.f, 3.f }, { 3.f, -3.f }, { 3.f, 3.f } }; //f bo to floaty
@@ -116,9 +124,6 @@ int main()
     if (DEBUG) std::cout << "wczystujemy dania do baz" << std::endl;
     baza_dan["truskawka"] = &truskawka;
     baza_dan["salatka"] = &salatka;
-
-    std::map<std::string, uzytkownik> baza_uzytkownikow; //nazwa uzytkownika, uzytkownik
-    std::map<std::string, stworzenie*> baza_zwierzakow; //nazwa uzytkownika, wzkaznik na zwierzatko (konieczne do zastosowania polimorfizmu, tak aby wykonywaly sie odpowiednie wersje metod)
 
     if (!inter.wczytaj_baze_uzytkownikow(plik_uzytkownikow)) { //musi byc pierwsza!
         std::cout << "Ladowanie bazy uzytkownikow nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
@@ -648,15 +653,22 @@ int main()
                 }
                 else if (zalogowany && (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie() == "") {
                     if (zdarzenie.key.code == sf::Keyboard::LShift || zdarzenie.key.code == sf::Keyboard::RShift) { //zatwierdzony
-                        (*baza_zwierzakow.at(inter.pobierzzalogowany())).ustaw_imie(login.zwroctekst());
-                        (*baza_zwierzakow.at(inter.pobierzzalogowany())).wczytaj_sprite();
-                        if (DEBUG) std::cout << "Twoj zwierzak ma na imie " << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie() << std::endl;
+                        if (unikatowa_nazwa_zwierzaka(login.zwroctekst())) {
+                            (*baza_zwierzakow.at(inter.pobierzzalogowany())).ustaw_imie(login.zwroctekst());
+                            (*baza_zwierzakow.at(inter.pobierzzalogowany())).wczytaj_sprite();
+                            if (DEBUG) std::cout << "Twoj zwierzak ma na imie " << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie() << std::endl;
 
-                        imie.setString("imie: " + (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie());
-                        wiek.setString("wiek: " + std::to_string((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_wiek()));
+                            imie.setString("imie: " + (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie());
+                            wiek.setString("wiek: " + std::to_string((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_wiek()));
 
-                        ekran_statystyk.ustaw_napis(1, imie);
-                        ekran_statystyk.ustaw_napis(2, wiek);
+                            ekran_statystyk.ustaw_napis(1, imie);
+                            ekran_statystyk.ustaw_napis(2, wiek);
+                        }
+                        else {
+                            std::cout << "zwierzak o podanej nazwie juz istnieje" << std::endl;
+                            instrukcja_logowania.setString("Zwierzę o podanej nazwie już istnieje.");
+                            ekran_logowania.ustaw_napis(0, instrukcja_logowania);
+                        }
                     };
                 };
                 czas_od_poludnia.restart();
