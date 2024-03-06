@@ -42,7 +42,13 @@ std::map<std::string, uzytkownik> baza_uzytkownikow; //nazwa uzytkownika, uzytko
 std::map<std::string, stworzenie*> baza_zwierzakow; //nazwa uzytkownika, wzkaznik na zwierzatko (konieczne do zastosowania polimorfizmu, tak aby wykonywaly sie odpowiednie wersje metod)
 
 bool unikatowa_nazwa_zwierzaka(std::string nazwa) {
-    //do zaimplementowania
+    std::map<std::string, stworzenie*>::iterator it = baza_zwierzakow.begin();
+    while (it != baza_zwierzakow.end()) {
+        if (it->second->zwroc_imie() == nazwa) {
+            return false;
+        }
+        it++;
+    }
     return true;
 }
 
@@ -666,7 +672,7 @@ int main()
                         }
                         else {
                             std::cout << "zwierzak o podanej nazwie juz istnieje" << std::endl;
-                            instrukcja_logowania.setString("Zwierzę o podanej nazwie już istnieje.");
+                            instrukcja_logowania.setString("Zwierze o podanej nazwie juz istnieje.");
                             ekran_logowania.ustaw_napis(0, instrukcja_logowania);
                         }
                     };
