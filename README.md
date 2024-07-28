@@ -12,6 +12,8 @@ Tamagotchi fangame made in C++ with sfml libriary. All sprites by me.
 <br>minigame<br>
 <h1>*WIP*</h1>
 Currently we are working on adding a little shop to the game. 
+<br>
+
 ![obraz](https://github.com/user-attachments/assets/1b50b0b0-cd25-4490-8a9c-67b8d890e3df)
 
 
