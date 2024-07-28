@@ -38,12 +38,12 @@ TODO
 > sprawdzac czy nazwy zwierzakow sie nie powtarzaja
 */
 
-std::map<std::string, uzytkownik> baza_uzytkownikow; //nazwa uzytkownika, uzytkownik
-std::map<std::string, stworzenie*> baza_zwierzakow; //nazwa uzytkownika, wzkaznik na zwierzatko (konieczne do zastosowania polimorfizmu, tak aby wykonywaly sie odpowiednie wersje metod)
+//*inter.zwroc_baze_uzytkownikow() nazwa uzytkownika, uzytkownik
+//*inter.zwroc_baze_zwierzakow() nazwa uzytkownika, wzkaznik na zwierzatko (konieczne do zastosowania polimorfizmu, tak aby wykonywaly sie odpowiednie wersje metod)
 
-bool unikatowa_nazwa_zwierzaka(std::string nazwa) {
-    std::map<std::string, stworzenie*>::iterator it = baza_zwierzakow.begin();
-    while (it != baza_zwierzakow.end()) {
+bool unikatowa_nazwa_zwierzaka(std::string nazwa, interfejs inter) {
+    std::map<std::string, stworzenie*>::iterator it = (*inter.zwroc_baze_zwierzakow()).begin();
+    while (it != (*inter.zwroc_baze_zwierzakow()).end()) {
         if (it->second->zwroc_imie() == nazwa) {
             return false;
         }
@@ -144,9 +144,6 @@ int main()
         std::cout << "Sprawdz poprawnosc danych w pliku i sprobuj ponownie." << std::endl;
         return 0;
     };
-
-    baza_uzytkownikow = *(inter.zwroc_baze_uzytkownikow());
-    baza_zwierzakow = *(inter.zwroc_baze_zwierzakow());
 
     //Bobas testowy_bobas("admin1", "portos", 4, 1, 3, 1, 1, { salatka }, { truskawka });
     //inter.dodaj_do_bazy_zwierzakow(testowy_bobas);
@@ -484,6 +481,7 @@ int main()
                 if (wychodzimy) {
                     if (tak.myszanad(okno) && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy) {
                         inter.zapisz_baze_uzytkownikow(plik_uzytkownikow);
+                        inter.zapisz_baze_zwierzakow(plik_zwierzakow);
                         return 0;
                     }
                     else if (nie.myszanad(okno) && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy)
@@ -510,12 +508,12 @@ int main()
                     };
                 }
                 else if (jemy_slodycze && truskawka_zaznaczenie.myszanad(okno) && !wychodzimy) {
-                    (*baza_zwierzakow.at(inter.pobierzzalogowany())).nakarm(truskawka);
+                    (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(truskawka);
                     if (DEBUG) std::cout << "Nasz zwierzak zjadl truskawke" << std::endl;
                     jemy_slodycze = 0;
                 }
                 else if (jemy_dania && salatka_zaznaczenie.myszanad(okno) && !wychodzimy) {
-                    (*baza_zwierzakow.at(inter.pobierzzalogowany())).nakarm(salatka);
+                    (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(salatka);
                     if (DEBUG) std::cout << "Nasz zwierzak zjadl salatke" << std::endl;
                     jemy_dania = 0;
                 }
@@ -523,14 +521,14 @@ int main()
                     if (DEBUG) std::cout << "staty przycisniete" << std::endl;
                     wybor_glodu.clear();
                     wybor_szczescia.clear();
-                    std::cout << "Poziom najedzenia zwierzaka " << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_glod() << std::endl;
-                    std::cout << "Poziom szczescia zwierzaka " << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_szczescie() << std::endl;
-                    stworzenie* zal = baza_zwierzakow.at(inter.pobierzzalogowany());
+                    std::cout << "Poziom najedzenia zwierzaka " << (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_glod() << std::endl;
+                    std::cout << "Poziom szczescia zwierzaka " << (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_szczescie() << std::endl;
+                    stworzenie* zal = (*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany());
                     for (int i = 1; i < 6; i++) {
                         wybor_glodu.push_back((*zal).zwroc_glod() < i);
                         wybor_szczescia.push_back((*zal).zwroc_szczescie() < i);
                     };
-                    suma.setString(std::to_string(baza_uzytkownikow[inter.pobierzzalogowany()].zwrocects()));
+                    suma.setString(std::to_string((*inter.zwroc_baze_uzytkownikow())[inter.pobierzzalogowany()].zwrocects()));
                     ekran_statystyk.ustaw_napis(3, suma);
                     wyswietl_statystyki = true;
                 } 
@@ -553,8 +551,9 @@ int main()
 
                 }
                 else if (zapis.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
-                    std::cout << "zapisano baze uzytkownikow" << std::endl;
+                    std::cout << "zapisano baze uzytkownikow i zwierzakow" << std::endl;
                     inter.zapisz_baze_uzytkownikow(plik_uzytkownikow);
+                    inter.zapisz_baze_zwierzakow(plik_zwierzakow);
                 }
                 else if (dobranoc.myszanad(okno) && !wychodzimy) {
                     std::cout << "spimy przycisniete" << std::endl;
@@ -563,11 +562,11 @@ int main()
                 else if (gramy && !zaklad) {
                     opoznienie.restart();
                     if ((*pl.zwroc_przyciski()[0]).myszanad(okno)) {
-                        baza_uzytkownikow[inter.pobierzzalogowany()].dodajects(pl.zwroc_nagrode(false, baza_zwierzakow[inter.pobierzzalogowany()])); //int
+                        (*inter.zwroc_baze_uzytkownikow())[inter.pobierzzalogowany()].dodajects(pl.zwroc_nagrode(false, (*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany()))); //int
                         zaklad = 1;
                     }
                     else if ((*pl.zwroc_przyciski()[1]).myszanad(okno)) {
-                        baza_uzytkownikow[inter.pobierzzalogowany()].dodajects(pl.zwroc_nagrode(true, baza_zwierzakow[inter.pobierzzalogowany()])); //int
+                        (*inter.zwroc_baze_uzytkownikow())[inter.pobierzzalogowany()].dodajects(pl.zwroc_nagrode(true, (*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany()))); //int
                         zaklad = 1;
                     };
                 };
@@ -591,7 +590,7 @@ int main()
                             std::cout << "Mamy login: " << login.zwroctekst() << std::endl;
                             nazwa_uzytkownika = login.zwroctekst();
                             if (!std::regex_match(login.zwroctekst(), puste) && !login.zwroctekst().empty()) {
-                                if (baza_uzytkownikow.contains(nazwa_uzytkownika))
+                                if ((*inter.zwroc_baze_uzytkownikow()).contains(nazwa_uzytkownika))
                                     instrukcja_logowania.setString("Witamy ponownie. Podaj haslo.");
                                 else 
                                     instrukcja_logowania.setString("Witamy. Aby zalozyc konto podaj haslo.");
@@ -603,24 +602,27 @@ int main()
                             ekran_logowania.ustaw_napis(0, instrukcja_logowania);
                         }
                         else {
-                            if (baza_uzytkownikow.contains(nazwa_uzytkownika)) {
+                            if ((*inter.zwroc_baze_uzytkownikow()).contains(nazwa_uzytkownika)) {
                                 //powracajacy uzytkownik
                                 std::cout << "Mamy haslo: " << login.zwroctekst() << std::endl;
                                 kod = login.zwroctekst();
-                                if (kod == baza_uzytkownikow.at(nazwa_uzytkownika).zwroc_haslo()) {
-                                    inter.ustawzalogowany(baza_uzytkownikow.at(nazwa_uzytkownika).zwroc_nazwa_uzytkownika());
+                                if (kod == (*inter.zwroc_baze_uzytkownikow()).at(nazwa_uzytkownika).zwroc_haslo()) {
+                                    inter.ustawzalogowany((*inter.zwroc_baze_uzytkownikow()).at(nazwa_uzytkownika).zwroc_nazwa_uzytkownika());
                                     zalogowany = 1;
                                     try { 
-                                        baza_zwierzakow.at(inter.pobierzzalogowany());
+                                        (*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany());
                                     }
                                     catch(const std::out_of_range& oor) {
                                         instrukcja_logowania.setString("Nadaj imie swojemu pupilowi!");
                                         ekran_logowania.ustaw_napis(0, instrukcja_logowania);
-                                        baza_zwierzakow[inter.pobierzzalogowany()] = new Bobas();
+                                        Bobas* bby = new Bobas();
+                                        (*bby).ustaw_imie_rodzica(nazwa_uzytkownika);
+                                        inter.dodajZwierzaka(bby);
                                     };
 
-                                    imie.setString("imie: " + (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie());
-                                    wiek.setString("wiek: " + std::to_string((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_wiek()));
+                                    
+                                    imie.setString("imie: " + (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_imie());
+                                    wiek.setString("wiek: " + std::to_string((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_wiek()));
                                     
                                     ekran_statystyk.ustaw_napis(1, imie);
                                     ekran_statystyk.ustaw_napis(2, wiek);
@@ -637,10 +639,13 @@ int main()
                                 kod = login.zwroctekst();
                                 if (!std::regex_match(kod, puste) && !kod.empty()) {
                                     std::cout << "kod niepusty bez bialych znakow" << std::endl;
-                                    baza_uzytkownikow[nazwa_uzytkownika] = uzytkownik(nazwa_uzytkownika, kod, 0);
-                                    baza_zwierzakow[nazwa_uzytkownika] = new Bobas();
+                                    
+
+                                    inter.dodajUzytkownika(uzytkownik(nazwa_uzytkownika, kod, 0));
+                                    inter.dodajZwierzaka(new Bobas());
+
                                     inter.ustawzalogowany(nazwa_uzytkownika);
-                                    stworzenie* tmp = baza_zwierzakow.at(inter.pobierzzalogowany());
+                                    stworzenie* tmp = (*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany());
                                     (*tmp).wczytaj_sprite();
 
                                     zalogowany = 1;
@@ -657,15 +662,15 @@ int main()
                         };
                     };
                 }
-                else if (zalogowany && (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie() == "") {
+                else if (zalogowany && (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_imie() == "") {
                     if (zdarzenie.key.code == sf::Keyboard::LShift || zdarzenie.key.code == sf::Keyboard::RShift) { //zatwierdzony
-                        if (unikatowa_nazwa_zwierzaka(login.zwroctekst())) {
-                            (*baza_zwierzakow.at(inter.pobierzzalogowany())).ustaw_imie(login.zwroctekst());
-                            (*baza_zwierzakow.at(inter.pobierzzalogowany())).wczytaj_sprite();
-                            if (DEBUG) std::cout << "Twoj zwierzak ma na imie " << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie() << std::endl;
+                        if (unikatowa_nazwa_zwierzaka(login.zwroctekst(), inter)) {
+                            (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).ustaw_imie(login.zwroctekst());
+                            (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).wczytaj_sprite();
+                            if (DEBUG) std::cout << "Twoj zwierzak ma na imie " << (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_imie() << std::endl;
 
-                            imie.setString("imie: " + (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie());
-                            wiek.setString("wiek: " + std::to_string((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_wiek()));
+                            imie.setString("imie: " + (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_imie());
+                            wiek.setString("wiek: " + std::to_string((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_wiek()));
 
                             ekran_statystyk.ustaw_napis(1, imie);
                             ekran_statystyk.ustaw_napis(2, wiek);
@@ -696,7 +701,7 @@ int main()
             ekran_logowania.rysuj_tlo(okno);
             login.drukuj_do(okno);
         }
-        else if ((*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_imie() == "") {
+        else if ((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_imie() == "") {
             ekran_logowania.rysuj_tlo(okno);
             login.drukuj_do(okno);
         }
@@ -742,14 +747,14 @@ int main()
             std::promise<sf::Vector2f> prom_sloneczne;
             std::future<sf::Vector2f> fut_sloneczne = prom_sloneczne.get_future();
 
-            std::thread pozycja_sloneczna(pozycja_slonca, std::move(prom_sloneczne), std::ref(*baza_zwierzakow.at(inter.pobierzzalogowany())), std::ref(czas_od_poludnia));
+            std::thread pozycja_sloneczna(pozycja_slonca, std::move(prom_sloneczne), std::ref(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())), std::ref(czas_od_poludnia));
 
             //static int i = 0;
 
             if (czas_od_poludnia.getElapsedTime().asSeconds() >= 10)//230
             {
-                if (DEBUG) std::cout << (*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_wyspany() << std::endl;
-                if (!(*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_wyspany()) { //jesli nie wyspany
+                if (DEBUG) std::cout << (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_wyspany() << std::endl;
+                if (!(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_wyspany()) { //jesli nie wyspany
                     
                     //////////////
                     okno.clear(sf::Color(71, 108, 194));//ok
@@ -759,7 +764,7 @@ int main()
 
                     if (spimy) {//jezeli guzik zostal wcisniety
                         if (!b) budzik.restart(); //raz na spanie
-                        (*baza_zwierzakow.at(inter.pobierzzalogowany())).spij(budzik, okno); //w koncu robi sie wyspany
+                        (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).spij(budzik, okno); //w koncu robi sie wyspany
                         b = true;
                     }
                     else {
@@ -767,7 +772,7 @@ int main()
                     };
                 }
                 else { //jezeli wyspany
-                    (*(*baza_zwierzakow.at(inter.pobierzzalogowany())).zwroc_sprite()).setPosition(sf::Vector2f(0.f, 0.f));
+                    (*(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_sprite()).setPosition(sf::Vector2f(0.f, 0.f));
                     czas_od_poludnia.restart();
                     raz_po = 1;
                 }
@@ -785,14 +790,14 @@ int main()
 
             if (raz_po || pw) {
                 std::thread pozycja(idle_animation, std::ref(prom), 1);//resetujemy pozycje bobasa
-                (*baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
+                (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
                 pozycja.join();
                 raz_po = false;
                 pw = false;
             }
             else if (!spimy) {
                 std::thread pozycja(idle_animation, std::ref(prom), 0);
-                (*baza_zwierzakow.at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
+                (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
                 pozycja.join();
             };
 

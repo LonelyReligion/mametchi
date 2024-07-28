@@ -5,14 +5,14 @@
         {
             "primary-output": "x64\\Debug\\gra.ixx.obj",
             "outputs": [
-                "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\vc143.pdb",
+                "C:\\Users\\agata\\Desktop\\Programowanie\\C++\\mametchi\\projekt\\x64\\Debug\\vc143.pdb",
                 "x64\\Debug\\",
-                "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\gra.ixx.ifc"
+                "C:\\Users\\agata\\Desktop\\Programowanie\\C++\\mametchi\\projekt\\x64\\Debug\\gra.ixx.ifc"
             ],
             "provides": [
                 {
                     "logical-name": "gra",
-                    "source-path": "c:\\users\\user\\desktop\\c++\\pk4\\mametchi\\projekt\\gra.ixx",
+                    "source-path": "c:\\users\\agata\\desktop\\programowanie\\c++\\mametchi\\projekt\\gra.ixx",
                     "is-interface": true
                 }
             ],

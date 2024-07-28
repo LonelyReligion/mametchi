@@ -1,3 +1,4 @@
 nazwa_uzytkownika		haslo		ects
 admin		admin		1000
 admin1		admin1		0
+mario		mario		0

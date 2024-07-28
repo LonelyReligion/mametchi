@@ -12,6 +12,7 @@
 import pole_tekstowe;
 import guzik;
 import zwierzak;
+import jedzenie;
 
 bool DEBUG_I = 1;
 
@@ -69,18 +70,6 @@ public:
 	std::string pobierzzalogowany() { return zalogowany; };
 	void ustawzalogowany(const std::string & zal) { zalogowany = zal; };
 
-	void dodaj_do_bazy_uzytkownikow(uzytkownik& u) { 
-		if (DEBUG_I) std::cout << "dodajemy do bazy uzytkownikow" << std::endl;
-		try {
-			baza_uzytkownikow.at(u.zwroc_nazwa_uzytkownika());
-			std::cout << "OSTRZEZENIE: UZYTKOWNIK O PODANEJ NAZWIE JUZ ISTNIEJE" << std::endl;
-			std::cout << "STAN BAZY NIE ULEGNIE ZMIANIE" << std::endl;
-		}
-		catch (const std::out_of_range& oor) {
-			baza_uzytkownikow[u.zwroc_nazwa_uzytkownika()] = u;
-		};
-	};
-
 	bool dodaj_do_bazy_zwierzakow(Bobas & bobo) {//dla kazdej klasy-dziecka inna metoda jest konieczna
 		if (DEBUG_I) std::cout << "dodajemy do bazy zwierzakow" << std::endl;
 		try {
@@ -105,7 +94,7 @@ public:
 	};
 
 	bool zapisz_baze_uzytkownikow(const std::filesystem::path& p){
-		std::ofstream os(p);
+		std::ofstream os(p, std::ofstream::out);
 		os << "nazwa_uzytkownika\t\thaslo\t\tects" << std::endl;
 		for (auto & u : baza_uzytkownikow) {
 			os << u.second.zwroc_nazwa_uzytkownika() << "\t\t" << u.second.zwroc_haslo() << "\t\t" << u.second.zwrocects() << std::endl;
@@ -114,6 +103,12 @@ public:
 	};
 
 	bool zapisz_baze_zwierzakow(const std::filesystem::path& p){
+		//std::ofstream os(p, std::ofstream::out);
+		//os << "typ\timie_rodzica\timie\tglod\tszczescie\twiek\tzywy\twyspany\tdania\tprzekaski" << std::endl;
+		//for (auto& z : baza_zwierzakow) {
+		//	if () //sprawdzic jaki to typ - ewolucja 
+		//		std::cout << "Yippiee" << std::endl;
+		//};
 		return true;
 	};
 
@@ -211,7 +206,8 @@ public:
 
 	std::map<std::string, uzytkownik>* zwroc_baze_uzytkownikow() { return &baza_uzytkownikow; };
 	std::map<std::string, stworzenie*>* zwroc_baze_zwierzakow() { return &baza_zwierzakow; };
-
+	void dodajUzytkownika(uzytkownik nowy) { baza_uzytkownikow[nowy.zwroc_nazwa_uzytkownika()] = nowy; };
+	void dodajZwierzaka(stworzenie* nowe) { baza_zwierzakow[nowe->zwroc_imie_rodzica()] = nowe; }
 };
 
 export class ekran {

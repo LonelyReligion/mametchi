@@ -1,2 +1,1 @@
-typ		imie_rodzica		imie		glod		szczescie	wiek		zywy		wyspany		dania		przekaski
-bobas		admin			pimpek		3		2		2		1		1		salatka;	truskawka;
+typ	imie_rodzica	imie	glod	szczescie	wiek	zywy	wyspany	dania	przekaski

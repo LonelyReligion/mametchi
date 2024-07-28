@@ -5,14 +5,14 @@
         {
             "primary-output": "x64\\Debug\\interfejs.ixx.obj",
             "outputs": [
-                "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\vc143.pdb",
+                "C:\\Users\\agata\\Desktop\\Programowanie\\C++\\mametchi\\projekt\\x64\\Debug\\vc143.pdb",
                 "x64\\Debug\\",
-                "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\interfejs.ixx.ifc"
+                "C:\\Users\\agata\\Desktop\\Programowanie\\C++\\mametchi\\projekt\\x64\\Debug\\interfejs.ixx.ifc"
             ],
             "provides": [
                 {
                     "logical-name": "interfejs",
-                    "source-path": "c:\\users\\user\\desktop\\c++\\pk4\\mametchi\\projekt\\interfejs.ixx",
+                    "source-path": "c:\\users\\agata\\desktop\\programowanie\\c++\\mametchi\\projekt\\interfejs.ixx",
                     "is-interface": true
                 }
             ],
@@ -25,6 +25,9 @@
                 },
                 {
                     "logical-name": "zwierzak"
+                },
+                {
+                    "logical-name": "jedzenie"
                 }
             ]
         }

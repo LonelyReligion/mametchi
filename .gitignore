@@ -25,3 +25,5 @@ projekt/x64/Debug/zwierzak.ixx.ifc.dt.d.json
 projekt/x64/Debug/zwierzak.ixx.ifc
 projekt/x64/Debug/vc143.idb
 *.tlog
+/.vs
+/projekt/x64

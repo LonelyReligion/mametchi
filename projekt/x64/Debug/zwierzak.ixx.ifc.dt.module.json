@@ -1,7 +1,7 @@
 {
     "Version": "1.1",
     "Data": {
-        "Source": "c:\\users\\user\\desktop\\c++\\pk4\\mametchi\\projekt\\zwierzak.ixx",
+        "Source": "c:\\users\\agata\\desktop\\programowanie\\c++\\mametchi\\projekt\\zwierzak.ixx",
         "ProvidedModule": "zwierzak",
         "ImportedModules": [
             "jedzenie"
