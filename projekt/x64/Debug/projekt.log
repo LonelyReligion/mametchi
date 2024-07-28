@@ -7,8 +7,8 @@ C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(76,22): 
 C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(83,20): warning C4834: odrzucenie wartości zwracanej funkcji z atrybutem [[nodiscard]]
 C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(78,35): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
 C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(88,35): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(169,38): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(184,38): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(186,38): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(201,38): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
   gra.ixx
 C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\gra.ixx(11,18): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
   projekt.cpp

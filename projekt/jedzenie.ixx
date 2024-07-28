@@ -23,7 +23,7 @@ public:
 
 	int zwroc_wo() const { return wartosc_odzywcza; };
 	int zwroc_r() const { return radosc; };
-
+	std::string zwroc_nazwa() { return nazwa;  };
 	void wczytaj(const std::filesystem::path& sciezka) {
 		if (!tekstura.loadFromFile(sciezka.string())) {
 			std::cout << "ladowanie tekstury jedzenia zakonczone niepowodzeniem" << std::endl;

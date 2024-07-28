@@ -103,12 +103,29 @@ public:
 	};
 
 	bool zapisz_baze_zwierzakow(const std::filesystem::path& p){
-		//std::ofstream os(p, std::ofstream::out);
-		//os << "typ\timie_rodzica\timie\tglod\tszczescie\twiek\tzywy\twyspany\tdania\tprzekaski" << std::endl;
-		//for (auto& z : baza_zwierzakow) {
-		//	if () //sprawdzic jaki to typ - ewolucja 
-		//		std::cout << "Yippiee" << std::endl;
-		//};
+		std::ofstream os(p, std::ofstream::out);
+		os << "typ\timie_rodzica\timie\tglod\tszczescie\twiek\tzywy\twyspany\tdania\tprzekaski" << std::endl;
+		for (auto& z : baza_zwierzakow) {
+			std::string typ;
+			if (dynamic_cast<const Bobas*>(z.second) != nullptr)
+				typ = "bobas";
+			os << typ << "\t" << z.second->zwroc_imie_rodzica() << "\t" 
+				<< z.second->zwroc_imie() << "\t" << z.second->zwroc_glod() << "\t" 
+				<< z.second->zwroc_szczescie() << "\t" << z.second->zwroc_wiek() << "\t"
+				<< z.second->zwroc_zywy() << "\t" << z.second->zwroc_wyspany() << "\t";
+			for (auto danie : z.second->zwroc_dania()) {
+				if(z.second->zwroc_dania().back().zwroc_nazwa() != danie.zwroc_nazwa())
+					os << danie.zwroc_nazwa() << ",";
+				else
+					os << danie.zwroc_nazwa() << ";";
+			}
+			for (auto przekaska : z.second->zwroc_przekaski()) {
+				if (z.second->zwroc_przekaski().back().zwroc_nazwa() != przekaska.zwroc_nazwa())
+					os << przekaska.zwroc_nazwa() << ",";
+				else
+					os << przekaska.zwroc_nazwa() << ";";
+			}
+		};
 		return true;
 	};
 
