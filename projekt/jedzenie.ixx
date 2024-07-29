@@ -12,27 +12,28 @@ private:
 	int wartosc_odzywcza;
 	int radosc;
 
+	std::filesystem::path sciezka;
 	sf::Texture tekstura;
 	sf::Sprite duch;
-	sf::Vector2f pozycja;
 public:
 	produkt() : wartosc_odzywcza(0), radosc(0), nazwa("") {};
-	produkt(const int & wo, const int & r, const std::filesystem::path & p, const std::string & n) : wartosc_odzywcza(wo), radosc(r), nazwa(n) {
-		wczytaj(p);
+	produkt(const int & wo, const int & r, std::filesystem::path p, const std::string & n) : wartosc_odzywcza(wo), radosc(r), nazwa(n) {
+		sciezka = p;
+		wczytaj(sciezka);
 	};
 
 	int zwroc_wo() const { return wartosc_odzywcza; };
 	int zwroc_r() const { return radosc; };
 	std::string zwroc_nazwa() { return nazwa;  };
-	void wczytaj(const std::filesystem::path& sciezka) {
+	void wczytaj(const std::filesystem::path sciezka) {
 		if (!tekstura.loadFromFile(sciezka.string())) {
 			std::cout << "ladowanie tekstury jedzenia zakonczone niepowodzeniem" << std::endl;
 		};
 		tekstura.setSmooth(false);
-		duch.setTexture(tekstura);
 	};
 
 	void rysuj(sf::RenderWindow& okno, sf::Vector2f gdzie) {
+		duch.setTexture(tekstura);
 		duch.setOrigin(gdzie);
 		okno.draw(duch);
 	};

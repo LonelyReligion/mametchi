@@ -153,7 +153,7 @@ public:
 		return true;
 	};
 	
-	bool wczytaj_baze_zwierzakow(const std::filesystem::path& p, const std::map<std::string, produkt*>& baza_dan) {
+	bool wczytaj_baze_zwierzakow(const std::filesystem::path& p, const std::map<std::string, produkt> baza_dan) {
 		if (DEBUG_I) std::cout << "Wczytujemy baze zwierzakow" << std::endl;
 		baza_zwierzakow.clear();
 		bobasy.clear();
@@ -181,7 +181,7 @@ public:
 			while (ss >> c && c != ';' ) {
 				if (c == ',') {
 					try {
-						dania.push_back(*baza_dan.at(jedzenie));
+						dania.push_back(baza_dan.at(jedzenie));
 					}
 					catch (const std::out_of_range& oor) {
 						if (DEBUG_I) std::cout << "nie wczytalismy jedzenia (danie), bo nie istnieje w bazie" << std::endl;
@@ -196,7 +196,7 @@ public:
 			while (ss >> c && c != ';') {
 				if (c == ',') {
 					try {
-						przekaski.push_back(*baza_dan.at(jedzenie));
+						przekaski.push_back(baza_dan.at(jedzenie));
 					}
 					catch (const std::out_of_range& oor) {
 						if (DEBUG_I) std::cout << "nie wczytalismy jedzenia (slodycz), bo nie istnieje w bazie" << std::endl;

@@ -26,16 +26,14 @@ TODO
 > miganie przy budzeniu (bug)
 > najezdzanie mysza na dobranoc (kosmetyczne)(latwe)
 > logowanie jako metoda klasy interface 
-> wczytywanie bazy uzytkownikow (konieczne)
-> wczytywanie baz zwierzakow (konieczne)
-> wczytywanie zwierzakow (konieczne)
 > watki do aktualizowania statystyk (przydatne)(trune)
 > wskazowka/instrukcja/strzaleczka z esc (niekonieczne)
 > przekazywac i trzymac teksty jako referencje zamiast ustawiania (przydatne)(inwazyjne)
 > tabela wynikow w grze, z najlepszymi zwierzakami? (ranges)(wakacje)
-> rozwazyc dodanie wagi do zwierzaka i jedzenia (wakacje)
+> rozwazyc dodanie wagi do zwierzaka i jedzenia(wakacje)
 > wyswietlac jedzenie tylko jesli zwierzak ma je w lodowce
 > sprawdzac czy nazwy zwierzakow sie nie powtarzaja
+> sprzatanie
 */
 
 //*inter.zwroc_baze_uzytkownikow() nazwa uzytkownika, uzytkownik
@@ -90,6 +88,37 @@ void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::C
         
 };
 
+bool wczytaj_bazy(interfejs * inter, std::map<std::string, produkt> & baza_dan, std::filesystem::path plik_uzytkownikow, std::filesystem::path plik_zwierzakow) {
+    if (DEBUG) std::cout << "wczytujemy teksture truskawki" << std::endl;
+    produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png", "truskawka");
+
+    if (DEBUG) std::cout << "wczytujemy teksture salatki" << std::endl;
+    produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png", "salatka");
+
+    if (DEBUG) std::cout << "wczytujemy teksture lazanii" << std::endl;
+    produkt lazania(3, 1, "OBRAZKI/kantyna/lazania.png", "salatka");
+
+    if (DEBUG) std::cout << "wczystujemy dania do baz" << std::endl;
+    baza_dan["truskawka"] = truskawka;
+    baza_dan["salatka"] = salatka;
+    baza_dan["lazania"] = lazania;
+
+    if (!(*inter).wczytaj_baze_uzytkownikow(plik_uzytkownikow)) { //musi byc pierwsza!
+        std::cout << "Ladowanie bazy uzytkownikow nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
+        std::cout << "Sprawdz poprawnosc danych w pliku i sprobuj ponownie." << std::endl;
+        std::cout << "WSKAZOWKA: Sprawdz czy wszystkie wiersze zawieraja nazwe uzytkownika i haslo. " << std::endl;
+        std::cout << "WSKAZOWKA: Sprawdz czy nazwy uzytkownikow sie nie powtarzaja. " << std::endl;
+        return 0;
+    };
+
+    if (!(*inter).wczytaj_baze_zwierzakow(plik_zwierzakow, baza_dan)) {
+        std::cout << "Ladowanie bazy zwierzakow nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
+        std::cout << "Sprawdz poprawnosc danych w pliku i sprobuj ponownie." << std::endl;
+        return 0;
+    };
+    return 1;
+}
+
 int main()
 {
     bool pw = false;
@@ -122,28 +151,9 @@ int main()
 
 
     //wczytaj bazy
-    std::map<std::string, produkt*> baza_dan;
-    if (DEBUG) std::cout << "wczytujemy teksture truskawki" << std::endl;
-    produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png", "truskawka");
-    if (DEBUG) std::cout << "wczytujemy teksture salatki" << std::endl;
-    produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png", "salatka");
-    if (DEBUG) std::cout << "wczystujemy dania do baz" << std::endl;
-    baza_dan["truskawka"] = &truskawka;
-    baza_dan["salatka"] = &salatka;
-
-    if (!inter.wczytaj_baze_uzytkownikow(plik_uzytkownikow)) { //musi byc pierwsza!
-        std::cout << "Ladowanie bazy uzytkownikow nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
-        std::cout << "Sprawdz poprawnosc danych w pliku i sprobuj ponownie." << std::endl;
-        std::cout << "WSKAZOWKA: Sprawdz czy wszystkie wiersze zawieraja nazwe uzytkownika i haslo. " << std::endl;
-        std::cout << "WSKAZOWKA: Sprawdz czy nazwy uzytkownikow sie nie powtarzaja. " << std::endl;
-        return 0;
-    };
-
-    if (!inter.wczytaj_baze_zwierzakow(plik_zwierzakow, baza_dan)) {
-        std::cout << "Ladowanie bazy zwierzakow nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
-        std::cout << "Sprawdz poprawnosc danych w pliku i sprobuj ponownie." << std::endl;
-        return 0;
-    };
+    std::map<std::string, produkt> baza_dan;
+    if(!wczytaj_bazy(&inter, baza_dan, plik_uzytkownikow, plik_zwierzakow))
+        return 1; //blad
 
     //Bobas testowy_bobas("admin1", "portos", 4, 1, 3, 1, 1, { salatka }, { truskawka });
     //inter.dodaj_do_bazy_zwierzakow(testowy_bobas);
@@ -319,6 +329,7 @@ int main()
     bool jedzenie_tf = 0;
     bool jemy_dania = 0;
     bool jemy_slodycze = 0;
+    bool kupujemy = 0;
     bool wychodzimy = 0;
 
     std::vector<sf::Text> informacje_o_daniu = {sf::Text("", font, 20), sf::Text("", font, 20)};
@@ -345,6 +356,13 @@ int main()
 
     ekran ekran_dan("OBRAZKI/kantyna/lodowka.png", { informacje_o_daniu[0], informacje_o_daniu[1] }, {&salatka_zaznaczenie });
     ekran ekran_slodyczy("OBRAZKI/kantyna/taca.png", { informacje_o_przekasce[0], informacje_o_przekasce[1], informacje_o_przekasce[2] }, { &truskawka_zaznaczenie });
+    
+    sf::Text meow = sf::Text("Meow :3", font, 35);
+    meow.setOrigin(sf::Vector2f(-100.f, -25.f));
+    przycisk produkt_1("Kup teraz!", { 150, 50 }, 20, sf::Color(137, 222, 116), sf::Color(82, 81, 116), {70, 530}, font);
+    przycisk produkt_2("Kup teraz!", { 150, 50 }, 20, sf::Color(137, 222, 116), sf::Color(82, 81, 116), { 310, 530 }, font);
+    przycisk produkt_3("Kup teraz!", { 150, 50 }, 20, sf::Color(137, 222, 116), sf::Color(82, 81, 116), { 560, 530 }, font);
+    ekran sklepu("OBRAZKI/kantyna/sklep.png", { meow }, {&produkt_1, &produkt_2, &produkt_3 });
 
     sf::Clock opoznienie;
 
@@ -362,7 +380,7 @@ int main()
             {
             ///
             case sf::Event::KeyReleased:
-                if (zdarzenie.key.code == sf::Keyboard::Escape && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy)//wychodzimy
+                if (zdarzenie.key.code == sf::Keyboard::Escape && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !kupujemy)//wychodzimy
                 {
                     if (DEBUG) std::cout << "wywolano sekwencje wyjscia" << std::endl;
                     wychodzimy = !wychodzimy;
@@ -375,6 +393,8 @@ int main()
                     jemy_dania = 0;
                 else if (jemy_slodycze)
                     jemy_slodycze = 0;
+                else if (kupujemy)
+                    kupujemy = 0;
                 else if (gramy) {
                     gramy = 0;
                     zaklad = 0;
@@ -408,11 +428,54 @@ int main()
                         sklep.ustawkolortla(kolor_tla_przyciskow);
                     };
                 }
+                else if (kupujemy) {
+                    if (produkt_1.myszanad(okno)) {
+                        produkt_1.ustawkolortekstu(sf::Color(73, 54, 81));
+                        produkt_1.ustawkolortla(sf::Color(80, 141, 161));
+
+                        produkt_2.ustawkolortekstu(sf::Color(82, 81, 116));
+                        produkt_2.ustawkolortla(sf::Color(137, 222, 116));
+
+                        produkt_3.ustawkolortekstu(sf::Color(82, 81, 116));
+                        produkt_3.ustawkolortla(sf::Color(137, 222, 116));
+                    }
+                    else if (produkt_2.myszanad(okno)) {
+                        produkt_2.ustawkolortekstu(sf::Color(73, 54, 81));
+                        produkt_2.ustawkolortla(sf::Color(80, 141, 161));
+                    
+                        produkt_1.ustawkolortekstu(sf::Color(82, 81, 116));
+                        produkt_1.ustawkolortla(sf::Color(137, 222, 116));
+
+                        produkt_3.ustawkolortekstu(sf::Color(82, 81, 116));
+                        produkt_3.ustawkolortla(sf::Color(137, 222, 116));
+                    }
+                    else if (produkt_3.myszanad(okno)) {
+                        produkt_3.ustawkolortekstu(sf::Color(73, 54, 81));
+                        produkt_3.ustawkolortla(sf::Color(80, 141, 161));
+
+                        produkt_1.ustawkolortekstu(sf::Color(82, 81, 116));
+                        produkt_1.ustawkolortla(sf::Color(137, 222, 116));
+
+                        produkt_2.ustawkolortekstu(sf::Color(82, 81, 116));
+                        produkt_2.ustawkolortla(sf::Color(137, 222, 116));
+                    }
+                    else {
+                        produkt_1.ustawkolortekstu(sf::Color(82, 81, 116));
+                        produkt_1.ustawkolortla(sf::Color(137, 222, 116));
+
+                        produkt_2.ustawkolortekstu(sf::Color(82, 81, 116));
+                        produkt_2.ustawkolortla(sf::Color(137, 222, 116));
+
+                        produkt_3.ustawkolortekstu(sf::Color(82, 81, 116));
+                        produkt_3.ustawkolortla(sf::Color(137, 222, 116));
+                    }
+                   
+                }
                 else if (jemy_dania) {
                     if (salatka_zaznaczenie.myszanad(okno)) {
                         salatka_zaznaczenie.ustawkolortla(kolor_tla_wcisniete);
                         informacje_o_daniu[0].setString("Salatka");
-                        informacje_o_daniu[1].setString("Wartosc odzywcza: " + std::to_string(salatka.zwroc_wo()));
+                        informacje_o_daniu[1].setString("Wartosc odzywcza: " + std::to_string((baza_dan.at("salatka")).zwroc_wo()));
                     }
                     else {
                         salatka_zaznaczenie.ustawkolortla(kolor_tla_przyciskow);
@@ -426,9 +489,8 @@ int main()
                     if (truskawka_zaznaczenie.myszanad(okno)) {
                         truskawka_zaznaczenie.ustawkolortla(kolor_tla_wcisniete);
                         informacje_o_przekasce[0].setString("Truskawka");
-                        if (DEBUG) std::cout << "Wartosc odzywcza truskawki: " << truskawka.zwroc_wo() << std::endl;
-                        informacje_o_przekasce[1].setString("Wartosc odzywcza: " + std::to_string(truskawka.zwroc_wo()));
-                        informacje_o_przekasce[2].setString("Szczescie: " + std::to_string(truskawka.zwroc_r()));
+                        informacje_o_przekasce[1].setString("Wartosc odzywcza: " + std::to_string((baza_dan.at("truskawka")).zwroc_wo()));
+                        informacje_o_przekasce[2].setString("Szczescie: " + std::to_string((baza_dan.at("truskawka")).zwroc_r()));
                     }
                     else {
                         truskawka_zaznaczenie.ustawkolortla(kolor_tla_przyciskow);
@@ -500,6 +562,8 @@ int main()
                     }
                     else if (sklep.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !gramy) {
                         if (DEBUG) std::cout << "Bedziemy kupowac jedzenie" << std::endl;
+                        kupujemy = 1;
+                        jedzenie_tf = 0;
                     }
                     else {
                         dania.ustawkolortla(kolor_tla_przyciskow);
@@ -508,12 +572,12 @@ int main()
                     };
                 }
                 else if (jemy_slodycze && truskawka_zaznaczenie.myszanad(okno) && !wychodzimy) {
-                    (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(truskawka);
+                    (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(baza_dan.at("truskawka"));
                     if (DEBUG) std::cout << "Nasz zwierzak zjadl truskawke" << std::endl;
                     jemy_slodycze = 0;
                 }
                 else if (jemy_dania && salatka_zaznaczenie.myszanad(okno) && !wychodzimy) {
-                    (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(salatka);
+                    (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(baza_dan.at("salatka"));
                     if (DEBUG) std::cout << "Nasz zwierzak zjadl salatke" << std::endl;
                     jemy_dania = 0;
                 }
@@ -642,10 +706,13 @@ int main()
                                     
 
                                     inter.dodajUzytkownika(uzytkownik(nazwa_uzytkownika, kod, 0));
-                                    inter.dodajZwierzaka(new Bobas());
-
+                                    Bobas* bobo = new Bobas();
+                                    (*bobo).ustaw_imie_rodzica(nazwa_uzytkownika);
+                                    inter.dodajZwierzaka(bobo);
                                     inter.ustawzalogowany(nazwa_uzytkownika);
-                                    stworzenie* tmp = (*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany());
+
+                                    std::map<std::string, stworzenie*> bz = *inter.zwroc_baze_zwierzakow();
+                                    stworzenie* tmp = bz.at(inter.pobierzzalogowany());
                                     (*tmp).wczytaj_sprite();
 
                                     zalogowany = 1;
@@ -692,8 +759,6 @@ int main()
             };
         };
 
-
-
         okno.clear();
 
         //wyswietlamy rzeczy
@@ -722,11 +787,16 @@ int main()
         }
         else if (jemy_dania) {
             ekran_dan.rysuj_tlo(okno);
-            salatka.rysuj(okno, sf::Vector2f( - 350.f, -25.f ));
+            baza_dan.at("salatka").rysuj(okno, sf::Vector2f(-350.f, -25.f));
         }
         else if (jemy_slodycze) {
             ekran_slodyczy.rysuj_tlo(okno);
-            truskawka.rysuj(okno, sf::Vector2f(-150.f, -100.f));
+            (baza_dan.at("truskawka")).rysuj(okno, sf::Vector2f(-150.f, -100.f));
+        }
+        else if (kupujemy) {
+            sklepu.rysuj_tlo(okno);
+            //{ 70, 530 }
+            (baza_dan.at("lazania")).rysuj(okno, sf::Vector2f(-50.f, -350.f));
         }
         else if (gramy) {
             pl.rysuj(okno);  
