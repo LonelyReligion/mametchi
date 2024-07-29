@@ -90,13 +90,13 @@ void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::C
 
 bool wczytaj_bazy(interfejs * inter, std::map<std::string, produkt> & baza_dan, std::filesystem::path plik_uzytkownikow, std::filesystem::path plik_zwierzakow) {
     if (DEBUG) std::cout << "wczytujemy teksture truskawki" << std::endl;
-    produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png", "truskawka");
+    produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png", "truskawka", 0);
 
     if (DEBUG) std::cout << "wczytujemy teksture salatki" << std::endl;
-    produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png", "salatka");
+    produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png", "salatka", 0);
 
     if (DEBUG) std::cout << "wczytujemy teksture lazanii" << std::endl;
-    produkt lazania(3, 1, "OBRAZKI/kantyna/lazania.png", "salatka");
+    produkt lazania(3, 1, "OBRAZKI/kantyna/lazania.png", "lazania", 300);
 
     if (DEBUG) std::cout << "wczystujemy dania do baz" << std::endl;
     baza_dan["truskawka"] = truskawka;
@@ -581,7 +581,21 @@ int main()
                     if (DEBUG) std::cout << "Nasz zwierzak zjadl salatke" << std::endl;
                     jemy_dania = 0;
                 }
-                else if (staty.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
+                else if (kupujemy && produkt_1.myszanad(okno) && !wychodzimy) {
+                    if (inter.zwroc_baze_uzytkownikow()->at(inter.pobierzzalogowany()).zwrocects() >= baza_dan.at("lazania").zwroc_cene()) {
+                        sf::Text nowy = sf::Text("Dziekujemy za zakupy w Gratce.", font, 35);
+                        nowy.setOrigin(sf::Vector2f(-100.f, -25.f));
+                        nowy.setFillColor(sf::Color(1, 0, 0));
+                        sklepu.ustaw_napis(0, nowy);
+                        inter.zwroc_baze_uzytkownikow()->at(inter.pobierzzalogowany()).usunects(baza_dan.at("lazania").zwroc_cene());
+                        inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->dodaj_danie(baza_dan.at("lazania"));
+                    }
+                }
+                else if (kupujemy && produkt_2.myszanad(okno) && !wychodzimy) {
+                }
+                else if (kupujemy && produkt_3.myszanad(okno) && !wychodzimy) {
+                }
+                else if (staty.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_dania && !gramy && !jedzenie_tf) {
                     if (DEBUG) std::cout << "staty przycisniete" << std::endl;
                     wybor_glodu.clear();
                     wybor_szczescia.clear();
@@ -596,25 +610,25 @@ int main()
                     ekran_statystyk.ustaw_napis(3, suma);
                     wyswietl_statystyki = true;
                 } 
-                else if (lodow.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
+                else if (lodow.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki &&  !jemy_dania && !gramy && !jedzenie_tf) {
                     std::cout << "lodow przycisniety" << std::endl;
                     jedzenie_tf = 1;
                 }
-                else if (zabaw.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
+                else if (zabaw.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki  && !jemy_dania && !gramy && !jedzenie_tf) {
                     std::cout << "zabaw przycisniety" << std::endl;
                     gramy = 1;
                 }
-                else if (sprza.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
+                else if (sprza.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki  && !jemy_dania && !gramy && !jedzenie_tf ) {
                     //std::cout << "sprza przycisnieta" << std::endl;
                 }
-                else if (wczyt.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
+                else if (wczyt.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki  && !jemy_dania && !gramy && !jedzenie_tf) {
                     std::cout << "wczytano bazy" << std::endl;
                     inter.wczytaj_baze_uzytkownikow(plik_uzytkownikow);
                     inter.wczytaj_baze_zwierzakow(plik_zwierzakow, baza_dan);
                     pw = true;
 
                 }
-                else if (zapis.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !jedzenie_tf && !jemy_dania) {
+                else if (zapis.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_dania && !gramy && !jedzenie_tf ) {
                     std::cout << "zapisano baze uzytkownikow i zwierzakow" << std::endl;
                     inter.zapisz_baze_uzytkownikow(plik_uzytkownikow);
                     inter.zapisz_baze_zwierzakow(plik_zwierzakow);
@@ -786,8 +800,30 @@ int main()
             okno.draw(bufet);
         }
         else if (jemy_dania) {
+            int licznik_1 = 1;
+            std::vector<przycisk*> przyciski_dania;
+            std::vector<przycisk> tmp;
+
+            std::vector<przycisk*> backup = ekran_dan.zwroc_przyciski();
+
+            for (produkt danie : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
+                przycisk p(danie.zwroc_nazwa(), rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 350.f + 220 * licznik_1, 200 + 20.f * ((licznik_1 - 1)% 2) }, font);
+                przyciski_dania = ekran_dan.zwroc_przyciski();
+                tmp.push_back(p);
+                przyciski_dania.push_back(&tmp.back());
+                ekran_dan.ustaw_przyciski(przyciski_dania);
+                licznik_1++;
+            }
             ekran_dan.rysuj_tlo(okno);
+
             baza_dan.at("salatka").rysuj(okno, sf::Vector2f(-350.f, -25.f));
+
+            int licznik = 1;
+            for (produkt danie : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
+                danie.rysuj(okno, sf::Vector2f(-350.f - 200.f * licznik, -25.f - 20.f * (licznik % 2))); //niepoprawne wartosci na razie 
+                licznik++;
+            }
+            ekran_dan.ustaw_przyciski(backup);
         }
         else if (jemy_slodycze) {
             ekran_slodyczy.rysuj_tlo(okno);

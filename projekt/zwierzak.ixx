@@ -99,6 +99,12 @@ public:
 
 	std::vector <produkt> zwroc_przekaski() { return przekaski; };
 	void ustaw_przekaski(const std::vector <produkt> & menu) { przekaski = menu; };
+
+	void dodaj_danie(produkt p) { dania.push_back(p); };
+	std::vector<produkt> pobierz_dania() { return dania; };
+
+	void dodaj_przekaske(produkt p) { przekaski.push_back(p); };
+	std::vector<produkt> pobierz_przekaski() { return przekaski; };
 	/////////////
 
 	void postarz() { wiek += 1; };

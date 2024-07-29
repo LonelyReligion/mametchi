@@ -1,2 +1,2 @@
 typ	imie_rodzica	imie	glod	szczescie	wiek	zywy	wyspany	dania	przekaski
-bobas	mario	mario	3	2	0	1	1	
+bobas	mario	mario	3	2	0	1	1	lazania;

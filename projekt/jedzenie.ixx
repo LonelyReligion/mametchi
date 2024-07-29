@@ -11,14 +11,16 @@ private:
 	std::string nazwa; //unikalna nazwa dania
 	int wartosc_odzywcza;
 	int radosc;
+	int cena;
 
 	std::filesystem::path sciezka;
 	sf::Texture tekstura;
 	sf::Sprite duch;
 public:
 	produkt() : wartosc_odzywcza(0), radosc(0), nazwa("") {};
-	produkt(const int & wo, const int & r, std::filesystem::path p, const std::string & n) : wartosc_odzywcza(wo), radosc(r), nazwa(n) {
+	produkt(const int & wo, const int & r, std::filesystem::path p, const std::string & n, int ects) : wartosc_odzywcza(wo), radosc(r), nazwa(n) {
 		sciezka = p;
+		cena = ects;
 		wczytaj(sciezka);
 	};
 
@@ -37,4 +39,6 @@ public:
 		duch.setOrigin(gdzie);
 		okno.draw(duch);
 	};
+
+	int zwroc_cene() { return cena; }
 };

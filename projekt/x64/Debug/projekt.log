@@ -1,30 +1,5 @@
 ﻿  Trwa skanowanie źródeł pod kątem zależności modułów...
-  gra.ixx
-  jedzenie.ixx
-  interfejs.ixx
-  pole_tekstowe.ixx
-  przycisk.ixx
-  zwierzak.ixx
-  Trwa kompilowanie…
-  przycisk.ixx
-  pole_tekstowe.ixx
-  jedzenie.ixx
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\przycisk.ixx(9,20): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\pole_tekstowe.ixx(9,28): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\jedzenie.ixx(7,23): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
-  zwierzak.ixx
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\zwierzak.ixx(13,23): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
-  interfejs.ixx
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(19,24): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(76,22): warning C4834: odrzucenie wartości zwracanej funkcji z atrybutem [[nodiscard]]
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(83,20): warning C4834: odrzucenie wartości zwracanej funkcji z atrybutem [[nodiscard]]
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(78,35): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(88,35): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(186,38): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(201,38): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
-  gra.ixx
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\gra.ixx(11,18): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
   projekt.cpp
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\projekt.cpp(677,74): warning C4834: odrzucenie wartości zwracanej funkcji z atrybutem [[nodiscard]]
-C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\projekt.cpp(679,68): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\projekt.cpp(691,74): warning C4834: odrzucenie wartości zwracanej funkcji z atrybutem [[nodiscard]]
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\projekt.cpp(693,68): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
   projekt.vcxproj -> C:\Users\agata\Desktop\Programowanie\C++\mametchi\x64\Debug\projekt.exe
