@@ -1,2 +1,2 @@
 nazwa_uzytkownika		haslo		ects
-mario		mario		547
+mario		mario		107

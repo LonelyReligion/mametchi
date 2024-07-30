@@ -225,24 +225,7 @@
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.40.33807\\include\\random",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.40.33807\\include\\__msvc_int128.hpp"
         ],
-        "ImportedModules": [
-            {
-                "Name": "interfejs",
-                "BMI": "C:\\Users\\agata\\Desktop\\Programowanie\\C++\\mametchi\\projekt\\x64\\Debug\\interfejs.ixx.ifc.dt"
-            },
-            {
-                "Name": "zwierzak",
-                "BMI": "C:\\Users\\agata\\Desktop\\Programowanie\\C++\\mametchi\\projekt\\x64\\Debug\\zwierzak.ixx.ifc.dt"
-            },
-            {
-                "Name": "guzik",
-                "BMI": "C:\\Users\\agata\\Desktop\\Programowanie\\C++\\mametchi\\projekt\\x64\\Debug\\przycisk.ixx.ifc.dt"
-            },
-            {
-                "Name": "jedzenie",
-                "BMI": "C:\\Users\\agata\\Desktop\\Programowanie\\C++\\mametchi\\projekt\\x64\\Debug\\jedzenie.ixx.ifc.dt"
-            }
-        ],
+        "ImportedModules": [],
         "ImportedHeaderUnits": []
     }
 }

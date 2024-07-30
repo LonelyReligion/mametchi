@@ -365,6 +365,7 @@ int main()
     ekran sklepu("OBRAZKI/kantyna/sklep.png", { meow }, {&produkt_1, &produkt_2, &produkt_3 });
 
     sf::Clock opoznienie;
+    std::vector<przycisk> przyciski;
 
     while (okno.isOpen()) {
         sf::Event zdarzenie;
@@ -475,12 +476,54 @@ int main()
                     if (salatka_zaznaczenie.myszanad(okno)) {
                         salatka_zaznaczenie.ustawkolortla(kolor_tla_wcisniete);
                         informacje_o_daniu[0].setString("Salatka");
-                        informacje_o_daniu[1].setString("Wartosc odzywcza: " + std::to_string((baza_dan.at("salatka")).zwroc_wo()));
+                        informacje_o_daniu[1].setString(baza_dan.at("salatka").zwroc_opis());
+
+                        int i = 1;
+                        for (produkt p : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
+                            (*ekran_dan.zwroc_przyciski()[i]).ustawkolortla(kolor_tla_przyciskow);
+                            i++;
+                        }
+                    }
+                    else if (inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania().size() != 0) {
+                        bool znalezione = false;
+                        int i = 1;
+                        for (produkt p : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
+                            if ((*ekran_dan.zwroc_przyciski()[i]).myszanad(okno)) {
+                                std::vector<przycisk*> cpy = ekran_dan.zwroc_przyciski();
+                                (*cpy[i]).ustawkolortla(kolor_tla_wcisniete);
+                                ekran_dan.ustaw_przyciski(cpy);
+
+                                informacje_o_daniu[0].setString(p.zwroc_nazwa());
+                                informacje_o_daniu[1].setString(p.zwroc_opis());
+
+                                znalezione = true;
+                            }
+                            i++;
+                        }
+
+                        salatka_zaznaczenie.ustawkolortla(kolor_tla_przyciskow);
+
+                        if (!znalezione) {
+                            informacje_o_daniu[0].setString("");
+                            informacje_o_daniu[1].setString("");
+
+                            int i = 1;
+                            for (produkt p : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
+                                (*ekran_dan.zwroc_przyciski()[i]).ustawkolortla(kolor_tla_przyciskow);
+                                i++;
+                            }
+                        }
                     }
                     else {
                         salatka_zaznaczenie.ustawkolortla(kolor_tla_przyciskow);
                         informacje_o_daniu[0].setString("");
                         informacje_o_daniu[1].setString("");
+
+                        int i = 1;
+                        for (produkt p : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
+                            (*ekran_dan.zwroc_przyciski()[i]).ustawkolortla(kolor_tla_przyciskow);
+                            i++;
+                        }
                     };
                     ekran_dan.ustaw_napis(0, informacje_o_daniu[0]);
                     ekran_dan.ustaw_napis(1, informacje_o_daniu[1]);
@@ -802,16 +845,16 @@ int main()
         else if (jemy_dania) {
             int licznik_1 = 1;
             std::vector<przycisk*> przyciski_dania;
-            std::vector<przycisk> tmp;
+            std::vector<produkt> dania_uzytkownika = inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania();
 
-            std::vector<przycisk*> backup = ekran_dan.zwroc_przyciski();
-
-            for (produkt danie : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
-                przycisk p(danie.zwroc_nazwa(), rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 350.f + 220 * licznik_1, 200 + 20.f * ((licznik_1 - 1)% 2) }, font);
-                przyciski_dania = ekran_dan.zwroc_przyciski();
-                tmp.push_back(p);
-                przyciski_dania.push_back(&tmp.back());
-                ekran_dan.ustaw_przyciski(przyciski_dania);
+            for (produkt danie : dania_uzytkownika) {
+                if (dania_uzytkownika.size() + 1 != ekran_dan.zwroc_przyciski().size()) {
+                    przycisk p(danie.zwroc_nazwa(), rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 350.f + 220 * licznik_1, 200 + 20.f * ((licznik_1 - 1) % 2) }, font);
+                    przyciski_dania = ekran_dan.zwroc_przyciski();
+                    przyciski.push_back(p);
+                    przyciski_dania.push_back(&przyciski.back());
+                    ekran_dan.ustaw_przyciski(przyciski_dania);
+                }
                 licznik_1++;
             }
             ekran_dan.rysuj_tlo(okno);
@@ -823,7 +866,6 @@ int main()
                 danie.rysuj(okno, sf::Vector2f(-350.f - 200.f * licznik, -25.f - 20.f * (licznik % 2))); //niepoprawne wartosci na razie 
                 licznik++;
             }
-            ekran_dan.ustaw_przyciski(backup);
         }
         else if (jemy_slodycze) {
             ekran_slodyczy.rysuj_tlo(okno);
