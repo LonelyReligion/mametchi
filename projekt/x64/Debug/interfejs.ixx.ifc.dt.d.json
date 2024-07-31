@@ -225,7 +225,24 @@
             "c:\\users\\agata\\desktop\\programowanie\\c++\\sfml\\include\\sfml\\graphics\\text.hpp",
             "c:\\users\\agata\\desktop\\programowanie\\c++\\sfml\\include\\sfml\\graphics\\vertexbuffer.hpp"
         ],
-        "ImportedModules": [],
+        "ImportedModules": [
+            {
+                "Name": "pole_tekstowe",
+                "BMI": "C:\\Users\\agata\\Desktop\\Programowanie\\C++\\mametchi\\projekt\\x64\\Debug\\pole_tekstowe.ixx.ifc.dt"
+            },
+            {
+                "Name": "guzik",
+                "BMI": "C:\\Users\\agata\\Desktop\\Programowanie\\C++\\mametchi\\projekt\\x64\\Debug\\przycisk.ixx.ifc.dt"
+            },
+            {
+                "Name": "zwierzak",
+                "BMI": "C:\\Users\\agata\\Desktop\\Programowanie\\C++\\mametchi\\projekt\\x64\\Debug\\zwierzak.ixx.ifc.dt"
+            },
+            {
+                "Name": "jedzenie",
+                "BMI": "C:\\Users\\agata\\Desktop\\Programowanie\\C++\\mametchi\\projekt\\x64\\Debug\\jedzenie.ixx.ifc.dt"
+            }
+        ],
         "ImportedHeaderUnits": []
     }
 }

@@ -1,2 +1,3 @@
 nazwa_uzytkownika		haslo		ects
+guattari		guattari		490
 mario		mario		107

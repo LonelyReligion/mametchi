@@ -67,4 +67,8 @@ public:
 		else
 			return false;
 	};
+
+	std::string zwroc_tekst() {
+		return tekst.getString().toAnsiString();
+	}
 };

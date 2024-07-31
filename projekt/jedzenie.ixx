@@ -42,6 +42,6 @@ public:
 
 	int zwroc_cene() { return cena; }
 	std::string zwroc_opis(){ 
-		return ("Pyszna " + nazwa + "\nwartosc odzywcza: " + std::to_string(wartosc_odzywcza) + "\nradosc: " + std::to_string(radosc));
+		return (nazwa + "\nwartosc odzywcza: " + std::to_string(wartosc_odzywcza) + "\nradosc: " + std::to_string(radosc));
 	};
 };

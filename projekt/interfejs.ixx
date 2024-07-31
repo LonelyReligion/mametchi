@@ -114,11 +114,12 @@ public:
 				<< z.second->zwroc_szczescie() << "\t" << z.second->zwroc_wiek() << "\t"
 				<< z.second->zwroc_zywy() << "\t" << z.second->zwroc_wyspany() << "\t";
 			for (auto danie : z.second->zwroc_dania()) {
-				if(z.second->zwroc_dania().back().zwroc_nazwa() != danie.zwroc_nazwa())
-					os << danie.zwroc_nazwa() << ",";
+				if (z.second->zwroc_dania().back().zwroc_nazwa() != danie.zwroc_nazwa())
+					os << danie.zwroc_nazwa().substr(danie.zwroc_nazwa().find_first_of(" \t") + 1)<< ",";
 				else
-					os << danie.zwroc_nazwa() << ";";
+					os << danie.zwroc_nazwa().substr(danie.zwroc_nazwa().find_first_of(" \t") + 1);
 			}
+			os << ";";
 			for (auto przekaska : z.second->zwroc_przekaski()) {
 				if (z.second->zwroc_przekaski().back().zwroc_nazwa() != przekaska.zwroc_nazwa())
 					os << przekaska.zwroc_nazwa() << ",";
@@ -192,6 +193,8 @@ public:
 					jedzenie += c;
 				};
 			};
+			if (DEBUG_I) std::cout << jedzenie << std::endl;
+
 			jedzenie = "";
 			while (ss >> c && c != ';') {
 				if (c == ',') {
@@ -205,6 +208,14 @@ public:
 				}
 				else {
 					jedzenie += c;
+				};
+			};
+			if (jedzenie != "") {
+				try {
+					przekaski.push_back(baza_dan.at(jedzenie));
+				}
+				catch (const std::out_of_range& oor) {
+					if (DEBUG_I) std::cout << "nie wczytalismy jedzenia (slodycz), bo nie istnieje w bazie" << std::endl;
 				};
 			};
 

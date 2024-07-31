@@ -89,19 +89,16 @@ void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::C
 };
 
 bool wczytaj_bazy(interfejs * inter, std::map<std::string, produkt> & baza_dan, std::filesystem::path plik_uzytkownikow, std::filesystem::path plik_zwierzakow) {
-    if (DEBUG) std::cout << "wczytujemy teksture truskawki" << std::endl;
     produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png", "truskawka", 0);
-
-    if (DEBUG) std::cout << "wczytujemy teksture salatki" << std::endl;
-    produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png", "salatka", 0);
-
-    if (DEBUG) std::cout << "wczytujemy teksture lazanii" << std::endl;
-    produkt lazania(3, 1, "OBRAZKI/kantyna/lazania.png", "lazania", 300);
+    produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png", "Pyszna salatka", 0);
+    produkt lazania(3, 1, "OBRAZKI/kantyna/lazania.png", "Wysmienita lazania", 300);
+    produkt lody(0, 1, "OBRAZKI/kantyna/smerf.png", "Smerfastyczne lody", 400);
 
     if (DEBUG) std::cout << "wczystujemy dania do baz" << std::endl;
     baza_dan["truskawka"] = truskawka;
     baza_dan["salatka"] = salatka;
     baza_dan["lazania"] = lazania;
+    baza_dan["lody"] = lody;
 
     if (!(*inter).wczytaj_baze_uzytkownikow(plik_uzytkownikow)) { //musi byc pierwsza!
         std::cout << "Ladowanie bazy uzytkownikow nie powiodlo sie. Nastapi zakonczenie pracy programu." << std::endl;
@@ -117,6 +114,45 @@ bool wczytaj_bazy(interfejs * inter, std::map<std::string, produkt> & baza_dan, 
         return 0;
     };
     return 1;
+}
+
+bool jest_lazania(produkt p) {
+    return p.zwroc_nazwa() == "lazania";
+}
+
+bool sa_lody(produkt p) {
+    return p.zwroc_nazwa() == "lody";
+}
+
+void zakup_produkt(interfejs inter, std::map<std::string, produkt> baza_dan, bool czy_danie, sf::Font & font, ekran & sklepu, std::string nazwa_produktu, sf::Text & nowy) {
+    std::vector<produkt> v;
+    if(!czy_danie)
+        v = inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_przekaski();
+    else
+        v = inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania();
+    bool mamy_kase = inter.zwroc_baze_uzytkownikow()->at(inter.pobierzzalogowany()).zwrocects() >= baza_dan.at(nazwa_produktu).zwroc_cene();
+    bool nie_mamy_produktu;
+    if(nazwa_produktu == "lazania")
+        nie_mamy_produktu = std::find_if(v.begin(), v.end(), jest_lazania) == v.end();
+    else
+        nie_mamy_produktu = std::find_if(v.begin(), v.end(), sa_lody) == v.end(); //cos tu nie dziala - sprawdzic
+    if (mamy_kase && nie_mamy_produktu) {
+        nowy = sf::Text("Dziekujemy za zakupy\nw Gratce.", font, 35);
+        nowy.setOrigin(sf::Vector2f(-40.f, -25.f));
+        nowy.setFillColor(sf::Color(195, 239, 150));
+        sklepu.ustaw_napis(0, nowy);
+        inter.zwroc_baze_uzytkownikow()->at(inter.pobierzzalogowany()).usunects(baza_dan.at(nazwa_produktu).zwroc_cene());
+        if(czy_danie)
+            inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->dodaj_danie(baza_dan.at(nazwa_produktu));
+        else
+            inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->dodaj_przekaske(baza_dan.at(nazwa_produktu));
+    }
+    else if (!mamy_kase) {
+        sf::Text nowy = sf::Text("Nie stac cie.\nPrzyjdz do mnie\njak bedziesz\nmiau wiecej\nkasy.", font, 35);
+        nowy.setOrigin(sf::Vector2f(-30.f, -25.f));
+        nowy.setFillColor(sf::Color(195, 239, 150));
+        sklepu.ustaw_napis(0, nowy);
+    }
 }
 
 int main()
@@ -357,7 +393,7 @@ int main()
     ekran ekran_dan("OBRAZKI/kantyna/lodowka.png", { informacje_o_daniu[0], informacje_o_daniu[1] }, {&salatka_zaznaczenie });
     ekran ekran_slodyczy("OBRAZKI/kantyna/taca.png", { informacje_o_przekasce[0], informacje_o_przekasce[1], informacje_o_przekasce[2] }, { &truskawka_zaznaczenie });
     
-    sf::Text meow = sf::Text("Meow :3", font, 35);
+    sf::Text meow = sf::Text("", font, 35);
     meow.setOrigin(sf::Vector2f(-100.f, -25.f));
     przycisk produkt_1("Kup teraz!", { 150, 50 }, 20, sf::Color(137, 222, 116), sf::Color(82, 81, 116), {70, 530}, font);
     przycisk produkt_2("Kup teraz!", { 150, 50 }, 20, sf::Color(137, 222, 116), sf::Color(82, 81, 116), { 310, 530 }, font);
@@ -433,6 +469,10 @@ int main()
                     if (produkt_1.myszanad(okno)) {
                         produkt_1.ustawkolortekstu(sf::Color(73, 54, 81));
                         produkt_1.ustawkolortla(sf::Color(80, 141, 161));
+                        sf::Text nowy = sf::Text(baza_dan.at("lazania").zwroc_opis() + "\n" + std::to_string(baza_dan.at("lazania").zwroc_cene()) + "E", font, 35);
+                        nowy.setOrigin(sf::Vector2f(-480.f, -20.f));
+                        nowy.setFillColor(sf::Color(195, 239, 150));
+                        sklepu.ustaw_napis(0, nowy);
 
                         produkt_2.ustawkolortekstu(sf::Color(82, 81, 116));
                         produkt_2.ustawkolortla(sf::Color(137, 222, 116));
@@ -463,6 +503,13 @@ int main()
                     else {
                         produkt_1.ustawkolortekstu(sf::Color(82, 81, 116));
                         produkt_1.ustawkolortla(sf::Color(137, 222, 116));
+
+                        if (sklepu.zwroc_napis()[0].getString().toAnsiString() != "Nie stac cie.\nPrzyjdz do mnie\njak bedziesz\nmiau wiecej\nkasy.") {
+                            sf::Text nowy = sf::Text("Cos wpadlo ci w oko?", font, 35);
+                            nowy.setOrigin(sf::Vector2f(-480.f, -80.f));
+                            nowy.setFillColor(sf::Color(195, 239, 150));
+                            sklepu.ustaw_napis(0, nowy);
+                        }
 
                         produkt_2.ustawkolortekstu(sf::Color(82, 81, 116));
                         produkt_2.ustawkolortla(sf::Color(137, 222, 116));
@@ -585,8 +632,6 @@ int main()
             case sf::Event::MouseButtonPressed:
                 if (wychodzimy) {
                     if (tak.myszanad(okno) && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy) {
-                        inter.zapisz_baze_uzytkownikow(plik_uzytkownikow);
-                        inter.zapisz_baze_zwierzakow(plik_zwierzakow);
                         return 0;
                     }
                     else if (nie.myszanad(okno) && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy)
@@ -624,17 +669,22 @@ int main()
                     if (DEBUG) std::cout << "Nasz zwierzak zjadl salatke" << std::endl;
                     jemy_dania = 0;
                 }
-                else if (kupujemy && produkt_1.myszanad(okno) && !wychodzimy) {
-                    if (inter.zwroc_baze_uzytkownikow()->at(inter.pobierzzalogowany()).zwrocects() >= baza_dan.at("lazania").zwroc_cene()) {
-                        sf::Text nowy = sf::Text("Dziekujemy za zakupy w Gratce.", font, 35);
-                        nowy.setOrigin(sf::Vector2f(-100.f, -25.f));
-                        nowy.setFillColor(sf::Color(1, 0, 0));
-                        sklepu.ustaw_napis(0, nowy);
-                        inter.zwroc_baze_uzytkownikow()->at(inter.pobierzzalogowany()).usunects(baza_dan.at("lazania").zwroc_cene());
-                        inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->dodaj_danie(baza_dan.at("lazania"));
+                else if (jemy_dania && inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->zwroc_dania().size() != 0 && !wychodzimy) {
+                    for (przycisk* p : ekran_dan.zwroc_przyciski()) {
+                        if (p->myszanad(okno)) {
+                            (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(baza_dan.at(p->zwroc_tekst()));
+                            if (DEBUG) std::cout << "Nasz zwierzak zjadl " + p->zwroc_tekst() << std::endl;
+                        }
                     }
+                    jemy_dania = 0;
+                }
+                else if (kupujemy && produkt_1.myszanad(okno) && !wychodzimy) {
+                    sf::Text nowy;
+                    zakup_produkt(inter, baza_dan, true, font, sklepu, "lazania", nowy);
                 }
                 else if (kupujemy && produkt_2.myszanad(okno) && !wychodzimy) {
+                    sf::Text nowy;
+                    zakup_produkt(inter, baza_dan, false, font, sklepu, "lody", nowy);
                 }
                 else if (kupujemy && produkt_3.myszanad(okno) && !wychodzimy) {
                 }
@@ -847,6 +897,7 @@ int main()
             std::vector<przycisk*> przyciski_dania;
             std::vector<produkt> dania_uzytkownika = inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania();
 
+            //ten licznik jest :/, pewnie zostanie zastapiony tablica jak w pozycji slonca
             for (produkt danie : dania_uzytkownika) {
                 if (dania_uzytkownika.size() + 1 != ekran_dan.zwroc_przyciski().size()) {
                     przycisk p(danie.zwroc_nazwa(), rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 350.f + 220 * licznik_1, 200 + 20.f * ((licznik_1 - 1) % 2) }, font);
@@ -868,13 +919,34 @@ int main()
             }
         }
         else if (jemy_slodycze) {
+            int licznik_1 = 1;
+            std::vector<przycisk*> przyciski_dania;
+            std::vector<produkt> dania_uzytkownika = inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_przekaski();
+
+            //ten licznik jest :/, pewnie zostanie zastapiony tablica jak w pozycji slonca
+            for (produkt danie : dania_uzytkownika) {
+                if (dania_uzytkownika.size() + 1 != ekran_slodyczy.zwroc_przyciski().size()) {
+                    przycisk p(danie.zwroc_nazwa(), { 300, 50 }, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 180.f + 220 * licznik_1, 280 + 20.f * ((licznik_1 - 1) % 2) }, font);
+                    przyciski_dania = ekran_slodyczy.zwroc_przyciski();
+                    przyciski.push_back(p);
+                    przyciski_dania.push_back(&przyciski.back());
+                    ekran_slodyczy.ustaw_przyciski(przyciski_dania);
+                }
+                licznik_1++;
+            }
             ekran_slodyczy.rysuj_tlo(okno);
             (baza_dan.at("truskawka")).rysuj(okno, sf::Vector2f(-150.f, -100.f));
+
+            int licznik = 1;
+            for (produkt danie : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_przekaski()) {
+                danie.rysuj(okno, sf::Vector2f(-260.f - 200.f * licznik, -80.f - 20.f * (licznik % 2))); //niepoprawne wartosci na razie 
+                licznik++;
+            }
         }
         else if (kupujemy) {
             sklepu.rysuj_tlo(okno);
-            //{ 70, 530 }
             (baza_dan.at("lazania")).rysuj(okno, sf::Vector2f(-50.f, -350.f));
+            (baza_dan.at("lody")).rysuj(okno, sf::Vector2f(-290.f, -350.f));
         }
         else if (gramy) {
             pl.rysuj(okno);  
