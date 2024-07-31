@@ -1,2 +1,2 @@
 typ	imie_rodzica	imie	glod	szczescie	wiek	zywy	wyspany	dania	przekaski
-bobas	guattari	bwo	3	7	0	1	1	;		lody;
+bobas	adam	adam	0	0	0	1	1	;bobas	guattari	bwo	3	7	0	1	1	;

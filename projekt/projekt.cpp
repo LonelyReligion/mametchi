@@ -126,16 +126,18 @@ bool sa_lody(produkt p) {
 
 void zakup_produkt(interfejs inter, std::map<std::string, produkt> baza_dan, bool czy_danie, sf::Font & font, ekran & sklepu, std::string nazwa_produktu, sf::Text & nowy) {
     std::vector<produkt> v;
-    if(!czy_danie)
-        v = inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_przekaski();
-    else
-        v = inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania();
     bool mamy_kase = inter.zwroc_baze_uzytkownikow()->at(inter.pobierzzalogowany()).zwrocects() >= baza_dan.at(nazwa_produktu).zwroc_cene();
     bool nie_mamy_produktu;
-    if(nazwa_produktu == "lazania")
-        nie_mamy_produktu = std::find_if(v.begin(), v.end(), jest_lazania) == v.end();
-    else
+
+    if (!czy_danie) {
+        v = inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_przekaski();
         nie_mamy_produktu = std::find_if(v.begin(), v.end(), sa_lody) == v.end(); //cos tu nie dziala - sprawdzic
+    }
+    else {
+        v = inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania();
+        nie_mamy_produktu = std::find_if(v.begin(), v.end(), jest_lazania) == v.end();
+    }
+
     if (mamy_kase && nie_mamy_produktu) {
         nowy = sf::Text("Dziekujemy za zakupy\nw Gratce.", font, 35);
         nowy.setOrigin(sf::Vector2f(-40.f, -25.f));
@@ -836,7 +838,8 @@ int main()
                         };
                     };
                 }
-                else if (zalogowany && (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_imie() == "") {
+                //blad - narpawiony? 31.07: po powrocie do ekranu logowania bez zapisania zwierzaka i kliknieciu escape jest wyjatek
+                else if (zalogowany && ((*inter.zwroc_baze_zwierzakow()).find(inter.pobierzzalogowany()) != (*inter.zwroc_baze_zwierzakow()).end()) && (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_imie() == "") {
                     if (zdarzenie.key.code == sf::Keyboard::LShift || zdarzenie.key.code == sf::Keyboard::RShift) { //zatwierdzony
                         if (unikatowa_nazwa_zwierzaka(login.zwroctekst(), inter)) {
                             (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).ustaw_imie(login.zwroctekst());
@@ -873,7 +876,8 @@ int main()
             ekran_logowania.rysuj_tlo(okno);
             login.drukuj_do(okno);
         }
-        else if ((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_imie() == "") {
+        //naprawiony blad - 31.07: wyjatek przy wczytywaniu baz, gdy zwierzak nie zostal do niej nigdy zapisany
+        else if (((*inter.zwroc_baze_zwierzakow()).find(inter.pobierzzalogowany()) == (*inter.zwroc_baze_zwierzakow()).end()) || ((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_imie() == "")) {
             ekran_logowania.rysuj_tlo(okno);
             login.drukuj_do(okno);
         }
