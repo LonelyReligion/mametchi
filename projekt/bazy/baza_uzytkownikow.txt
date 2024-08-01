@@ -1,4 +1,4 @@
 nazwa_uzytkownika		haslo		ects
 adam		adam		0
-guattari		guattari		490
+guattari		guattari		950
 mario		mario		107
