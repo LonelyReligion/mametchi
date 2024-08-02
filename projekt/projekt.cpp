@@ -34,6 +34,12 @@ TODO
 > wyswietlac jedzenie tylko jesli zwierzak ma je w lodowce
 > sprawdzac czy nazwy zwierzakow sie nie powtarzaja
 > sprzatanie
+
+> przyciski w grze
+
+> liczba jedzenia kupionego
+> dzialanie lodow (bonus: dwa razy szybsza minigra czasowo, moze jakis licznik? daje 2x tyle szczescia co normalnie)
+> moze jakies ladniejsze tlo do log ina :3
 */
 
 //*inter.zwroc_baze_uzytkownikow() nazwa uzytkownika, uzytkownik
@@ -124,7 +130,7 @@ bool sa_lody(produkt p) {
     return p.zwroc_nazwa() == "Smerfastyczne lody";
 }
 
-void zakup_produkt(interfejs inter, std::map<std::string, produkt> baza_dan, bool czy_danie, sf::Font & font, ekran & sklepu, std::string nazwa_produktu, sf::Text & nowy) {
+void zakup_produkt(interfejs & inter, std::map<std::string, produkt> baza_dan, bool czy_danie, sf::Font & font, ekran & sklepu, std::string nazwa_produktu, sf::Text & nowy) {
     std::vector<produkt> v;
     bool mamy_kase = inter.zwroc_baze_uzytkownikow()->at(inter.pobierzzalogowany()).zwrocects() >= baza_dan.at(nazwa_produktu).zwroc_cene();
     bool nie_mamy_produktu;
@@ -142,8 +148,10 @@ void zakup_produkt(interfejs inter, std::map<std::string, produkt> baza_dan, boo
         nowy = sf::Text("Dziekujemy za zakupy\nw Gratce.", font, 35);
         nowy.setOrigin(sf::Vector2f(-40.f, -25.f));
         nowy.setFillColor(sf::Color(195, 239, 150));
+
         sklepu.ustaw_napis(0, nowy);
         inter.zwroc_baze_uzytkownikow()->at(inter.pobierzzalogowany()).usunects(baza_dan.at(nazwa_produktu).zwroc_cene());
+        
         if(czy_danie)
             inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->dodaj_danie(baza_dan.at(nazwa_produktu));
         else
@@ -606,10 +614,19 @@ int main()
                 }
                 else if (gramy && !zaklad) {
                     if ((*pl.zwroc_przyciski()[0]).myszanad(okno)) {
-                        (*pl.zwroc_przyciski()[0]).ustawkolortla(sf::Color(238, 255, 204));
+                        (*pl.zwroc_przyciski()[0]).ustawkolortla(sf::Color(17, 26, 0));
+                        (*pl.zwroc_przyciski()[0]).ustawkolortekstu(sf::Color(238, 255, 204));
                     }
                     else if ((*pl.zwroc_przyciski()[1]).myszanad(okno)) {
+                        (*pl.zwroc_przyciski()[1]).ustawkolortla(sf::Color(17, 26, 0));
+                        (*pl.zwroc_przyciski()[1]).ustawkolortekstu(sf::Color(238, 255, 204));
+                    }
+                    else {
                         (*pl.zwroc_przyciski()[1]).ustawkolortla(sf::Color(238, 255, 204));
+                        (*pl.zwroc_przyciski()[1]).ustawkolortekstu(sf::Color(17, 26, 0));
+
+                        (*pl.zwroc_przyciski()[0]).ustawkolortla(sf::Color(238, 255, 204));
+                        (*pl.zwroc_przyciski()[0]).ustawkolortekstu(sf::Color(17, 26, 0));
                     };
                 }
                 else if (staty.myszanad(okno)) {
@@ -637,8 +654,11 @@ int main()
                     sprza.ustawkolortla(kolor_tla_przyciskow);
                     wczyt.ustawkolortla(kolor_tla_przyciskow);
                     zapis.ustawkolortla(kolor_tla_przyciskow);
-                    (*pl.zwroc_przyciski()[1]).ustawkolortla(sf::Color(17, 26, 0));
-                    (*pl.zwroc_przyciski()[0]).ustawkolortla(sf::Color(17, 26, 0));
+                    (*pl.zwroc_przyciski()[1]).ustawkolortla(sf::Color(238, 255, 204));
+                    (*pl.zwroc_przyciski()[1]).ustawkolortekstu(sf::Color(17, 26, 0));
+
+                    (*pl.zwroc_przyciski()[1]).ustawkolortla(sf::Color(238, 255, 204));
+                    (*pl.zwroc_przyciski()[0]).ustawkolortekstu(sf::Color(17, 26, 0));
                 };
                 break;
             case sf::Event::MouseButtonPressed:
@@ -689,7 +709,8 @@ int main()
                 else if (jemy_dania && inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->zwroc_dania().size() != 0 && !wychodzimy) {
                     for (przycisk* p : ekran_dan.zwroc_przyciski()) {
                         if (p->myszanad(okno)) {
-                            (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(baza_dan.at(p->zwroc_tekst()));
+                            std::string nazwa_dania = (p->zwroc_tekst()).substr((p->zwroc_tekst()).find_first_of(" \t") + 1);
+                            (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(baza_dan.at(nazwa_dania));
                             if (DEBUG) std::cout << "Nasz zwierzak zjadl " + p->zwroc_tekst() << std::endl;
                         }
                     }
@@ -857,8 +878,10 @@ int main()
                 else if (zalogowany && ((*inter.zwroc_baze_zwierzakow()).find(inter.pobierzzalogowany()) != (*inter.zwroc_baze_zwierzakow()).end()) && (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_imie() == "") {
                     if (zdarzenie.key.code == sf::Keyboard::LShift || zdarzenie.key.code == sf::Keyboard::RShift) { //zatwierdzony
                         if (unikatowa_nazwa_zwierzaka(login.zwroctekst(), inter)) {
-                            (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).ustaw_imie(login.zwroctekst());
-                            (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).wczytaj_sprite();
+                            std::map<std::string, stworzenie*> baza_zwierzakow = *inter.zwroc_baze_zwierzakow();
+                            stworzenie* nasze = baza_zwierzakow.at(inter.pobierzzalogowany());
+                            (*nasze).ustaw_imie(login.zwroctekst());
+                            (*nasze).wczytaj_sprite();
                             if (DEBUG) std::cout << "Twoj zwierzak ma na imie " << (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_imie() << std::endl;
 
                             imie.setString("imie: " + (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_imie());

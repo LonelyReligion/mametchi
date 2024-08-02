@@ -62,7 +62,7 @@ private:
 	std::map<std::string, uzytkownik> baza_uzytkownikow;
 	std::map<std::string, stworzenie*> baza_zwierzakow;
 
-	std::vector<Bobas> bobasy;
+	std::map<std::string, Bobas> bobasy;
 	//inne ewolucje beda mialy inne vectory
 
 protected:
@@ -199,8 +199,16 @@ public:
 				};
 			};
 			if (DEBUG_I) std::cout << jedzenie << std::endl;
+			if (jedzenie != "") {
+				try {
+					dania.push_back(baza_dan.at(jedzenie));
+				}
+				catch (const std::out_of_range& oor) {
+					if (DEBUG_I) std::cout << "nie wczytalismy jedzenia (danie), bo nie istnieje w bazie" << std::endl;
+				};
+				jedzenie = "";
+			}
 
-			jedzenie = "";
 			while (ss >> c && c != ';') {
 				if (c == ',') {
 					try {
@@ -215,6 +223,7 @@ public:
 					jedzenie += c;
 				};
 			};
+
 			if (jedzenie != "") {
 				try {
 					przekaski.push_back(baza_dan.at(jedzenie));
@@ -225,13 +234,17 @@ public:
 			};
 
 			if (typ == "bobas") {
+				static int i = 0;
+
 				Bobas nowy(rodzic, imie, glod, szczescie, wiek, zywy, wyspany, dania, przekaski);
-				bobasy.push_back(nowy);
-				bobasy.back().wczytaj_sprite();
-				baza_zwierzakow[rodzic] = &bobasy.back();
+				bobasy[rodzic] = nowy;//tu sie rozjezdza pierwszy
+				bobasy[rodzic].wczytaj_sprite();
+				baza_zwierzakow[rodzic] = static_cast<stworzenie*> (&bobasy[rodzic]);
+
+				i++;
 			};
 
-			if (DEBUG_I) std::cout << "Wczytalismy zwierzaka o imieniu  " << imie << std::endl;
+			if (DEBUG_I) std::cout << "Wczytalismy zwierzaka o imieniu  " << imie << " i imieniu rodzica: " << rodzic << std::endl;
 		}
 		
 		return true;

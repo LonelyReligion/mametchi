@@ -124,12 +124,13 @@ public:
 		(*this).ustaw_przekaski({});
 	};
 
-	Bobas(const std::string& rodzic, const std::string& miano, const int& glodzik,
+	Bobas(const std::string rodzic, const std::string miano, const int& glodzik,
 		const int& radosc, const int& lata, const bool& zyje, const bool& wypoczety,
 		const std::vector <produkt>& pozywienie, const std::vector <produkt>& slodycze)
 	{
-		(*this).ustaw_imie_rodzica(rodzic);
-		(*this).ustaw_imie(miano);
+		ustaw_imie_rodzica(rodzic);
+		ustaw_imie(miano);
+
 		(*this).ustaw_glod(glodzik);
 		(*this).ustaw_szczescie(radosc);
 		(*this).ustaw_wiek(lata);
