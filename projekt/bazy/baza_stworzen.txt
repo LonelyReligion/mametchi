@@ -1,3 +1,2 @@
 typ	imie_rodzica	imie	glod	szczescie	wiek	zywy	wyspany	dania	przekaski
-bobas	guattari	guattari	3	5	0	1	0	lazania;lody;
-bobas	tama	mario	5	5	0	1	0	;
+bobas	guattari	guattari	3	0	0	1	1	salatka;

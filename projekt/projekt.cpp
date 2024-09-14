@@ -23,6 +23,7 @@ bool DEBUG = true;
 
 /*
 TODO
+> (refaktoryzacja) zrobic to samo dla truskawki - traktowac ja jak kazdy slodycz i zapisywac w bazie
 > miganie przy budzeniu (bug)
 > najezdzanie mysza na dobranoc (kosmetyczne)(latwe)
 > logowanie jako metoda klasy interface 
@@ -31,8 +32,6 @@ TODO
 > przekazywac i trzymac teksty jako referencje zamiast ustawiania (przydatne)(inwazyjne)
 > tabela wynikow w grze, z najlepszymi zwierzakami? (ranges)(wakacje)
 > rozwazyc dodanie wagi do zwierzaka i jedzenia(wakacje)
-> wyswietlac jedzenie tylko jesli zwierzak ma je w lodowce
-> sprawdzac czy nazwy zwierzakow sie nie powtarzaja
 > sprzatanie
 
 > przyciski w grze
@@ -167,15 +166,13 @@ void zakup_produkt(interfejs & inter, std::map<std::string, produkt> baza_dan, b
 
 int main()
 {
-    bool pw = false;
+    bool pw = false; //co to jest?
     std::filesystem::path plik_uzytkownikow("bazy/baza_uzytkownikow.txt");
     std::filesystem::path plik_zwierzakow("bazy/baza_stworzen.txt");
 
     sf::Clock czas_od_poludnia; //zrobic zegar i sprawdzac interwaly zamiast mnozyc zegary?
     sf::Clock czas; //_od_wlaczenia_programu;
     sf::Clock budzik;
-
-    //.restart() robi to samo i dodatkowo zeruje zegar, nie dziala poprawnie
 
     sf::Font font;
     if (!font.loadFromFile("munro.ttf"))
@@ -395,10 +392,9 @@ int main()
 
     ekran ekran_jedzenia("OBRAZKI/kantyna/tlo.png", { bufet }, { &dania, &desery, &sklep });
 
-    przycisk salatka_zaznaczenie("Salatka", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 350, 200 }, font);
     przycisk truskawka_zaznaczenie("Truskawka", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 150, 275 }, font);
 
-    ekran ekran_dan("OBRAZKI/kantyna/lodowka.png", { informacje_o_daniu }, {&salatka_zaznaczenie });
+    ekran ekran_dan("OBRAZKI/kantyna/lodowka.png", { informacje_o_daniu }, {});
     ekran ekran_slodyczy("OBRAZKI/kantyna/taca.png", { informacje_o_przekasce }, { &truskawka_zaznaczenie });
     
     sf::Text meow = sf::Text("", font, 35);
@@ -534,58 +530,34 @@ int main()
                    
                 }
                 else if (jemy_dania) {
-                    if (salatka_zaznaczenie.myszanad(okno)) {
-                        salatka_zaznaczenie.ustawkolortla(kolor_tla_wcisniete);
-                        informacje_o_daniu[0].setString("Salatka");
-                        informacje_o_daniu[1].setString(baza_dan.at("salatka").zwroc_opis());
+                    bool znalezione = false;
+                    int i = 0;
+                    std::vector<przycisk*> cpy = ekran_dan.zwroc_przyciski();
 
-                        int i = 1;
-                        for (produkt p : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
-                            (*ekran_dan.zwroc_przyciski()[i]).ustawkolortla(kolor_tla_przyciskow);
-                            i++;
+                    for (produkt p : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
+                        if ((*ekran_dan.zwroc_przyciski()[i]).myszanad(okno)) {
+                            (*cpy[i]).ustawkolortla(kolor_tla_wcisniete);
+                            ekran_dan.ustaw_przyciski(cpy);
+
+                            informacje_o_daniu[0].setString(p.zwroc_nazwa());
+                            informacje_o_daniu[1].setString(p.zwroc_opis());
+
+                            znalezione = true;
                         }
+                        i++;
                     }
-                    else if (inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania().size() != 0) {
-                        bool znalezione = false;
-                        int i = 1;
-                        for (produkt p : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
-                            if ((*ekran_dan.zwroc_przyciski()[i]).myszanad(okno)) {
-                                std::vector<przycisk*> cpy = ekran_dan.zwroc_przyciski();
-                                (*cpy[i]).ustawkolortla(kolor_tla_wcisniete);
-                                ekran_dan.ustaw_przyciski(cpy);
 
-                                informacje_o_daniu[0].setString(p.zwroc_nazwa());
-                                informacje_o_daniu[1].setString(p.zwroc_opis());
-
-                                znalezione = true;
-                            }
-                            i++;
-                        }
-
-                        salatka_zaznaczenie.ustawkolortla(kolor_tla_przyciskow);
-
-                        if (!znalezione) {
-                            informacje_o_daniu[0].setString("");
-                            informacje_o_daniu[1].setString("");
-
-                            int i = 1;
-                            for (produkt p : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
-                                (*ekran_dan.zwroc_przyciski()[i]).ustawkolortla(kolor_tla_przyciskow);
-                                i++;
-                            }
-                        }
-                    }
-                    else {
-                        salatka_zaznaczenie.ustawkolortla(kolor_tla_przyciskow);
+                    if (!znalezione) {
                         informacje_o_daniu[0].setString("");
                         informacje_o_daniu[1].setString("");
 
-                        int i = 1;
+                        //pobieramy dania zwierzaka, ustawiamy kolor tla przyciskow dan 
+                        int i = 0;
                         for (produkt p : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
                             (*ekran_dan.zwroc_przyciski()[i]).ustawkolortla(kolor_tla_przyciskow);
                             i++;
                         }
-                    };
+                    }
                     ekran_dan.ustaw_napis(0, informacje_o_daniu[0]);
                     ekran_dan.ustaw_napis(1, informacje_o_daniu[1]);
                 }
@@ -701,11 +673,6 @@ int main()
                     if (DEBUG) std::cout << "Nasz zwierzak zjadl lody" << std::endl;
                     jemy_slodycze = 0;
                 }
-                else if (jemy_dania && salatka_zaznaczenie.myszanad(okno) && !wychodzimy) {
-                    (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(baza_dan.at("salatka"));
-                    if (DEBUG) std::cout << "Nasz zwierzak zjadl salatke" << std::endl;
-                    jemy_dania = 0;
-                }
                 else if (jemy_dania && inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->zwroc_dania().size() != 0 && !wychodzimy) {
                     for (przycisk* p : ekran_dan.zwroc_przyciski()) {
                         if (p->myszanad(okno)) {
@@ -793,7 +760,7 @@ int main()
                 break;
              }
             case sf::Event::KeyPressed : {
-                if (!zalogowany && !wychodzimy) {
+                if (!zalogowany && !wychodzimy) { //logowanie
                     if (zdarzenie.key.code == sf::Keyboard::LShift || zdarzenie.key.code == sf::Keyboard::RShift) { //zatwierdzony
                         if (!mamylogin) {
                             std::cout << "Mamy login: " << login.zwroctekst() << std::endl;
@@ -825,6 +792,7 @@ int main()
                                         instrukcja_logowania.setString("Nadaj imie swojemu pupilowi!");
                                         ekran_logowania.ustaw_napis(0, instrukcja_logowania);
                                         Bobas* bby = new Bobas();
+                                        bby->dodaj_danie(baza_dan["salatka"]);
                                         (*bby).ustaw_imie_rodzica(nazwa_uzytkownika);
                                         inter.dodajZwierzaka(bby);
                                     };
@@ -848,11 +816,11 @@ int main()
                                 kod = login.zwroctekst();
                                 if (!std::regex_match(kod, puste) && !kod.empty()) {
                                     std::cout << "kod niepusty bez bialych znakow" << std::endl;
-                                    
 
                                     inter.dodajUzytkownika(uzytkownik(nazwa_uzytkownika, kod, 0));
                                     Bobas* bobo = new Bobas();
                                     (*bobo).ustaw_imie_rodzica(nazwa_uzytkownika);
+                                    bobo->dodaj_danie(baza_dan["salatka"]);
                                     inter.dodajZwierzaka(bobo);
                                     inter.ustawzalogowany(nazwa_uzytkownika);
 
@@ -935,13 +903,13 @@ int main()
             okno.draw(bufet);
         }
         else if (jemy_dania) {
-            int licznik_1 = 1;
+            int licznik_1 = 0;
             std::vector<przycisk*> przyciski_dania;
             std::vector<produkt> dania_uzytkownika = inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania();
 
             //ten licznik jest :/, pewnie zostanie zastapiony tablica jak w pozycji slonca
             for (produkt danie : dania_uzytkownika) {
-                if (dania_uzytkownika.size() + 1 != ekran_dan.zwroc_przyciski().size()) {
+                if (dania_uzytkownika.size() != ekran_dan.zwroc_przyciski().size()) {
                     przycisk p(danie.zwroc_nazwa(), rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 350.f + 220 * licznik_1, 200 + 20.f * ((licznik_1 - 1) % 2) }, font);
                     przyciski_dania = ekran_dan.zwroc_przyciski();
                     przyciski.push_back(p);
@@ -952,9 +920,7 @@ int main()
             }
             ekran_dan.rysuj_tlo(okno);
 
-            baza_dan.at("salatka").rysuj(okno, sf::Vector2f(-350.f, -25.f));
-
-            int licznik = 1;
+            int licznik = 0;
             for (produkt danie : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
                 danie.rysuj(okno, sf::Vector2f(-350.f - 200.f * licznik, -25.f - 20.f * (licznik % 2))); //niepoprawne wartosci na razie 
                 licznik++;

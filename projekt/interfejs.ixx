@@ -280,7 +280,8 @@ public:
 		for(auto & tekst : teksty)
 			okno.draw(tekst);
 		for (auto& guzik : guziki)
-			(*guzik).drukujdo(okno);
+			if(guzik != NULL)
+				(*guzik).drukujdo(okno);
 	};
 
 	void dodaj_tekst(const sf::Text& tekst) {
