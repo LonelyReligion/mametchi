@@ -24,6 +24,8 @@ bool DEBUG = true;
 /*
 TODO
 > (refaktoryzacja) zrobic to samo dla truskawki - traktowac ja jak kazdy slodycz i zapisywac w bazie
+> (refaktoryzacja) poprawic jemy_slodycze tak jak jemy_dania T^T
+> dodanie kciuka lub szczesliwej minki (splash screen) po zapisie/wczytaniu z sukcesem jezeli nas nie wylogowalo
 > miganie przy budzeniu (bug)
 > najezdzanie mysza na dobranoc (kosmetyczne)(latwe)
 > logowanie jako metoda klasy interface 
@@ -405,7 +407,8 @@ int main()
     ekran sklepu("OBRAZKI/kantyna/sklep.png", { meow }, {&produkt_1, &produkt_2, &produkt_3 });
 
     sf::Clock opoznienie;
-    std::vector<przycisk> przyciski;
+    przycisk przyciski_dan[6];
+    przycisk przyciski_slodyczy[6];
 
     while (okno.isOpen()) {
         sf::Event zdarzenie;
@@ -532,12 +535,10 @@ int main()
                 else if (jemy_dania) {
                     bool znalezione = false;
                     int i = 0;
-                    std::vector<przycisk*> cpy = ekran_dan.zwroc_przyciski();
-
+                    
                     for (produkt p : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
-                        if ((*ekran_dan.zwroc_przyciski()[i]).myszanad(okno)) {
-                            (*cpy[i]).ustawkolortla(kolor_tla_wcisniete);
-                            ekran_dan.ustaw_przyciski(cpy);
+                        if (i < ekran_dan.zwroc_przyciski().size() && (*ekran_dan.zwroc_przyciski()[i]).myszanad(okno)) {
+                            (*ekran_dan.zwroc_przyciski()[i]).ustawkolortla(kolor_tla_wcisniete);
 
                             informacje_o_daniu[0].setString(p.zwroc_nazwa());
                             informacje_o_daniu[1].setString(p.zwroc_opis());
@@ -554,6 +555,7 @@ int main()
                         //pobieramy dania zwierzaka, ustawiamy kolor tla przyciskow dan 
                         int i = 0;
                         for (produkt p : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
+                            if(i < ekran_dan.zwroc_przyciski().size())
                             (*ekran_dan.zwroc_przyciski()[i]).ustawkolortla(kolor_tla_przyciskow);
                             i++;
                         }
@@ -619,7 +621,11 @@ int main()
                 else if (zapis.myszanad(okno)) {
                     zapis.ustawkolortla(kolor_tla_wcisniete);
                 }
+                else if (dobranoc.myszanad(okno)) {
+                    dobranoc.ustawkolortla(sf::Color(102, 0, 204));
+                }
                 else {
+                    dobranoc.ustawkolortla(sf::Color(48, 48, 255));
                     staty.ustawkolortla(kolor_tla_przyciskow);
                     lodow.ustawkolortla(kolor_tla_przyciskow);
                     zabaw.ustawkolortla(kolor_tla_przyciskow);
@@ -629,7 +635,7 @@ int main()
                     (*pl.zwroc_przyciski()[1]).ustawkolortla(sf::Color(238, 255, 204));
                     (*pl.zwroc_przyciski()[1]).ustawkolortekstu(sf::Color(17, 26, 0));
 
-                    (*pl.zwroc_przyciski()[1]).ustawkolortla(sf::Color(238, 255, 204));
+                    (*pl.zwroc_przyciski()[0]).ustawkolortla(sf::Color(238, 255, 204));
                     (*pl.zwroc_przyciski()[0]).ustawkolortekstu(sf::Color(17, 26, 0));
                 };
                 break;
@@ -909,15 +915,23 @@ int main()
 
             //ten licznik jest :/, pewnie zostanie zastapiony tablica jak w pozycji slonca
             for (produkt danie : dania_uzytkownika) {
-                if (dania_uzytkownika.size() != ekran_dan.zwroc_przyciski().size()) {
-                    przycisk p(danie.zwroc_nazwa(), rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 350.f + 220 * licznik_1, 200 + 20.f * ((licznik_1 - 1) % 2) }, font);
+                if (licznik_1 < dania_uzytkownika.size() && dania_uzytkownika.size() != ekran_dan.zwroc_przyciski().size()) {
+                    przycisk p(danie.zwroc_nazwa(), rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 350.f + 220 * licznik_1, 200 + 20.f * ((licznik_1 > 0 ? licznik_1 - 1 : 0) % 2) }, font);
                     przyciski_dania = ekran_dan.zwroc_przyciski();
-                    przyciski.push_back(p);
-                    przyciski_dania.push_back(&przyciski.back());
-                    ekran_dan.ustaw_przyciski(przyciski_dania);
+                    przyciski_dan[licznik_1] = p;
                 }
                 licznik_1++;
             }
+
+            //nastapila zmiana
+            if (dania_uzytkownika.size() != ekran_dan.zwroc_przyciski().size()) {
+                for (int i = 0; i < dania_uzytkownika.size(); i++) {
+                    przycisk* ptr(&przyciski_dan[i]);
+                    przyciski_dania.push_back(ptr);
+                }
+                ekran_dan.ustaw_przyciski(przyciski_dania);
+            }
+
             ekran_dan.rysuj_tlo(okno);
 
             int licznik = 0;
@@ -936,8 +950,8 @@ int main()
                 if (dania_uzytkownika.size() + 1 != ekran_slodyczy.zwroc_przyciski().size()) {
                     przycisk p(danie.zwroc_nazwa(), { 300, 50 }, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 180.f + 220 * licznik_1, 280 + 20.f * ((licznik_1 - 1) % 2) }, font);
                     przyciski_dania = ekran_slodyczy.zwroc_przyciski();
-                    przyciski.push_back(p);
-                    przyciski_dania.push_back(&przyciski.back());
+                    przyciski_slodyczy[licznik_1] = p;
+                    przyciski_dania.push_back(&przyciski_slodyczy[licznik_1]);
                     ekran_slodyczy.ustaw_przyciski(przyciski_dania);
                 }
                 licznik_1++;

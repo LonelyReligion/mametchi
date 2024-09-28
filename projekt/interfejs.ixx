@@ -264,7 +264,9 @@ private:
 	std::vector <przycisk*> guziki;
 protected:
 public:
-	ekran() {};
+	ekran() {
+		guziki.reserve(9);
+	};
 	ekran(const std::filesystem::path& sciezka, std::vector<sf::Text> t = {}, std::vector<przycisk*> p = {}) :teksty(t), guziki(p) { wczytaj_tlo(sciezka); };
 	void wczytaj_tlo(const std::filesystem::path & sciezka){
 		if (!tekstura.loadFromFile(sciezka.string())){
