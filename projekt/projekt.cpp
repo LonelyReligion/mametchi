@@ -394,10 +394,8 @@ int main()
 
     ekran ekran_jedzenia("OBRAZKI/kantyna/tlo.png", { bufet }, { &dania, &desery, &sklep });
 
-    przycisk truskawka_zaznaczenie("Truskawka", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 150, 275 }, font);
-
     ekran ekran_dan("OBRAZKI/kantyna/lodowka.png", { informacje_o_daniu }, {});
-    ekran ekran_slodyczy("OBRAZKI/kantyna/taca.png", { informacje_o_przekasce }, { &truskawka_zaznaczenie });
+    ekran ekran_slodyczy("OBRAZKI/kantyna/taca.png", { informacje_o_przekasce }, {});
     
     sf::Text meow = sf::Text("", font, 35);
     meow.setOrigin(sf::Vector2f(-100.f, -25.f));
@@ -564,26 +562,31 @@ int main()
                     ekran_dan.ustaw_napis(1, informacje_o_daniu[1]);
                 }
                 else if (jemy_slodycze) {
-                    if (truskawka_zaznaczenie.myszanad(okno)) {
-                        truskawka_zaznaczenie.ustawkolortla(kolor_tla_wcisniete);
-                        informacje_o_przekasce.setString(baza_dan.at("truskawka").zwroc_opis());
+                    bool znalezione = false;
+                    int i = 0;
 
-                        if (ekran_slodyczy.zwroc_przyciski().size() > 1)
-                            (*ekran_slodyczy.zwroc_przycisk(1)).ustawkolortla(kolor_tla_przyciskow);
+                    for (produkt p : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_przekaski()) {
+                        if (i < ekran_slodyczy.zwroc_przyciski().size() && (*ekran_slodyczy.zwroc_przyciski()[i]).myszanad(okno)) {
+                            (*ekran_slodyczy.zwroc_przyciski()[i]).ustawkolortla(kolor_tla_wcisniete);
+
+                            informacje_o_przekasce.setString(p.zwroc_nazwa() + "\n" + p.zwroc_opis());
+
+                            znalezione = true;
+                        }
+                        i++;
                     }
-                    else if (ekran_slodyczy.zwroc_przyciski().size() > 1 && (*ekran_slodyczy.zwroc_przycisk(1)).myszanad(okno)) {
-                        truskawka_zaznaczenie.ustawkolortla(kolor_tla_przyciskow);
 
-                        (*ekran_slodyczy.zwroc_przycisk(1)).ustawkolortla(kolor_tla_wcisniete);
-                        informacje_o_przekasce.setString(baza_dan.at("lody").zwroc_opis());
-                    }
-                    else {
-                        truskawka_zaznaczenie.ustawkolortla(kolor_tla_przyciskow);
-
-                        if (ekran_slodyczy.zwroc_przyciski().size() > 1)
-                            (*ekran_slodyczy.zwroc_przycisk(1)).ustawkolortla(kolor_tla_przyciskow);
+                    if (!znalezione) {
                         informacje_o_przekasce.setString("");
-                    };
+
+                        //pobieramy dania zwierzaka, ustawiamy kolor tla przyciskow dan 
+                        int i = 0;
+                        for (produkt p : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_przekaski()) {
+                            if (i < ekran_slodyczy.zwroc_przyciski().size())
+                                (*ekran_slodyczy.zwroc_przyciski()[i]).ustawkolortla(kolor_tla_przyciskow);
+                            i++;
+                        }
+                    }
                     ekran_slodyczy.ustaw_napis(0, informacje_o_przekasce);
                 }
                 else if (gramy && !zaklad) {
@@ -669,14 +672,14 @@ int main()
                         sklep.ustawkolortla(kolor_tla_przyciskow);
                     };
                 }
-                else if (jemy_slodycze && truskawka_zaznaczenie.myszanad(okno) && !wychodzimy) {
-                    (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(baza_dan.at("truskawka"));
-                    if (DEBUG) std::cout << "Nasz zwierzak zjadl truskawke" << std::endl;
-                    jemy_slodycze = 0;
-                }
-                else if (jemy_slodycze && (*ekran_slodyczy.zwroc_przycisk(1)).myszanad(okno) && !wychodzimy) {
-                    (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(baza_dan.at("lody"));
-                    if (DEBUG) std::cout << "Nasz zwierzak zjadl lody" << std::endl;
+                else if (jemy_slodycze && inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->zwroc_przekaski().size() != 0 && !wychodzimy) {
+                    for (przycisk* p : ekran_slodyczy.zwroc_przyciski()) {
+                        if (p->myszanad(okno)) {
+                            std::string nazwa_dania = (p->zwroc_tekst()).substr((p->zwroc_tekst()).find_first_of(" \t") + 1);
+                            (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(baza_dan.at(nazwa_dania));
+                            if (DEBUG) std::cout << "Nasz zwierzak zjadl " + p->zwroc_tekst() << std::endl;
+                        }
+                    }
                     jemy_slodycze = 0;
                 }
                 else if (jemy_dania && inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->zwroc_dania().size() != 0 && !wychodzimy) {
@@ -799,6 +802,7 @@ int main()
                                         ekran_logowania.ustaw_napis(0, instrukcja_logowania);
                                         Bobas* bby = new Bobas();
                                         bby->dodaj_danie(baza_dan["salatka"]);
+                                        bby->dodaj_przekaske(baza_dan["truskawka"]);
                                         (*bby).ustaw_imie_rodzica(nazwa_uzytkownika);
                                         inter.dodajZwierzaka(bby);
                                     };
@@ -827,6 +831,7 @@ int main()
                                     Bobas* bobo = new Bobas();
                                     (*bobo).ustaw_imie_rodzica(nazwa_uzytkownika);
                                     bobo->dodaj_danie(baza_dan["salatka"]);
+                                    bobo->dodaj_przekaske(baza_dan["truskawka"]);
                                     inter.dodajZwierzaka(bobo);
                                     inter.ustawzalogowany(nazwa_uzytkownika);
 
@@ -925,6 +930,7 @@ int main()
 
             //nastapila zmiana
             if (dania_uzytkownika.size() != ekran_dan.zwroc_przyciski().size()) {
+                przyciski_dania = {};
                 for (int i = 0; i < dania_uzytkownika.size(); i++) {
                     przycisk* ptr(&przyciski_dan[i]);
                     przyciski_dania.push_back(ptr);
@@ -936,32 +942,40 @@ int main()
 
             int licznik = 0;
             for (produkt danie : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania()) {
-                danie.rysuj(okno, sf::Vector2f(-350.f - 200.f * licznik, -25.f - 20.f * (licznik % 2))); //niepoprawne wartosci na razie 
+                danie.rysuj(okno, sf::Vector2f(-350.f - 200.f * licznik, -25.f - 20.f * (licznik % 2))); 
                 licznik++;
             }
         }
         else if (jemy_slodycze) {
-            int licznik_1 = 1;
+            int licznik_1 = 0;
             std::vector<przycisk*> przyciski_dania;
             std::vector<produkt> dania_uzytkownika = inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_przekaski();
 
             //ten licznik jest :/, pewnie zostanie zastapiony tablica jak w pozycji slonca
             for (produkt danie : dania_uzytkownika) {
-                if (dania_uzytkownika.size() + 1 != ekran_slodyczy.zwroc_przyciski().size()) {
-                    przycisk p(danie.zwroc_nazwa(), { 300, 50 }, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 180.f + 220 * licznik_1, 280 + 20.f * ((licznik_1 - 1) % 2) }, font);
+                if (licznik_1 < dania_uzytkownika.size() && dania_uzytkownika.size() != ekran_slodyczy.zwroc_przyciski().size()) {
+                    przycisk p(danie.zwroc_nazwa(), rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 180.f + 220 * licznik_1, 280 + 20.f * ((licznik_1 > 0 ? licznik_1 - 1 : 0) % 2) }, font);
                     przyciski_dania = ekran_slodyczy.zwroc_przyciski();
                     przyciski_slodyczy[licznik_1] = p;
-                    przyciski_dania.push_back(&przyciski_slodyczy[licznik_1]);
-                    ekran_slodyczy.ustaw_przyciski(przyciski_dania);
                 }
                 licznik_1++;
             }
-            ekran_slodyczy.rysuj_tlo(okno);
-            (baza_dan.at("truskawka")).rysuj(okno, sf::Vector2f(-150.f, -100.f));
 
-            int licznik = 1;
+            //nastapila zmiana
+            if (dania_uzytkownika.size() != ekran_slodyczy.zwroc_przyciski().size()) {
+                przyciski_dania = {};
+                for (int i = 0; i < dania_uzytkownika.size(); i++) {
+                    przycisk* ptr(&przyciski_slodyczy[i]);
+                    przyciski_dania.push_back(ptr);
+                }
+                ekran_slodyczy.ustaw_przyciski(przyciski_dania);
+            }
+
+            ekran_slodyczy.rysuj_tlo(okno);
+
+            int licznik = 0;
             for (produkt danie : inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_przekaski()) {
-                danie.rysuj(okno, sf::Vector2f(-260.f - 200.f * licznik, -80.f - 20.f * (licznik % 2))); //niepoprawne wartosci na razie 
+                danie.rysuj(okno, sf::Vector2f(-170.f - 200.f * licznik, -80.f - 20.f * ((licznik_1 > 0 ? licznik_1 - 1 : 0) % 2)));
                 licznik++;
             }
         }
