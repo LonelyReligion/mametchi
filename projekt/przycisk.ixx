@@ -34,7 +34,7 @@ public:
 
 	void ustawkolortla(sf::Color tlo) { prostokat.setFillColor(tlo); };
 
-	void ustawkolortekstu(sf::Color barwa) { if (DEBUG_P) std::cout << "wywolano zmiane koloru tekstu" << std::endl;  tekst.setFillColor(barwa); };
+	void ustawkolortekstu(sf::Color barwa) { tekst.setFillColor(barwa); };
 
 	void ustawpozycje(sf::Vector2f xy) { 
 		prostokat.setPosition(xy); 

@@ -23,7 +23,10 @@ bool DEBUG = true;
 
 /*
 TODO
-> zmienic tlo jedzenia, zmienic tlo statystyk na bardziej pixelowe
+> moze w ekranie powinien byc bool - visible i set i get visible (refaktoryzacja)
+> dodac wiek do statystyk (przygotowanie do mechanizmu ewolucji)
+> zmienic tlo jedzenia
+> zmienic tlo statystyk na bardziej pixelowe
 > dlugi tekst w przyciskach
 > poprawic readme.md na gicie
 > dodanie kciuka lub szczesliwej minki (splash screen) po zapisie/wczytaniu z sukcesem jezeli nas nie wylogowalo
@@ -39,9 +42,6 @@ TODO
 > dzialanie lodow (bonus: dwa razy szybsza minigra czasowo, moze jakis licznik? daje 2x tyle szczescia co normalnie)
 > moze jakies ladniejsze tlo do log ina :3
 */
-
-//*inter.zwroc_baze_uzytkownikow() nazwa uzytkownika, uzytkownik
-//*inter.zwroc_baze_zwierzakow() nazwa uzytkownika, wzkaznik na zwierzatko (konieczne do zastosowania polimorfizmu, tak aby wykonywaly sie odpowiednie wersje metod)
 
 bool unikatowa_nazwa_zwierzaka(std::string nazwa, interfejs inter) {
     std::map<std::string, stworzenie*>::iterator it = (*inter.zwroc_baze_zwierzakow()).begin();
@@ -162,7 +162,19 @@ void zakup_produkt(interfejs & inter, std::map<std::string, produkt> baza_dan, b
 
 int main()
 {
-    bool pw = false; //co to jest?
+    //
+    printf("\n");
+    printf("\x1B[31mT\033[0m\t");
+    printf("\x1B[32ma\033[0m\t");
+    printf("\x1B[33mm\033[0m\t");
+    printf("\x1B[34ma\033[0m\t");
+    printf("\x1B[35mL\033[0m\t");
+    printf("\x1B[36mo\033[0m\t");
+    printf("\x1B[37mg\033[0m\t");
+    printf("\n\n");
+    //
+
+    bool pw = false; //po wczycie
     std::filesystem::path plik_uzytkownikow("bazy/baza_uzytkownikow.txt");
     std::filesystem::path plik_zwierzakow("bazy/baza_stworzen.txt");
 
@@ -251,6 +263,7 @@ int main()
     duszek_slonca.setTexture(slonce);
     duszek_slonca.setOrigin(sf::Vector2f(-425.f, -100.f));
 
+    // ekran wyjscia po wcisnieciu esc
     sf::Text wyjscie("Czy na pewno chcesz wyjsc z gry? \n Pamietaj, twoje dane nie zostana \nzapisane automatycznie!", font, 20);
     wyjscie.setFillColor(rozowy);
     wyjscie.setOrigin(sf::Vector2f(-250.f, -250.f));
@@ -258,7 +271,17 @@ int main()
     przycisk tak("TAK", { 100,50 }, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 350 }, font);
     przycisk nie("NIE", { 100,50 }, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 425, 350 }, font);
     ekran ekran_popupu("OBRAZKI/popup.png", { wyjscie }, { &tak, &nie });
+    //
 
+    // informacja o tym ze stany bazy zpstaly zaktualizowane
+    bool zapis_popup = false; //moze w ekranie powinien byc bool - visible i set i get visible
+    sf::Text zo("Zapis zostal wykonany poprawnie.", font, 20); //domyslna wartosc
+    zo.setFillColor(rozowy);
+    zo.setOrigin(sf::Vector2f(-250.f, -280.f));
+    przycisk ok("OK", { 100,50 }, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 425, 350 }, font);
+    ekran ekran_zapisu("OBRAZKI/zapis lub odczyt udany.png", { zo }, { &ok }); //domyslna wartosc, pozniej mozna zrobic obsluge bledow 
+    //
+    
     /////////////
     /// okno
     sf::RenderWindow okno(sf::VideoMode(800, 600), "Moje zwierzatko!", sf::Style::Default); //titlebar, resize, close
@@ -526,7 +549,6 @@ int main()
                         produkt_3.ustawkolortekstu(sf::Color(82, 81, 116));
                         produkt_3.ustawkolortla(sf::Color(137, 222, 116));
                     }
-                   
                 }
                 else if (jemy_dania) {
                     bool znalezione = false;
@@ -601,6 +623,20 @@ int main()
                         (*pl.zwroc_przyciski()[0]).ustawkolortekstu(sf::Color(17, 26, 0));
                     };
                 }
+                else if (zapis_popup) {
+                    dobranoc.ustawkolortla(sf::Color(48, 48, 255));
+                    staty.ustawkolortla(kolor_tla_przyciskow);
+                    lodow.ustawkolortla(kolor_tla_przyciskow);
+                    zabaw.ustawkolortla(kolor_tla_przyciskow);
+                    sprza.ustawkolortla(kolor_tla_przyciskow);
+                    wczyt.ustawkolortla(kolor_tla_przyciskow);
+                    zapis.ustawkolortla(kolor_tla_przyciskow);
+
+                    if (ok.myszanad(okno))
+                        ok.ustawkolortla(kolor_tla_wcisniete);
+                    else
+                        ok.ustawkolortla(kolor_tla_przyciskow);
+                }
                 else if (staty.myszanad(okno)) {
                     staty.ustawkolortla(kolor_tla_wcisniete);
                 }
@@ -630,6 +666,7 @@ int main()
                     sprza.ustawkolortla(kolor_tla_przyciskow);
                     wczyt.ustawkolortla(kolor_tla_przyciskow);
                     zapis.ustawkolortla(kolor_tla_przyciskow);
+
                     (*pl.zwroc_przyciski()[1]).ustawkolortla(sf::Color(238, 255, 204));
                     (*pl.zwroc_przyciski()[1]).ustawkolortekstu(sf::Color(17, 26, 0));
 
@@ -727,15 +764,31 @@ int main()
                 }
                 else if (wczyt.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki  && !jemy_dania && !gramy && !jedzenie_tf) {
                     std::cout << "wczytano bazy" << std::endl;
-                    inter.wczytaj_baze_uzytkownikow(plik_uzytkownikow);
-                    inter.wczytaj_baze_zwierzakow(plik_zwierzakow, baza_dan);
-                    pw = true;
+                    if (inter.wczytaj_baze_uzytkownikow(plik_uzytkownikow) && inter.wczytaj_baze_zwierzakow(plik_zwierzakow, baza_dan)) {
+                        zo.setString("Odczyt zostal wykonany poprawnie.");
+                    }
+                    else
+                    {
+                        zo.setString("Odczyt zostal wykonany niepoprawnie.");
+                        std::cout << "COS POSZLO NIE TAK";
+                    }
+                    ekran_zapisu.ustaw_napis(0, zo);
+                    zapis_popup = true;
 
                 }
                 else if (zapis.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_dania && !gramy && !jedzenie_tf ) {
                     std::cout << "zapisano baze uzytkownikow i zwierzakow" << std::endl;
-                    inter.zapisz_baze_uzytkownikow(plik_uzytkownikow);
-                    inter.zapisz_baze_zwierzakow(plik_zwierzakow);
+                    if (inter.zapisz_baze_uzytkownikow(plik_uzytkownikow) && inter.zapisz_baze_zwierzakow(plik_zwierzakow))
+                    {
+                        zo.setString("Zapis zostal wykonany poprawnie.");
+                    }
+                    else
+                    {
+                        zo.setString("Zapis zostal wykonany niepoprawnie.");
+                        std::cout << "COS POSZLO NIE TAK";
+                    }
+                    ekran_zapisu.ustaw_napis(0, zo);
+                    zapis_popup = true;
                 }
                 else if (dobranoc.myszanad(okno) && !wychodzimy) {
                     std::cout << "spimy przycisniete" << std::endl;
@@ -751,6 +804,9 @@ int main()
                         (*inter.zwroc_baze_uzytkownikow())[inter.pobierzzalogowany()].dodajects(pl.zwroc_nagrode(true, (*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany()))); //int
                         zaklad = 1;
                     };
+                }
+                else if (ok.myszanad(okno)) {
+                    zapis_popup = false;
                 };
                 break;
             case sf::Event::Closed : {
@@ -1045,12 +1101,11 @@ int main()
                 b = false;
             };
 
-            if (raz_po || pw) {
+            if (raz_po) {
                 std::thread pozycja(idle_animation, std::ref(prom), 1);//resetujemy pozycje bobasa
                 (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
                 pozycja.join();
                 raz_po = false;
-                pw = false;
             }
             else if (!spimy) {
                 std::thread pozycja(idle_animation, std::ref(prom), 0);
@@ -1063,6 +1118,8 @@ int main()
         };
         if (wychodzimy)
             ekran_popupu.rysuj_tlo(okno, sf::Vector2f(-200.f, -150.f));
+        else if (zapis_popup)
+            ekran_zapisu.rysuj_tlo(okno, sf::Vector2f(-200.f, -150.f));
         okno.display(); //zrzut z bufora
     };
 
