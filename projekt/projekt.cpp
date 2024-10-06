@@ -23,6 +23,7 @@ bool DEBUG = true;
 
 /*
 TODO
+> zeby najedzenie schodzilo w czasie
 > przycisk anuluj/cofnij w logowaniu
 > moze w ekranie powinien byc bool - visible i set i get visible (refaktoryzacja)
 > dodac wiek do statystyk (przygotowanie do mechanizmu ewolucji)
