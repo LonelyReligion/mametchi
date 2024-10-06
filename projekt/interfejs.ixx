@@ -262,6 +262,7 @@ private:
 	sf::Texture tekstura;
 	std::vector<sf::Text> teksty;
 	std::vector <przycisk*> guziki;
+	bool aktywny = false;
 protected:
 public:
 	ekran() {
@@ -297,4 +298,6 @@ public:
 
 	void ustaw_teksty(std::vector<sf::Text> t) { teksty = t; };
 	void ustaw_przyciski(std::vector <przycisk*> p) { guziki = p; };
+	void ustaw_aktywny(const bool wartosc) { aktywny = wartosc; };
+	bool zwroc_aktywny() { return aktywny; }
 };

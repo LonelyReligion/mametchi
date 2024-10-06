@@ -174,8 +174,6 @@ int main()
     printf("\x1B[37mg\033[0m\t");
     printf("\n\n");
     //
-
-    bool pw = false; //po wczycie
     std::filesystem::path plik_uzytkownikow("bazy/baza_uzytkownikow.txt");
     std::filesystem::path plik_zwierzakow("bazy/baza_stworzen.txt");
 
@@ -198,9 +196,7 @@ int main()
     sf::Color pomarancza(247, 182, 101);
 
     prawo_lewo pl("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png", font);
-    bool spimy = 0;
-    bool gramy = 0;
-
+    bool spimy = 0; //spanie to nie jest ekran
 
     //wczytaj bazy
     std::map<std::string, produkt> baza_dan;
@@ -275,7 +271,6 @@ int main()
     //
 
     // informacja o tym ze stany bazy zpstaly zaktualizowane
-    bool zapis_popup = false; //moze w ekranie powinien byc bool - visible i set i get visible
     sf::Text zo("Zapis zostal wykonany poprawnie.", font, 20); //domyslna wartosc
     zo.setFillColor(rozowy);
     zo.setOrigin(sf::Vector2f(-250.f, -280.f));
@@ -310,10 +305,11 @@ int main()
 
     ekran ekran_logowania("obrazki/logowanie.png", { instrukcja_logowania, kontrolki_logowania });
 
-    //// staty
-    bool wyswietl_statystyki = 0;
+    //// gra
     bool zaklad = 0;
+    bool gramy = 0; //gra to nie jest ekran
 
+    //// staty
     sf::Text imie("", font, 30);
     imie.setFillColor(sf::Color::White);
     imie.setOrigin(sf::Vector2f(-150.f, -100.f));
@@ -389,12 +385,6 @@ int main()
     };
 
     //jedzenie
-    bool jedzenie_tf = 0;
-    bool jemy_dania = 0;
-    bool jemy_slodycze = 0;
-    bool kupujemy = 0;
-    bool wychodzimy = 0;
-
     sf::Text informacje_o_daniu = sf::Text("", font, 20);
     informacje_o_daniu.setOrigin(sf::Vector2f(-10.f, -475.f));
 
@@ -427,7 +417,7 @@ int main()
 
     while (okno.isOpen()) {
         sf::Event zdarzenie;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && !wychodzimy) { //enter
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && !ekran_popupu.zwroc_aktywny()) { //enter
             login.ustawZaznaczenie(true);
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
@@ -439,21 +429,21 @@ int main()
             {
             ///
             case sf::Event::KeyReleased:
-                if (zdarzenie.key.code == sf::Keyboard::Escape && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy && !kupujemy)//wychodzimy
+                if (zdarzenie.key.code == sf::Keyboard::Escape && !ekran_jedzenia.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy && !sklepu.zwroc_aktywny())//wychodzimy
                 {
                     if (DEBUG) std::cout << "wywolano sekwencje wyjscia" << std::endl;
-                    wychodzimy = !wychodzimy;
+                    ekran_popupu.ustaw_aktywny(!ekran_popupu.zwroc_aktywny());
                 }
-                else if (wyswietl_statystyki)
-                    wyswietl_statystyki = 0;
-                else if (jedzenie_tf)
-                    jedzenie_tf = 0;
-                else if (jemy_dania)
-                    jemy_dania = 0;
-                else if (jemy_slodycze)
-                    jemy_slodycze = 0;
-                else if (kupujemy)
-                    kupujemy = 0;
+                else if (ekran_statystyk.zwroc_aktywny())
+                    ekran_statystyk.ustaw_aktywny(false);
+                else if (ekran_jedzenia.zwroc_aktywny())
+                    ekran_jedzenia.ustaw_aktywny(false);
+                else if (ekran_dan.zwroc_aktywny())
+                    ekran_dan.ustaw_aktywny(false);
+                else if (ekran_slodyczy.zwroc_aktywny())
+                    ekran_slodyczy.ustaw_aktywny(false);
+                else if (sklepu.zwroc_aktywny())
+                    sklepu.ustaw_aktywny(false);
                 else if (gramy) {
                     gramy = 0;
                     zaklad = 0;
@@ -461,7 +451,7 @@ int main()
                     pl.wczytaj_sprite("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png");
                 };
             case sf::Event::MouseMoved:
-                if (wychodzimy) {
+                if (ekran_popupu.zwroc_aktywny()) {
                     if (tak.myszanad(okno))
                         tak.ustawkolortla(kolor_tla_wcisniete);
                     else if (nie.myszanad(okno))
@@ -471,7 +461,7 @@ int main()
                         tak.ustawkolortla(kolor_tla_przyciskow);
                     }
                 }
-                else if (jedzenie_tf) {
+                else if (ekran_jedzenia.zwroc_aktywny()) {
                     if (dania.myszanad(okno)) {
                         dania.ustawkolortla(kolor_tla_wcisniete);
                     }
@@ -487,7 +477,7 @@ int main()
                         sklep.ustawkolortla(kolor_tla_przyciskow);
                     };
                 }
-                else if (kupujemy) {
+                else if (sklepu.zwroc_aktywny()) {
                     if (produkt_1.myszanad(okno)) {
                         produkt_1.ustawkolortekstu(sf::Color(73, 54, 81));
                         produkt_1.ustawkolortla(sf::Color(80, 141, 161));
@@ -551,7 +541,7 @@ int main()
                         produkt_3.ustawkolortla(sf::Color(137, 222, 116));
                     }
                 }
-                else if (jemy_dania) {
+                else if (ekran_dan.zwroc_aktywny()) {
                     bool znalezione = false;
                     int i = 0;
                     
@@ -579,7 +569,7 @@ int main()
                     }
                     ekran_dan.ustaw_napis(0, informacje_o_daniu);
                 }
-                else if (jemy_slodycze) {
+                else if (ekran_slodyczy.zwroc_aktywny()) {
                     bool znalezione = false;
                     int i = 0;
 
@@ -624,7 +614,7 @@ int main()
                         (*pl.zwroc_przyciski()[0]).ustawkolortekstu(sf::Color(17, 26, 0));
                     };
                 }
-                else if (zapis_popup) {
+                else if (ekran_zapisu.zwroc_aktywny()) {
                     dobranoc.ustawkolortla(sf::Color(48, 48, 255));
                     staty.ustawkolortla(kolor_tla_przyciskow);
                     lodow.ustawkolortla(kolor_tla_przyciskow);
@@ -676,28 +666,28 @@ int main()
                 };
                 break;
             case sf::Event::MouseButtonPressed:
-                if (wychodzimy) {
-                    if (tak.myszanad(okno) && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy) {
+                if (ekran_popupu.zwroc_aktywny()) {
+                    if (tak.myszanad(okno) && !ekran_jedzenia.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy) {
                         return 0;
                     }
-                    else if (nie.myszanad(okno) && !jedzenie_tf && !wyswietl_statystyki && !jemy_slodycze && !jemy_dania && !gramy)
-                        wychodzimy = 0;
+                    else if (nie.myszanad(okno) && !ekran_jedzenia.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy)
+                        ekran_popupu.ustaw_aktywny(false);
                 }
-                else if (jedzenie_tf) {
-                    if (dania.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !gramy) {
+                else if (ekran_jedzenia.zwroc_aktywny()) {
+                    if (dania.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !gramy) {
                         if(DEBUG) std::cout << "Bedziemy jesc dania glowne" << std::endl;
-                        jemy_dania = 1;
-                        jedzenie_tf = 0;
+                        ekran_dan.ustaw_aktywny(true);
+                        ekran_jedzenia.ustaw_aktywny(false);
                     }
-                    else if (desery.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !gramy) {
+                    else if (desery.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !gramy) {
                         if (DEBUG) std::cout << "Bedziemy jesc desery" << std::endl;
-                        jemy_slodycze = 1;
-                        jedzenie_tf = 0;
+                        ekran_slodyczy.ustaw_aktywny(true);
+                        ekran_jedzenia.ustaw_aktywny(false);
                     }
-                    else if (sklep.myszanad(okno) && !wychodzimy && !wyswietl_statystyki && !gramy) {
+                    else if (sklep.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !gramy) {
                         if (DEBUG) std::cout << "Bedziemy kupowac jedzenie" << std::endl;
-                        kupujemy = 1;
-                        jedzenie_tf = 0;
+                        sklepu.ustaw_aktywny(true);
+                        ekran_jedzenia.ustaw_aktywny(false);
                     }
                     else {
                         dania.ustawkolortla(kolor_tla_przyciskow);
@@ -705,7 +695,7 @@ int main()
                         sklep.ustawkolortla(kolor_tla_przyciskow);
                     };
                 }
-                else if (jemy_slodycze && inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->zwroc_przekaski().size() != 0 && !wychodzimy) {
+                else if (ekran_slodyczy.zwroc_aktywny() && inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->zwroc_przekaski().size() != 0 && !ekran_popupu.zwroc_aktywny()) {
                     for (przycisk* p : ekran_slodyczy.zwroc_przyciski()) {
                         if (p->myszanad(okno)) {
                             std::string nazwa_dania = (p->zwroc_tekst()).substr((p->zwroc_tekst()).find_first_of(" \t") + 1);
@@ -713,9 +703,9 @@ int main()
                             if (DEBUG) std::cout << "Nasz zwierzak zjadl " + p->zwroc_tekst() << std::endl;
                         }
                     }
-                    jemy_slodycze = 0;
+                    ekran_slodyczy.ustaw_aktywny(false);
                 }
-                else if (jemy_dania && inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->zwroc_dania().size() != 0 && !wychodzimy) {
+                else if (ekran_dan.zwroc_aktywny() && inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->zwroc_dania().size() != 0 && !ekran_popupu.zwroc_aktywny()) {
                     for (przycisk* p : ekran_dan.zwroc_przyciski()) {
                         if (p->myszanad(okno)) {
                             std::string nazwa_dania = (p->zwroc_tekst()).substr((p->zwroc_tekst()).find_first_of(" \t") + 1);
@@ -723,21 +713,21 @@ int main()
                             if (DEBUG) std::cout << "Nasz zwierzak zjadl " + p->zwroc_tekst() << std::endl;
                         }
                     }
-                    jemy_dania = 0;
+                    ekran_dan.ustaw_aktywny(false);
                 }
-                else if (kupujemy && produkt_1.myszanad(okno) && !wychodzimy) {
+                else if (sklepu.zwroc_aktywny() && produkt_1.myszanad(okno) && !ekran_popupu.zwroc_aktywny()) {
                     sf::Text nowy;
                     zakup_produkt(inter, baza_dan, true, font, sklepu, "lazania", nowy);
                 }
-                else if (kupujemy && produkt_2.myszanad(okno) && !wychodzimy) {
+                else if (sklepu.zwroc_aktywny() && produkt_2.myszanad(okno) && !ekran_popupu.zwroc_aktywny()) {
                     sf::Text nowy;
                     zakup_produkt(inter, baza_dan, false, font, sklepu, "lody", nowy);
                 }
-                else if (kupujemy && produkt_3.myszanad(okno) && !wychodzimy) {
+                else if (sklepu.zwroc_aktywny() && produkt_3.myszanad(okno) && !ekran_popupu.zwroc_aktywny()) {
                     sf::Text nowy;
                     zakup_produkt(inter, baza_dan, false, font, sklepu, "serek", nowy);
                 }
-                else if (staty.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_dania && !gramy && !jedzenie_tf) {
+                else if (staty.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
                     if (DEBUG) std::cout << "staty przycisniete" << std::endl;
                     wybor_glodu.clear();
                     wybor_szczescia.clear();
@@ -750,20 +740,20 @@ int main()
                     };
                     suma.setString(std::to_string((*inter.zwroc_baze_uzytkownikow())[inter.pobierzzalogowany()].zwrocects()));
                     ekran_statystyk.ustaw_napis(3, suma);
-                    wyswietl_statystyki = true;
+                    ekran_statystyk.ustaw_aktywny(true);
                 } 
-                else if (lodow.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki &&  !jemy_dania && !gramy && !jedzenie_tf) {
+                else if (lodow.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() &&  !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
                     std::cout << "lodow przycisniety" << std::endl;
-                    jedzenie_tf = 1;
+                    ekran_jedzenia.ustaw_aktywny(true);
                 }
-                else if (zabaw.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki  && !jemy_dania && !gramy && !jedzenie_tf) {
+                else if (zabaw.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
                     std::cout << "zabaw przycisniety" << std::endl;
                     gramy = 1;
                 }
-                else if (sprza.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki  && !jemy_dania && !gramy && !jedzenie_tf ) {
+                else if (sprza.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
                     //std::cout << "sprza przycisnieta" << std::endl;
                 }
-                else if (wczyt.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki  && !jemy_dania && !gramy && !jedzenie_tf) {
+                else if (wczyt.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
                     std::cout << "wczytano bazy" << std::endl;
                     if (inter.wczytaj_baze_uzytkownikow(plik_uzytkownikow) && inter.wczytaj_baze_zwierzakow(plik_zwierzakow, baza_dan)) {
                         zo.setString("Odczyt zostal wykonany poprawnie.");
@@ -774,10 +764,10 @@ int main()
                         std::cout << "COS POSZLO NIE TAK";
                     }
                     ekran_zapisu.ustaw_napis(0, zo);
-                    zapis_popup = true;
+                    ekran_zapisu.ustaw_aktywny(true);
 
                 }
-                else if (zapis.myszanad(okno) && !wychodzimy && !jemy_slodycze && !wyswietl_statystyki && !jemy_dania && !gramy && !jedzenie_tf ) {
+                else if (zapis.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
                     std::cout << "zapisano baze uzytkownikow i zwierzakow" << std::endl;
                     if (inter.zapisz_baze_uzytkownikow(plik_uzytkownikow) && inter.zapisz_baze_zwierzakow(plik_zwierzakow))
                     {
@@ -789,9 +779,9 @@ int main()
                         std::cout << "COS POSZLO NIE TAK";
                     }
                     ekran_zapisu.ustaw_napis(0, zo);
-                    zapis_popup = true;
+                    ekran_zapisu.ustaw_aktywny(true);
                 }
-                else if (dobranoc.myszanad(okno) && !wychodzimy) {
+                else if (dobranoc.myszanad(okno) && !ekran_popupu.zwroc_aktywny()) {
                     std::cout << "spimy przycisniete" << std::endl;
                     spimy = 1;
                 }
@@ -807,7 +797,7 @@ int main()
                     };
                 }
                 else if (ok.myszanad(okno)) {
-                    zapis_popup = false;
+                    ekran_zapisu.ustaw_aktywny(false);
                 };
                 break;
             case sf::Event::Closed : {
@@ -823,7 +813,7 @@ int main()
                 break;
              }
             case sf::Event::KeyPressed : {
-                if (!zalogowany && !wychodzimy) { //logowanie
+                if (!zalogowany && !ekran_popupu.zwroc_aktywny()) { //logowanie
                     if (zdarzenie.key.code == sf::Keyboard::LShift || zdarzenie.key.code == sf::Keyboard::RShift) { //zatwierdzony
                         if (!mamylogin) {
                             std::cout << "Mamy login: " << login.zwroctekst() << std::endl;
@@ -952,7 +942,7 @@ int main()
             ekran_logowania.rysuj_tlo(okno);
             login.drukuj_do(okno);
         }
-        else if (wyswietl_statystyki) {
+        else if (ekran_statystyk.zwroc_aktywny()) {
             wiek.setString("wiek: " + std::to_string((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_wiek()));
             ekran_statystyk.ustaw_napis(2, wiek);
 
@@ -966,11 +956,11 @@ int main()
             };
         
         }
-        else if (jedzenie_tf) {
+        else if (ekran_jedzenia.zwroc_aktywny()) {
             ekran_jedzenia.rysuj_tlo(okno);
             okno.draw(bufet);
         }
-        else if (jemy_dania) {
+        else if (ekran_dan.zwroc_aktywny()) {
             int licznik_1 = 0;
             std::vector<przycisk*> przyciski_dania;
             std::vector<produkt> dania_uzytkownika = inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_dania();
@@ -1003,7 +993,7 @@ int main()
                 licznik++;
             }
         }
-        else if (jemy_slodycze) {
+        else if (ekran_slodyczy.zwroc_aktywny()) {
             int licznik_1 = 0;
             std::vector<przycisk*> przyciski_dania;
             std::vector<produkt> dania_uzytkownika = inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_przekaski();
@@ -1039,7 +1029,7 @@ int main()
                 licznik++;
             }
         }
-        else if (kupujemy) {
+        else if (sklepu.zwroc_aktywny()) {
             sklepu.rysuj_tlo(okno);
             (baza_dan.at("lazania")).rysuj(okno, sf::Vector2f(-50.f, -350.f));
             (baza_dan.at("lody")).rysuj(okno, sf::Vector2f(-290.f, -350.f));
@@ -1117,9 +1107,9 @@ int main()
             
             pozycja_sloneczna.join();
         };
-        if (wychodzimy)
+        if (ekran_popupu.zwroc_aktywny())
             ekran_popupu.rysuj_tlo(okno, sf::Vector2f(-200.f, -150.f));
-        else if (zapis_popup)
+        else if (ekran_zapisu.zwroc_aktywny())
             ekran_zapisu.rysuj_tlo(okno, sf::Vector2f(-200.f, -150.f));
         okno.display(); //zrzut z bufora
     };
