@@ -173,8 +173,10 @@ public:
 		if (budzik.getElapsedTime().asSeconds() <= 10) {
 			okno.draw(duszek_spiacego_bobasa);
 		}
-		else {
+		else if(!zwroc_wyspany()){
 			ustaw_wyspany(true);
+			ustaw_wiek(zwroc_wiek()+1);
+			std::cout << "nowy wiek zwierzaka: " << zwroc_wiek() << "\n";
 		};
 		//drukujemy czekamy zmieniamy stan
 	};

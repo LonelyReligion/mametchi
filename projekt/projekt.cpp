@@ -23,6 +23,7 @@ bool DEBUG = true;
 
 /*
 TODO
+> przycisk anuluj/cofnij w logowaniu
 > moze w ekranie powinien byc bool - visible i set i get visible (refaktoryzacja)
 > dodac wiek do statystyk (przygotowanie do mechanizmu ewolucji)
 > zmienic tlo jedzenia
@@ -40,7 +41,6 @@ TODO
 > sprzatanie
 > liczba jedzenia kupionego
 > dzialanie lodow (bonus: dwa razy szybsza minigra czasowo, moze jakis licznik? daje 2x tyle szczescia co normalnie)
-> moze jakies ladniejsze tlo do log ina :3
 */
 
 bool unikatowa_nazwa_zwierzaka(std::string nazwa, interfejs inter) {
@@ -952,6 +952,9 @@ int main()
             login.drukuj_do(okno);
         }
         else if (wyswietl_statystyki) {
+            wiek.setString("wiek: " + std::to_string((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_wiek()));
+            ekran_statystyk.ustaw_napis(2, wiek);
+
             ekran_statystyk.rysuj_tlo(okno);
             okno.draw(s_mamona);
             for (int i = 0; i < 5; i++) {
@@ -1062,13 +1065,9 @@ int main()
 
             std::thread pozycja_sloneczna(pozycja_slonca, std::move(prom_sloneczne), std::ref(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())), std::ref(czas_od_poludnia));
 
-            //static int i = 0;
-
             if (czas_od_poludnia.getElapsedTime().asSeconds() >= 10)//230
             {
-                if (DEBUG) std::cout << (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_wyspany() << std::endl;
                 if (!(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_wyspany()) { //jesli nie wyspany
-                    
                     //////////////
                     okno.clear(sf::Color(71, 108, 194));//ok
                     okno.draw(duszek_gwiazd);
@@ -1105,6 +1104,7 @@ int main()
                 std::thread pozycja(idle_animation, std::ref(prom), 1);//resetujemy pozycje bobasa
                 (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
                 pozycja.join();
+                (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).ustaw_wyspany(false);
                 raz_po = false;
             }
             else if (!spimy) {
