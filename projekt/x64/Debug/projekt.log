@@ -1,4 +1,20 @@
 ﻿  Trwa skanowanie źródeł pod kątem zależności modułów...
+  zwierzak.ixx
+  Trwa kompilowanie…
+  zwierzak.ixx
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\zwierzak.ixx(13,23): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
+  interfejs.ixx
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(19,24): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(77,22): warning C4834: odrzucenie wartości zwracanej funkcji z atrybutem [[nodiscard]]
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(84,20): warning C4834: odrzucenie wartości zwracanej funkcji z atrybutem [[nodiscard]]
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(79,35): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(89,35): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(194,38): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(208,37): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(219,38): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\interfejs.ixx(233,37): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
+  gra.ixx
+C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\gra.ixx(11,18): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
   projekt.cpp
 C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\projekt.cpp(842,74): warning C4834: odrzucenie wartości zwracanej funkcji z atrybutem [[nodiscard]]
 C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\projekt.cpp(844,68): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie

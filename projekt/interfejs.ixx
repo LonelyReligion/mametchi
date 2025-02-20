@@ -63,6 +63,7 @@ private:
 	std::map<std::string, stworzenie*> baza_zwierzakow;
 
 	std::map<std::string, Bobas> bobasy;
+	std::map<std::string, Podrostek> podrostki;
 	//inne ewolucje beda mialy inne vectory
 
 protected:
@@ -163,6 +164,7 @@ public:
 		if (DEBUG_I) std::cout << "Wczytujemy baze zwierzakow" << std::endl;
 		baza_zwierzakow.clear();
 		bobasy.clear();
+		podrostki.clear();
 
 		std::ifstream is(p);
 		std::string linijka;
@@ -233,15 +235,21 @@ public:
 				};
 			};
 
-			if (typ == "bobas") {
-				static int i = 0;
+			if(typ == "bobas") {
+				//static int i = 0;
 
 				Bobas nowy(rodzic, imie, glod, szczescie, wiek, zywy, wyspany, dania, przekaski);
 				bobasy[rodzic] = nowy;//tu sie rozjezdza pierwszy
 				bobasy[rodzic].wczytaj_sprite();
 				baza_zwierzakow[rodzic] = static_cast<stworzenie*> (&bobasy[rodzic]);
 
-				i++;
+				//i++;
+			}
+			else if (typ == "podrostek") {
+				Podrostek nowy(rodzic, imie, glod, szczescie, wiek, zywy, wyspany, dania, przekaski);
+				podrostki[rodzic] = nowy;//tu sie rozjezdza pierwszy
+				podrostki[rodzic].wczytaj_sprite();
+				baza_zwierzakow[rodzic] = static_cast<stworzenie*> (&podrostki[rodzic]);
 			};
 
 			if (DEBUG_I) std::cout << "Wczytalismy zwierzaka o imieniu  " << imie << " i imieniu rodzica: " << rodzic << std::endl;
