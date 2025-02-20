@@ -1,5 +1,6 @@
 ﻿  Trwa skanowanie źródeł pod kątem zależności modułów...
   zwierzak.ixx
+  gra.ixx
   Trwa kompilowanie…
   zwierzak.ixx
 C:\Users\agata\Desktop\Programowanie\C++\mametchi\projekt\zwierzak.ixx(13,23): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego

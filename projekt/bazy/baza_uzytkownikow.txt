@@ -1,7 +1,7 @@
 nazwa_uzytkownika		haslo		ects
 adam		adam		0
-guattari		guattari		1490
+guattari		guattari		1590
 guitari		gu		30
 logowanie		logowanie		0
-mario		mario		207
+mario		mario		417
 tama		amat		30

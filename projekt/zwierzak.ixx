@@ -42,6 +42,9 @@ protected:
 
 public:
 	std::filesystem::path lewy_profil;
+	std::filesystem::path wygrana;
+	std::filesystem::path przegrana;
+
 	stworzenie() : glod(0), szczescie(0), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) { if (DEBUG_Z) std::cout << "wywolano konstruktor bezargumentowy klasy stworzenie" << std::endl; };
 	virtual void wczytaj_sprite() { if (DEBUG_Z) std::cout << "Wczytuje sprite dla klasy stworzenie" << std::endl; };
 	virtual void idle_animation() { if( DEBUG_Z ) std::cout << "Wyswietlam animacje petli dla klasy stworzenie" << std::endl; };
@@ -123,6 +126,9 @@ protected:
 public:
 	Bobas() { 
 		lewy_profil = "OBRAZKI/POSTACI/NIEMOWLE_LEWO.png";
+		wygrana = "OBRAZKI/POSTACI/NIEMOWLE_RADOSC.png";
+		przegrana = "OBRAZKI/POSTACI/NIEMOWLE_SMUTEK.png";
+
 		(*this).ustaw_dania({});
 		(*this).ustaw_przekaski({});
 	};
@@ -132,6 +138,9 @@ public:
 		const std::vector <produkt>& pozywienie, const std::vector <produkt>& slodycze)
 	{
 		lewy_profil = "OBRAZKI/POSTACI/NIEMOWLE_LEWO.png";
+		wygrana = "OBRAZKI/POSTACI/NIEMOWLE_RADOSC.png";
+		przegrana = "OBRAZKI/POSTACI/NIEMOWLE_SMUTEK.png";
+
 		ustaw_imie_rodzica(rodzic);
 		ustaw_imie(miano);
 
@@ -199,12 +208,18 @@ export class Podrostek : public stworzenie {
 
 	Podrostek() {
 		lewy_profil = "OBRAZKI/POSTACI/podrostek.png";
+		wygrana = "OBRAZKI/POSTACI/podrostek.png";
+		przegrana = "OBRAZKI/POSTACI/podrostek.png";
+
 		(*this).ustaw_dania({});
 		(*this).ustaw_przekaski({});
 	};
 
 	Podrostek(stworzenie bazowe) {
 		lewy_profil = "OBRAZKI/POSTACI/podrostek.png";
+		wygrana = "OBRAZKI/POSTACI/podrostek.png";
+		przegrana = "OBRAZKI/POSTACI/podrostek.png";
+
 		ustaw_imie_rodzica(bazowe.zwroc_imie_rodzica());
 		ustaw_imie(bazowe.zwroc_imie());
 
@@ -222,6 +237,9 @@ export class Podrostek : public stworzenie {
 		const std::vector <produkt>& pozywienie, const std::vector <produkt>& slodycze)
 	{
 		lewy_profil = "OBRAZKI/POSTACI/podrostek.png";
+		wygrana = "OBRAZKI/POSTACI/podrostek.png";
+		przegrana = "OBRAZKI/POSTACI/podrostek.png";
+
 		ustaw_imie_rodzica(rodzic);
 		ustaw_imie(miano);
 

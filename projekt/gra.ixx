@@ -72,14 +72,14 @@ public:
 
 	int zwroc_nagrode(bool obstawiana_wartosc, stworzenie * gracz) {
 		if (obstawiana_wartosc == animacja_stworka()) {
-			wczytaj_sprite("OBRAZKI/POSTACI/NIEMOWLE_RADOSC.png");
+			wczytaj_sprite((*gracz).wygrana);
 			(*gracz).ustaw_szczescie((*gracz).zwroc_szczescie() + 1);
 			int tmp = (*gracz).get_wygrane_pod_rzad();
 			(*gracz).inkrementuj_wygrane_pod_rzad();
 			return 100 + tmp*10;
 		}
 		else {
-			wczytaj_sprite("OBRAZKI/POSTACI/NIEMOWLE_SMUTEK.png");
+			wczytaj_sprite((*gracz).przegrana);
 			(*gracz).zeruj_wygrane_pod_rzad();
 			return 0;
 		};
