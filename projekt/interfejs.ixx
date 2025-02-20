@@ -129,6 +129,28 @@ public:
 				}
 				os << "\n";
 			}
+			else if (z.second->zwroc_imie() != "" && dynamic_cast<const Podrostek*>(z.second) != nullptr)
+			{
+				typ = "podrostek";
+				os << typ << "\t" << z.second->zwroc_imie_rodzica() << "\t"
+					<< z.second->zwroc_imie() << "\t" << z.second->zwroc_glod() << "\t"
+					<< z.second->zwroc_szczescie() << "\t" << z.second->zwroc_wiek() << "\t"
+					<< z.second->zwroc_zywy() << "\t" << z.second->zwroc_wyspany() << "\t";
+				for (auto danie : z.second->zwroc_dania()) {
+					if (z.second->zwroc_dania().back().zwroc_nazwa() != danie.zwroc_nazwa())
+						os << danie.zwroc_nazwa().substr(danie.zwroc_nazwa().find_first_of(" \t") + 1) << ",";
+					else
+						os << danie.zwroc_nazwa().substr(danie.zwroc_nazwa().find_first_of(" \t") + 1);
+				}
+				os << ";";
+				for (auto przekaska : z.second->zwroc_przekaski()) {
+					if (z.second->zwroc_przekaski().back().zwroc_nazwa() != przekaska.zwroc_nazwa())
+						os << przekaska.zwroc_nazwa().substr(przekaska.zwroc_nazwa().find_first_of(" \t") + 1) << ",";
+					else
+						os << przekaska.zwroc_nazwa().substr(przekaska.zwroc_nazwa().find_first_of(" \t") + 1) << ";";
+				}
+				os << "\n";
+			}
 			else {
 				std::cout << "Ten zwierzak nie istnieje. Wlasciciel to: " + z.first << std::endl;
 			}

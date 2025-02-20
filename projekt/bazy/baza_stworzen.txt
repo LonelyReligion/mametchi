@@ -1,3 +1,4 @@
-typ	imie_rodzica	imie	glod	szczescie	wiek	zywy	wyspany	dania	przekaski
-bobas	guattari	guattari	3	11	2	1	0	salatka;truskawka,serek;
-bobas	guitari	gi	5	10	0	1	0	salatka,lazania;lody;
+typ	imie_rodzica	imie		glod	szczescie	wiek	zywy	wyspany	dania	przekaski
+bobas	guattari	guattari	5	62		2	1	0	salatka;truskawka,serek;
+bobas	guitari		gi		5	10		0	1	0	salatka,lazania;lody;
+podrostek mario 	:3 		5 	5 		3 	1 	1 salatka,lazania;lody;

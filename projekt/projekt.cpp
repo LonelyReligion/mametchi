@@ -84,7 +84,7 @@ void idle_animation(std::promise<sf::Vector2f> & prom, bool restart) {
 };
 
 void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::Clock &czas_od_poludnia) {
-    if (czas_od_poludnia.getElapsedTime().asSeconds() < 230) //230
+    if (czas_od_poludnia.getElapsedTime().asSeconds() < 10) //230
         prom.set_value(sf::Vector2f(0.015f, 0.01f));
     else {
         stwor.ustaw_wyspany(false);
@@ -1057,7 +1057,7 @@ int main()
 
             std::thread pozycja_sloneczna(pozycja_slonca, std::move(prom_sloneczne), std::ref(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())), std::ref(czas_od_poludnia));
 
-            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 230)//230
+            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 10)//230
             {
                 if (!(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_wyspany()) { //jesli nie wyspany
                     //////////////
@@ -1071,7 +1071,7 @@ int main()
                         
                         if ((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).spij(budzik, okno)) {
                             //ewolucja
-                            Podrostek * ewoluowany = new Podrostek((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())));
+                            Podrostek* ewoluowany = new Podrostek((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())));
                             inter.dodajZwierzaka(ewoluowany);
                             ewoluowany->wczytaj_sprite();
 
@@ -1084,6 +1084,7 @@ int main()
                     };
                 }
                 else { //jezeli wyspany
+
                     (*(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_sprite()).setPosition(sf::Vector2f(0.f, 0.f));
                     czas_od_poludnia.restart();
                     raz_po = 1;
