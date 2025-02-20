@@ -195,7 +195,7 @@ int main()
     sf::Color wanilia(252, 234, 154);
     sf::Color pomarancza(247, 182, 101);
 
-    prawo_lewo pl("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png", font);
+    prawo_lewo pl(font);
     bool spimy = 0; //spanie to nie jest ekran
 
     //wczytaj bazy
@@ -448,7 +448,7 @@ int main()
                     gramy = 0;
                     zaklad = 0;
                     opoznienie.restart();
-                    pl.wczytaj_sprite("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png");
+                    pl.wczytaj_sprite((*inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())).lewy_profil);
                 };
             case sf::Event::MouseMoved:
                 if (ekran_popupu.zwroc_aktywny()) {
@@ -747,7 +747,8 @@ int main()
                     ekran_jedzenia.ustaw_aktywny(true);
                 }
                 else if (zabaw.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
-                    std::cout << "zabaw przycisniety" << std::endl;
+                    std::cout << "zabaw przycisniety " << (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).lewy_profil  << std::endl;
+                    pl.wczytaj_sprite((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).lewy_profil);
                     gramy = 1;
                 }
                 else if (sprza.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
@@ -1041,7 +1042,7 @@ int main()
                 gramy = 0;
                 zaklad = 0;
                 opoznienie.restart();
-                pl.wczytaj_sprite("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png");
+                pl.wczytaj_sprite(inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->lewy_profil);
             };
         }
         else {
@@ -1067,8 +1068,7 @@ int main()
 
                     if (spimy) {//jezeli guzik zostal wcisniety
                         if (!b) budzik.restart(); //raz na spanie
-                        b = true;
-
+                        
                         if ((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).spij(budzik, okno)) {
                             //ewolucja
                             Podrostek * ewoluowany = new Podrostek((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())));
@@ -1076,6 +1076,8 @@ int main()
                             ewoluowany->wczytaj_sprite();
 
                         }; //w koncu robi sie wyspany
+
+                        b = true;
                     }
                     else {
                         dobranoc.drukujdo(okno); //guzik

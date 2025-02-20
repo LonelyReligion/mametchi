@@ -34,7 +34,14 @@ private:
 	std::vector <produkt> dania;
 	std::vector <produkt> przekaski;
 protected:
+	sf::Sprite duszek;
+	sf::Texture tekstura; //musimy przechowywac i teksture i sprite'a poniewaz sprite przechowuje tylko pointer do tekstury
+
+	sf::Sprite duszek_spiacego;
+	sf::Texture tekstura_spiacego;
+
 public:
+	std::filesystem::path lewy_profil;
 	stworzenie() : glod(0), szczescie(0), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) { if (DEBUG_Z) std::cout << "wywolano konstruktor bezargumentowy klasy stworzenie" << std::endl; };
 	virtual void wczytaj_sprite() { if (DEBUG_Z) std::cout << "Wczytuje sprite dla klasy stworzenie" << std::endl; };
 	virtual void idle_animation() { if( DEBUG_Z ) std::cout << "Wyswietlam animacje petli dla klasy stworzenie" << std::endl; };
@@ -112,14 +119,10 @@ public:
 
 export class Bobas : public stworzenie {
 private:
-	sf::Sprite duszek_bobasa;
-	sf::Texture bobas; //musimy przechowywac i teksture i sprite'a poniewaz sprite przechowuje tylko pointer do tekstury
-
-	sf::Sprite duszek_spiacego_bobasa;
-	sf::Texture spiacy_bobas;
 protected:
 public:
 	Bobas() { 
+		lewy_profil = "OBRAZKI/POSTACI/NIEMOWLE_LEWO.png";
 		(*this).ustaw_dania({});
 		(*this).ustaw_przekaski({});
 	};
@@ -128,6 +131,7 @@ public:
 		const int& radosc, const int& lata, const bool& zyje, const bool& wypoczety,
 		const std::vector <produkt>& pozywienie, const std::vector <produkt>& slodycze)
 	{
+		lewy_profil = "OBRAZKI/POSTACI/NIEMOWLE_LEWO.png";
 		ustaw_imie_rodzica(rodzic);
 		ustaw_imie(miano);
 
@@ -140,39 +144,39 @@ public:
 		(*this).ustaw_przekaski(slodycze);
 	};
 
-	sf::Sprite* zwroc_sprite() { return &duszek_bobasa; };
+	sf::Sprite* zwroc_sprite() { return &duszek; };
 
 	virtual void wczytaj_sprite() { 
 		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl; 
-		if (!bobas.loadFromFile("obrazki/postaci/niemowle.png")) {
+		if (!tekstura.loadFromFile("obrazki/postaci/niemowle.png")) {
 			std::cout << "ladowanie tekstury bobasa zakonczone niepowodzeniem" << std::endl;
 		};
-		bobas.setSmooth(false);
-		duszek_bobasa.setTexture(bobas);
+		tekstura.setSmooth(false);
+		duszek.setTexture(tekstura);
 
 		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa bobasa" << std::endl;
-		duszek_bobasa.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
+		duszek.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
 
 		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl;
-		if (!spiacy_bobas.loadFromFile("obrazki/postaci/niemowle_spi.png")) {
+		if (!tekstura_spiacego.loadFromFile("obrazki/postaci/niemowle_spi.png")) {
 			std::cout << "ladowanie tekstury spiacego bobasa zakonczone niepowodzeniem" << std::endl;
 		};
-		spiacy_bobas.setSmooth(false);
-		duszek_spiacego_bobasa.setTexture(spiacy_bobas);
+		tekstura_spiacego.setSmooth(false);
+		duszek_spiacego.setTexture(tekstura_spiacego);
 
 		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa bobasa" << std::endl;
-		duszek_spiacego_bobasa.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
+		duszek_spiacego.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
 	};
 
 	void drukuj_do(sf::RenderWindow& okno, sf::Vector2f delta) {
-		duszek_bobasa.move(delta);
-		okno.draw(duszek_bobasa);
+		duszek.move(delta);
+		okno.draw(duszek);
 	};
 
 	//czy nast¹pi ewolucja
 	bool spij(sf::Clock & budzik, sf::RenderWindow & okno) {	
 		if (budzik.getElapsedTime().asSeconds() <= 10) {
-			okno.draw(duszek_spiacego_bobasa);
+			okno.draw(duszek_spiacego);
 		}
 		else if(!zwroc_wyspany()){
 			ustaw_wyspany(true);
@@ -190,20 +194,17 @@ public:
 
 };
 
-export class Podrostek : public stworzenie {
-	sf::Sprite duszek_podrostka;
-	sf::Texture podrostek; 
-
-	sf::Sprite duszek_spiacego_podrostka;
-	sf::Texture spiacy_podrostek;
-	
+export class Podrostek : public stworzenie {	
 	public:
+
 	Podrostek() {
+		lewy_profil = "OBRAZKI/POSTACI/podrostek.png";
 		(*this).ustaw_dania({});
 		(*this).ustaw_przekaski({});
 	};
 
 	Podrostek(stworzenie bazowe) {
+		lewy_profil = "OBRAZKI/POSTACI/podrostek.png";
 		ustaw_imie_rodzica(bazowe.zwroc_imie_rodzica());
 		ustaw_imie(bazowe.zwroc_imie());
 
@@ -220,6 +221,7 @@ export class Podrostek : public stworzenie {
 		const int& radosc, const int& lata, const bool& zyje, const bool& wypoczety,
 		const std::vector <produkt>& pozywienie, const std::vector <produkt>& slodycze)
 	{
+		lewy_profil = "OBRAZKI/POSTACI/podrostek.png";
 		ustaw_imie_rodzica(rodzic);
 		ustaw_imie(miano);
 
@@ -233,29 +235,29 @@ export class Podrostek : public stworzenie {
 	};
 
 	void drukuj_do(sf::RenderWindow& okno, sf::Vector2f delta) {
-		duszek_podrostka.move(delta);
-		okno.draw(duszek_podrostka);
+		duszek.move(delta);
+		okno.draw(duszek);
 	};
 
 	virtual void wczytaj_sprite() {
-		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy podrostek" << std::endl;
-		if (!podrostek.loadFromFile("obrazki/postaci/podrostek.png")) {
-			std::cout << "ladowanie tekstury podrostka zakonczone niepowodzeniem" << std::endl;
+		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl;
+		if (!tekstura.loadFromFile("obrazki/postaci/podrostek.png")) {
+			std::cout << "ladowanie tekstury bobasa zakonczone niepowodzeniem" << std::endl;
 		};
-		podrostek.setSmooth(false);
-		duszek_podrostka.setTexture(podrostek);
+		tekstura.setSmooth(false);
+		duszek.setTexture(tekstura);
 
-		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa podrostka" << std::endl;
-		duszek_podrostka.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
+		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa bobasa" << std::endl;
+		duszek.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
 
-		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy podrostek" << std::endl;
-		if (!spiacy_podrostek.loadFromFile("obrazki/postaci/podrostek.png")) {
-			std::cout << "ladowanie tekstury spiacego podrostka zakonczone niepowodzeniem" << std::endl;
+		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl;
+		if (!tekstura_spiacego.loadFromFile("obrazki/postaci/podrostek.png")) {
+			std::cout << "ladowanie tekstury spiacego bobasa zakonczone niepowodzeniem" << std::endl;
 		};
-		spiacy_podrostek.setSmooth(false);
-		duszek_spiacego_podrostka.setTexture(spiacy_podrostek);
+		tekstura_spiacego.setSmooth(false);
+		duszek_spiacego.setTexture(tekstura_spiacego);
 
-		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa podrostka" << std::endl;
-		duszek_spiacego_podrostka.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
+		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa bobasa" << std::endl;
+		duszek_spiacego.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
 	};
 };

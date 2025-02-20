@@ -22,9 +22,7 @@ private:
 	std::vector<przycisk> przyciski;
 	std::vector<sf::Sprite> obroty;
 public:
-	prawo_lewo(std::filesystem::path p, sf::Font& font) {
-		wczytaj_sprite(p);
-
+	prawo_lewo(sf::Font& font) {
 		sf::Text tytul("Prawo czy Lewo?", font, 50);
 		tytul.setFillColor(sf::Color(0, 77, 0));
 		tytul.setOrigin(sf::Vector2f(-225.f, -100.f));
