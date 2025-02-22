@@ -213,6 +213,7 @@ export class Podrostek : public stworzenie {
 
 		(*this).ustaw_dania({});
 		(*this).ustaw_przekaski({});
+		wczytaj_sprite();
 	};
 
 	Podrostek(stworzenie bazowe) {
@@ -229,16 +230,17 @@ export class Podrostek : public stworzenie {
 		(*this).ustaw_zywy(bazowe.zwroc_zywy());
 		(*this).ustaw_wyspany(bazowe.zwroc_wyspany());
 		(*this).ustaw_dania(bazowe.zwroc_dania());
-		(*this).ustaw_przekaski(bazowe.zwroc_przekaski());;
+		(*this).ustaw_przekaski(bazowe.zwroc_przekaski());
+		wczytaj_sprite();
 	}
 
 	Podrostek(const std::string rodzic, const std::string miano, const int& glodzik,
 		const int& radosc, const int& lata, const bool& zyje, const bool& wypoczety,
 		const std::vector <produkt>& pozywienie, const std::vector <produkt>& slodycze)
 	{
-		lewy_profil = "OBRAZKI/POSTACI/podrostek.png";
+		lewy_profil = "OBRAZKI/POSTACI/podrostek_lewo.png";
 		wygrana = "OBRAZKI/POSTACI/podrostek.png";
-		przegrana = "OBRAZKI/POSTACI/podrostek.png";
+		przegrana = "OBRAZKI/POSTACI/podrostek_smutek.png";
 
 		ustaw_imie_rodzica(rodzic);
 		ustaw_imie(miano);
@@ -250,6 +252,7 @@ export class Podrostek : public stworzenie {
 		(*this).ustaw_wyspany(wypoczety);
 		(*this).ustaw_dania(pozywienie);
 		(*this).ustaw_przekaski(slodycze);
+		wczytaj_sprite();
 	};
 
 	void drukuj_do(sf::RenderWindow& okno, sf::Vector2f delta) {
@@ -258,24 +261,43 @@ export class Podrostek : public stworzenie {
 	};
 
 	virtual void wczytaj_sprite() {
-		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl;
+		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy podrostek" << std::endl;
 		if (!tekstura.loadFromFile("obrazki/postaci/podrostek.png")) {
 			std::cout << "ladowanie tekstury bobasa zakonczone niepowodzeniem" << std::endl;
 		};
 		tekstura.setSmooth(false);
 		duszek.setTexture(tekstura);
 
-		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa bobasa" << std::endl;
+		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa podrostka" << std::endl;
 		duszek.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
 
-		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl;
+		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy podrostek" << std::endl;
 		if (!tekstura_spiacego.loadFromFile("obrazki/postaci/podrostek.png")) {
 			std::cout << "ladowanie tekstury spiacego bobasa zakonczone niepowodzeniem" << std::endl;
 		};
 		tekstura_spiacego.setSmooth(false);
 		duszek_spiacego.setTexture(tekstura_spiacego);
 
-		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa bobasa" << std::endl;
+		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa podrostka" << std::endl;
 		duszek_spiacego.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
+	};
+
+	//czy nast¹pi ewolucja
+	bool spij(sf::Clock& budzik, sf::RenderWindow& okno) {
+		if (budzik.getElapsedTime().asSeconds() <= 10) {
+			okno.draw(duszek_spiacego);
+		}
+		else if (!zwroc_wyspany()) {
+			ustaw_wyspany(true);
+			ustaw_wiek(zwroc_wiek() + 1);
+			std::cout << "nowy wiek zwierzaka: " << zwroc_wiek() << "\n";
+
+			if (zwroc_wiek() == 3) {
+				//pora na ewolucje
+				return true;
+			}
+		};
+		//drukujemy czekamy zmieniamy stan
+		return false;
 	};
 };

@@ -22,18 +22,17 @@ import gra;
 bool DEBUG = true;
 
 /*
-TODO
+TODO/ZNANE PROBLEMY
 > zeby najedzenie schodzilo w czasie
 > przycisk anuluj/cofnij w logowaniu
 > moze w ekranie powinien byc bool - visible i set i get visible (refaktoryzacja)
-> dodac wiek do statystyk (przygotowanie do mechanizmu ewolucji)
 > zmienic tlo jedzenia
 > zmienic tlo statystyk na bardziej pixelowe
 > dlugi tekst w przyciskach
 > poprawic readme.md na gicie
 > dodanie kciuka lub szczesliwej minki (splash screen) po zapisie/wczytaniu z sukcesem jezeli nas nie wylogowalo
 > miganie przy budzeniu (bug)
-> logowanie jako metoda klasy interface 
+> logowanie jako metoda klasy interface     
 > watki do aktualizowania statystyk (przydatne)(trune)
 > wskazowka/instrukcja/strzaleczka z esc (niekonieczne)
 > przekazywac i trzymac teksty jako referencje zamiast ustawiania (przydatne)(inwazyjne)
@@ -42,6 +41,8 @@ TODO
 > sprzatanie
 > liczba jedzenia kupionego
 > dzialanie lodow (bonus: dwa razy szybsza minigra czasowo, moze jakis licznik? daje 2x tyle szczescia co normalnie)
+> niewlasciwa pozycja w idle animacji
+> miganie
 */
 
 bool unikatowa_nazwa_zwierzaka(std::string nazwa, interfejs inter) {
@@ -1068,15 +1069,13 @@ int main()
 
                     if (spimy) {//jezeli guzik zostal wcisniety
                         if (!b) budzik.restart(); //raz na spanie
-                        
-                        if ((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).spij(budzik, okno)) {
+                        bool ewoluujemy = (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).spij(budzik, okno);
+                        if (ewoluujemy) {
                             //ewolucja
                             Podrostek* ewoluowany = new Podrostek((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())));
                             inter.dodajZwierzaka(ewoluowany);
-                            ewoluowany->wczytaj_sprite();
-
-                        }; //w koncu robi sie wyspany
-
+                        }; 
+                        //w koncu robi sie wyspany
                         b = true;
                     }
                     else {
