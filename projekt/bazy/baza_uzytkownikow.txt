@@ -4,5 +4,5 @@ adam		adam		0
 guattari		guattari		9500
 guitari		gu		30
 logowanie		logowanie		0
-mario		mario		417
+mario		mario		727
 tama		amat		30

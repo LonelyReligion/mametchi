@@ -208,8 +208,8 @@ export class Podrostek : public stworzenie {
 
 	Podrostek() {
 		lewy_profil = "OBRAZKI/POSTACI/podrostek.png";
-		wygrana = "OBRAZKI/POSTACI/podrostek.png";
-		przegrana = "OBRAZKI/POSTACI/podrostek.png";
+		wygrana = "OBRAZKI/POSTACI/podrostek_RADOSC.png";
+		przegrana = "OBRAZKI/POSTACI/podrostek_SMUTEK.png";
 
 		(*this).ustaw_dania({});
 		(*this).ustaw_przekaski({});
@@ -218,8 +218,8 @@ export class Podrostek : public stworzenie {
 
 	Podrostek(stworzenie bazowe) {
 		lewy_profil = "OBRAZKI/POSTACI/podrostek.png";
-		wygrana = "OBRAZKI/POSTACI/podrostek.png";
-		przegrana = "OBRAZKI/POSTACI/podrostek.png";
+		wygrana = "OBRAZKI/POSTACI/podrostek_RADOSC.png";
+		przegrana = "OBRAZKI/POSTACI/podrostek_SMUTEK.png";
 
 		ustaw_imie_rodzica(bazowe.zwroc_imie_rodzica());
 		ustaw_imie(bazowe.zwroc_imie());
@@ -239,8 +239,8 @@ export class Podrostek : public stworzenie {
 		const std::vector <produkt>& pozywienie, const std::vector <produkt>& slodycze)
 	{
 		lewy_profil = "OBRAZKI/POSTACI/podrostek_lewo.png";
-		wygrana = "OBRAZKI/POSTACI/podrostek.png";
-		przegrana = "OBRAZKI/POSTACI/podrostek_smutek.png";
+		wygrana = "OBRAZKI/POSTACI/podrostek_RADOSC.png";
+		przegrana = "OBRAZKI/POSTACI/podrostek_SMUTEK.png";
 
 		ustaw_imie_rodzica(rodzic);
 		ustaw_imie(miano);

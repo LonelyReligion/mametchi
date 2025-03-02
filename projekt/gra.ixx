@@ -14,14 +14,21 @@ export class prawo_lewo {
 private:
 	sf::Sprite stworek;
 	sf::Sprite stworek_prawo;
-	
+	sf::Sprite stworek_w_gorze;
+	sf::Sprite stworek_przesuniety;
+
 	sf::Texture bobas_lewo;//nie musi byc bobas
 	sf::Texture bobas_prawo;
 
 	ekran widok_gry;
 	std::vector<przycisk> przyciski;
-	std::vector<sf::Sprite> obroty;
+	
+	std::vector<sf::Sprite> obroty; //zmienic na tablice?
+	std::vector<sf::Sprite> skoki; //zmienic na tablice?
+	std::vector<sf::Sprite> trzesienie;
 public:
+	int wynik = 0; //0 - gramy, 1 - wygralismy, -1 - przegralismy
+
 	prawo_lewo(sf::Font& font) {
 		sf::Text tytul("Prawo czy Lewo?", font, 50);
 		tytul.setFillColor(sf::Color(0, 77, 0));
@@ -44,8 +51,19 @@ public:
 		stworek.setOrigin(sf::Vector2f(-300.f, -200.f));
 		stworek_prawo = stworek;
 		stworek_prawo.setTextureRect(sf::IntRect(200, 0, -200, 200));
+
 		obroty.push_back(stworek);
 		obroty.push_back(stworek_prawo);
+
+		stworek_w_gorze = stworek;
+		stworek_w_gorze.setOrigin(sf::Vector2f(-300.f, -180.f));
+		skoki.push_back(stworek);
+		skoki.push_back(stworek_w_gorze);
+
+		stworek_przesuniety = stworek;
+		stworek_przesuniety.setOrigin(sf::Vector2f(-320.f, -200.f));
+		trzesienie.push_back(stworek);
+		trzesienie.push_back(stworek_przesuniety);
 	};
 
 	std::vector<przycisk*> zwroc_przyciski() {
@@ -67,19 +85,29 @@ public:
 
 	void rysuj(sf::RenderWindow& okno) {
 		widok_gry.rysuj_tlo(okno);
-		okno.draw(obroty[animacja_stworka()]);
+
+		if (wynik == 0)
+			okno.draw(obroty[animacja_stworka()]);
+		else if(wynik == 1)
+			okno.draw(skoki[animacja_stworka()]);
+		else
+			okno.draw(trzesienie[animacja_stworka()]);
 	};
 
 	int zwroc_nagrode(bool obstawiana_wartosc, stworzenie * gracz) {
 		if (obstawiana_wartosc == animacja_stworka()) {
+			wynik = 1;
 			wczytaj_sprite((*gracz).wygrana);
+			
 			(*gracz).ustaw_szczescie((*gracz).zwroc_szczescie() + 1);
 			int tmp = (*gracz).get_wygrane_pod_rzad();
 			(*gracz).inkrementuj_wygrane_pod_rzad();
 			return 100 + tmp*10;
 		}
 		else {
+			wynik = -1;
 			wczytaj_sprite((*gracz).przegrana);
+			
 			(*gracz).zeruj_wygrane_pod_rzad();
 			return 0;
 		};

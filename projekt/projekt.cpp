@@ -85,7 +85,7 @@ void idle_animation(std::promise<sf::Vector2f> & prom, bool restart) {
 };
 
 void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::Clock &czas_od_poludnia) {
-    if (czas_od_poludnia.getElapsedTime().asSeconds() < 10) //230
+    if (czas_od_poludnia.getElapsedTime().asSeconds() < 230) //230
         prom.set_value(sf::Vector2f(0.015f, 0.01f));
     else {
         stwor.ustaw_wyspany(false);
@@ -449,6 +449,8 @@ int main()
                     gramy = 0;
                     zaklad = 0;
                     opoznienie.restart();
+
+                    pl.wynik = 0;
                     pl.wczytaj_sprite((*inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())).lewy_profil);
                 };
             case sf::Event::MouseMoved:
@@ -751,6 +753,7 @@ int main()
                     std::cout << "zabaw przycisniety " << (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).lewy_profil  << std::endl;
                     pl.wczytaj_sprite((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).lewy_profil);
                     gramy = 1;
+                    pl.wynik = 0;
                 }
                 else if (sprza.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
                     //std::cout << "sprza przycisnieta" << std::endl;
@@ -1058,7 +1061,7 @@ int main()
 
             std::thread pozycja_sloneczna(pozycja_slonca, std::move(prom_sloneczne), std::ref(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())), std::ref(czas_od_poludnia));
 
-            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 10)//230
+            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 230)//230
             {
                 if (!(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_wyspany()) { //jesli nie wyspany
                     //////////////
