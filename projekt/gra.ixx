@@ -23,9 +23,9 @@ private:
 	ekran widok_gry;
 	std::vector<przycisk> przyciski;
 	
-	std::vector<sf::Sprite> obroty; //zmienic na tablice?
-	std::vector<sf::Sprite> skoki; //zmienic na tablice?
-	std::vector<sf::Sprite> trzesienie;
+	sf::Sprite obroty[2];
+	sf::Sprite skoki[2];
+	sf::Sprite trzesienie[2];
 public:
 	int wynik = 0; //0 - gramy, 1 - wygralismy, -1 - przegralismy
 
@@ -52,24 +52,25 @@ public:
 		stworek_prawo = stworek;
 		stworek_prawo.setTextureRect(sf::IntRect(200, 0, -200, 200));
 
-		obroty.push_back(stworek);
-		obroty.push_back(stworek_prawo);
+		obroty[0] = stworek;
+		obroty[1] = stworek_prawo;
 
 		stworek_w_gorze = stworek;
 		stworek_w_gorze.setOrigin(sf::Vector2f(-300.f, -180.f));
-		skoki.push_back(stworek);
-		skoki.push_back(stworek_w_gorze);
+		skoki[0] = stworek;
+		skoki[1] = stworek_w_gorze;
 
 		stworek_przesuniety = stworek;
 		stworek_przesuniety.setOrigin(sf::Vector2f(-320.f, -200.f));
-		trzesienie.push_back(stworek);
-		trzesienie.push_back(stworek_przesuniety);
+		trzesienie[0] = stworek;
+		trzesienie[1] = stworek_przesuniety;
 	};
 
 	std::vector<przycisk*> zwroc_przyciski() {
 		return widok_gry.zwroc_przyciski();
 	};
 
+	//moze zmienic po prostu na licznik i modulo :')
 	bool animacja_stworka() {
 		static bool moneta = 1;
 		static int licznik = 50;

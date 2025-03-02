@@ -263,7 +263,7 @@ export class Podrostek : public stworzenie {
 	virtual void wczytaj_sprite() {
 		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy podrostek" << std::endl;
 		if (!tekstura.loadFromFile("obrazki/postaci/podrostek.png")) {
-			std::cout << "ladowanie tekstury bobasa zakonczone niepowodzeniem" << std::endl;
+			std::cout << "ladowanie tekstury podrostka zakonczone niepowodzeniem" << std::endl;
 		};
 		tekstura.setSmooth(false);
 		duszek.setTexture(tekstura);
@@ -272,7 +272,7 @@ export class Podrostek : public stworzenie {
 		duszek.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
 
 		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy podrostek" << std::endl;
-		if (!tekstura_spiacego.loadFromFile("obrazki/postaci/podrostek.png")) {
+		if (!tekstura_spiacego.loadFromFile("obrazki/postaci/podrostek_spi.png")) {
 			std::cout << "ladowanie tekstury spiacego bobasa zakonczone niepowodzeniem" << std::endl;
 		};
 		tekstura_spiacego.setSmooth(false);
