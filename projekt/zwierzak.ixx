@@ -49,7 +49,6 @@ public:
 	virtual void wczytaj_sprite() { if (DEBUG_Z) std::cout << "Wczytuje sprite dla klasy stworzenie" << std::endl; };
 	virtual void idle_animation() { if( DEBUG_Z ) std::cout << "Wyswietlam animacje petli dla klasy stworzenie" << std::endl; };
 	virtual void drukuj_do(sf::RenderWindow& okno, sf::Vector2f delta) {};
-	virtual bool spij(sf::Clock& budzik, sf::RenderWindow& okno) { return false; };
 	virtual sf::Sprite* zwroc_sprite() { return new sf::Sprite(); };
 
 	void zeruj_wygrane_pod_rzad() {
@@ -115,6 +114,25 @@ public:
 
 	void dodaj_przekaske(produkt p) { przekaski.push_back(p); };
 	std::vector<produkt> pobierz_przekaski() { return przekaski; };
+
+	//czy nast¹pi ewolucja
+	bool spij(sf::Clock& budzik, sf::RenderWindow& okno) {
+		if (budzik.getElapsedTime().asSeconds() <= 10) {
+			okno.draw(duszek_spiacego);
+		}
+		else if (!zwroc_wyspany()) {
+			ustaw_wyspany(true);
+			ustaw_wiek(zwroc_wiek() + 1);
+			std::cout << "nowy wiek zwierzaka: " << zwroc_wiek() << "\n";
+
+			if (zwroc_wiek() == 3) {
+				//pora na ewolucje
+				return true;
+			}
+		};
+		//drukujemy czekamy zmieniamy stan
+		return false;
+	};
 	/////////////
 
 	void postarz() { wiek += 1; };
@@ -182,32 +200,13 @@ public:
 		okno.draw(duszek);
 	};
 
-	//czy nast¹pi ewolucja
-	bool spij(sf::Clock & budzik, sf::RenderWindow & okno) {	
-		if (budzik.getElapsedTime().asSeconds() <= 10) {
-			okno.draw(duszek_spiacego);
-		}
-		else if(!zwroc_wyspany()){
-			ustaw_wyspany(true);
-			ustaw_wiek(zwroc_wiek()+1);
-			std::cout << "nowy wiek zwierzaka: " << zwroc_wiek() << "\n";
-
-			if (zwroc_wiek() == 3) {
-				//pora na ewolucje
-				return true;
-			}
-		};
-		//drukujemy czekamy zmieniamy stan
-		return false;
-	};
-
 };
 
 export class Podrostek : public stworzenie {	
 	public:
 
 	Podrostek() {
-		lewy_profil = "OBRAZKI/POSTACI/podrostek.png";
+		lewy_profil = "OBRAZKI/POSTACI/podrostek_lewo.png";
 		wygrana = "OBRAZKI/POSTACI/podrostek_RADOSC.png";
 		przegrana = "OBRAZKI/POSTACI/podrostek_SMUTEK.png";
 
@@ -217,7 +216,7 @@ export class Podrostek : public stworzenie {
 	};
 
 	Podrostek(stworzenie bazowe) {
-		lewy_profil = "OBRAZKI/POSTACI/podrostek.png";
+		lewy_profil = "OBRAZKI/POSTACI/podrostek_lewo.png";
 		wygrana = "OBRAZKI/POSTACI/podrostek_RADOSC.png";
 		przegrana = "OBRAZKI/POSTACI/podrostek_SMUTEK.png";
 
@@ -280,24 +279,5 @@ export class Podrostek : public stworzenie {
 
 		if (DEBUG_Z) std::cout << "Wczytuje pozycje poczatkowa podrostka" << std::endl;
 		duszek_spiacego.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
-	};
-
-	//czy nast¹pi ewolucja
-	bool spij(sf::Clock& budzik, sf::RenderWindow& okno) {
-		if (budzik.getElapsedTime().asSeconds() <= 10) {
-			okno.draw(duszek_spiacego);
-		}
-		else if (!zwroc_wyspany()) {
-			ustaw_wyspany(true);
-			ustaw_wiek(zwroc_wiek() + 1);
-			std::cout << "nowy wiek zwierzaka: " << zwroc_wiek() << "\n";
-
-			if (zwroc_wiek() == 3) {
-				//pora na ewolucje
-				return true;
-			}
-		};
-		//drukujemy czekamy zmieniamy stan
-		return false;
 	};
 };
