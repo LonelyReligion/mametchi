@@ -85,7 +85,7 @@ void idle_animation(std::promise<sf::Vector2f> & prom, bool restart) {
 };
 
 void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::Clock &czas_od_poludnia) {
-    if (czas_od_poludnia.getElapsedTime().asSeconds() < 10) //230
+    if (czas_od_poludnia.getElapsedTime().asSeconds() < 230) //230
         prom.set_value(sf::Vector2f(0.015f, 0.01f));
     else {
         stwor.ustaw_wyspany(false);
@@ -451,7 +451,7 @@ int main()
                     opoznienie.restart();
 
                     pl.wynik = 0;
-                    pl.wczytaj_sprite((*inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())).lewy_profil);
+                    pl.wczytaj_sprite((*inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())).pobierz_lewy_profil());
                 };
             case sf::Event::MouseMoved:
                 if (ekran_popupu.zwroc_aktywny()) {
@@ -750,8 +750,8 @@ int main()
                     ekran_jedzenia.ustaw_aktywny(true);
                 }
                 else if (zabaw.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
-                    std::cout << "zabaw przycisniety " << (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).lewy_profil  << std::endl;
-                    pl.wczytaj_sprite((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).lewy_profil);
+                    std::cout << "zabaw przycisniety " << (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).pobierz_lewy_profil() << std::endl;
+                    pl.wczytaj_sprite((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).pobierz_lewy_profil());
                     gramy = 1;
                     pl.wynik = 0;
                 }
@@ -1046,7 +1046,7 @@ int main()
                 gramy = 0;
                 zaklad = 0;
                 opoznienie.restart();
-                pl.wczytaj_sprite(inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->lewy_profil);
+                pl.wczytaj_sprite(inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->pobierz_lewy_profil());
             };
         }
         else {
@@ -1061,7 +1061,7 @@ int main()
 
             std::thread pozycja_sloneczna(pozycja_slonca, std::move(prom_sloneczne), std::ref(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())), std::ref(czas_od_poludnia));
 
-            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 10)//230
+            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 230)//230
             {
                 if (!(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_wyspany()) { //jesli nie wyspany
                     //////////////

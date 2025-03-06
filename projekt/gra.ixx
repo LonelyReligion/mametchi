@@ -98,7 +98,7 @@ public:
 	int zwroc_nagrode(bool obstawiana_wartosc, stworzenie * gracz) {
 		if (obstawiana_wartosc == animacja_stworka()) {
 			wynik = 1;
-			wczytaj_sprite((*gracz).wygrana);
+			wczytaj_sprite((*gracz).pobierz_wygrana());
 			
 			(*gracz).ustaw_szczescie((*gracz).zwroc_szczescie() + 1);
 			int tmp = (*gracz).get_wygrane_pod_rzad();
@@ -107,7 +107,7 @@ public:
 		}
 		else {
 			wynik = -1;
-			wczytaj_sprite((*gracz).przegrana);
+			wczytaj_sprite((*gracz).pobierz_przegrana());
 			
 			(*gracz).zeruj_wygrane_pod_rzad();
 			return 0;

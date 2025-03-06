@@ -40,12 +40,18 @@ protected:
 	sf::Sprite duszek_spiacego;
 	sf::Texture tekstura_spiacego;
 
-public:
 	std::filesystem::path lewy_profil;
 	std::filesystem::path wygrana;
 	std::filesystem::path przegrana;
-
+public:
 	stworzenie() : glod(0), szczescie(0), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) { if (DEBUG_Z) std::cout << "wywolano konstruktor bezargumentowy klasy stworzenie" << std::endl; };
+	stworzenie(std::filesystem::path lp, std::filesystem::path w, std::filesystem::path p) : glod(0), szczescie(0), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) { 
+		lewy_profil = lp;
+		wygrana = w;
+		przegrana = p;
+
+		if (DEBUG_Z) std::cout << "wywolano konstruktor 3argumentowy klasy stworzenie" << std::endl; 
+	};
 	virtual void wczytaj_sprite() { if (DEBUG_Z) std::cout << "Wczytuje sprite dla klasy stworzenie" << std::endl; };
 	virtual void idle_animation() { if( DEBUG_Z ) std::cout << "Wyswietlam animacje petli dla klasy stworzenie" << std::endl; };
 	virtual void drukuj_do(sf::RenderWindow& okno, sf::Vector2f delta) {};
@@ -133,6 +139,10 @@ public:
 		//drukujemy czekamy zmieniamy stan
 		return false;
 	};
+
+	std::filesystem::path pobierz_wygrana() { return wygrana; };
+	std::filesystem::path pobierz_przegrana() { return przegrana; };
+	std::filesystem::path pobierz_lewy_profil() { return lewy_profil; };
 	/////////////
 
 	void postarz() { wiek += 1; };
@@ -142,23 +152,20 @@ export class Bobas : public stworzenie {
 private:
 protected:
 public:
-	Bobas() { 
-		lewy_profil = "OBRAZKI/POSTACI/NIEMOWLE_LEWO.png";
-		wygrana = "OBRAZKI/POSTACI/NIEMOWLE_RADOSC.png";
-		przegrana = "OBRAZKI/POSTACI/NIEMOWLE_SMUTEK.png";
-
+	Bobas() : stworzenie("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png",
+		"OBRAZKI/POSTACI/NIEMOWLE_RADOSC.png",
+		"OBRAZKI/POSTACI/NIEMOWLE_SMUTEK.png") {
 		(*this).ustaw_dania({});
 		(*this).ustaw_przekaski({});
 	};
 
 	Bobas(const std::string rodzic, const std::string miano, const int& glodzik,
 		const int& radosc, const int& lata, const bool& zyje, const bool& wypoczety,
-		const std::vector <produkt>& pozywienie, const std::vector <produkt>& slodycze)
+		const std::vector <produkt>& pozywienie, const std::vector <produkt>& slodycze) 
+		: stworzenie("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png",
+			"OBRAZKI/POSTACI/NIEMOWLE_RADOSC.png",
+			"OBRAZKI/POSTACI/NIEMOWLE_SMUTEK.png")
 	{
-		lewy_profil = "OBRAZKI/POSTACI/NIEMOWLE_LEWO.png";
-		wygrana = "OBRAZKI/POSTACI/NIEMOWLE_RADOSC.png";
-		przegrana = "OBRAZKI/POSTACI/NIEMOWLE_SMUTEK.png";
-
 		ustaw_imie_rodzica(rodzic);
 		ustaw_imie(miano);
 
@@ -205,21 +212,17 @@ public:
 export class Podrostek : public stworzenie {	
 	public:
 
-	Podrostek() {
-		lewy_profil = "OBRAZKI/POSTACI/podrostek_lewo.png";
-		wygrana = "OBRAZKI/POSTACI/podrostek_RADOSC.png";
-		przegrana = "OBRAZKI/POSTACI/podrostek_SMUTEK.png";
-
+	Podrostek() : stworzenie("OBRAZKI/POSTACI/podrostek_lewo.png",
+	"OBRAZKI/POSTACI/podrostek_RADOSC.png",
+	"OBRAZKI/POSTACI/podrostek_SMUTEK.png") {
 		(*this).ustaw_dania({});
 		(*this).ustaw_przekaski({});
 		wczytaj_sprite();
 	};
 
-	Podrostek(stworzenie bazowe) {
-		lewy_profil = "OBRAZKI/POSTACI/podrostek_lewo.png";
-		wygrana = "OBRAZKI/POSTACI/podrostek_RADOSC.png";
-		przegrana = "OBRAZKI/POSTACI/podrostek_SMUTEK.png";
-
+	Podrostek(stworzenie bazowe) : stworzenie("OBRAZKI/POSTACI/podrostek_lewo.png",
+		"OBRAZKI/POSTACI/podrostek_RADOSC.png",
+		"OBRAZKI/POSTACI/podrostek_SMUTEK.png") {
 		ustaw_imie_rodzica(bazowe.zwroc_imie_rodzica());
 		ustaw_imie(bazowe.zwroc_imie());
 
@@ -236,11 +239,10 @@ export class Podrostek : public stworzenie {
 	Podrostek(const std::string rodzic, const std::string miano, const int& glodzik,
 		const int& radosc, const int& lata, const bool& zyje, const bool& wypoczety,
 		const std::vector <produkt>& pozywienie, const std::vector <produkt>& slodycze)
+		: stworzenie("OBRAZKI/POSTACI/podrostek_lewo.png",
+			"OBRAZKI/POSTACI/podrostek_RADOSC.png",
+			"OBRAZKI/POSTACI/podrostek_SMUTEK.png")
 	{
-		lewy_profil = "OBRAZKI/POSTACI/podrostek_lewo.png";
-		wygrana = "OBRAZKI/POSTACI/podrostek_RADOSC.png";
-		przegrana = "OBRAZKI/POSTACI/podrostek_SMUTEK.png";
-
 		ustaw_imie_rodzica(rodzic);
 		ustaw_imie(miano);
 
