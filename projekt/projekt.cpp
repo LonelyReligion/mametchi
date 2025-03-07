@@ -124,6 +124,31 @@ bool wczytaj_bazy(interfejs* inter, std::map<std::string, produkt>& baza_dan, st
     return 1;
 }
 
+bool glodniejemy = false;
+std::atomic<bool> wylacz_sie(true);
+std::mutex mtx;
+std::condition_variable cv;
+
+void zglodniej(stworzenie* s)
+{
+    while (wylacz_sie){
+        if (s != NULL) {
+            if ((*s).zwroc_glod() != 0)
+            {
+                std::cout << "zglodnialem" << std::endl;
+                (*s).ustaw_glod((*s).zwroc_glod() - 1);
+            }
+            else
+            {
+                std::cout << "jestem zbyt glodny!" << std::endl;
+            }
+        }
+
+        std::unique_lock<std::mutex> lock(mtx);
+        cv.wait_for(lock, std::chrono::milliseconds(100000), [] { return !wylacz_sie; });
+    }
+}
+
 void zakup_produkt(interfejs & inter, std::map<std::string, produkt> baza_dan, bool czy_danie, sf::Font & font, ekran & sklepu, std::string nazwa_produktu, sf::Text & nowy) {
     std::vector<produkt> v;
     bool mamy_kase = inter.zwroc_baze_uzytkownikow()->at(inter.pobierzzalogowany()).zwrocects() >= baza_dan.at(nazwa_produktu).zwroc_cene();
@@ -181,6 +206,8 @@ int main()
     sf::Clock czas_od_poludnia; //zrobic zegar i sprawdzac interwaly zamiast mnozyc zegary?
     sf::Clock czas; //_od_wlaczenia_programu;
     sf::Clock budzik;
+    
+    std::thread t;
 
     sf::Font font;
     if (!font.loadFromFile("munro.ttf"))
@@ -671,6 +698,10 @@ int main()
             case sf::Event::MouseButtonPressed:
                 if (ekran_popupu.zwroc_aktywny()) {
                     if (tak.myszanad(okno) && !ekran_jedzenia.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy) {
+                        wylacz_sie = false;
+                        cv.notify_all();
+                        if(t.joinable())
+                            t.join();
                         return 0;
                     }
                     else if (nie.myszanad(okno) && !ekran_jedzenia.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy)
@@ -862,6 +893,7 @@ int main()
                                     
                                     ekran_statystyk.ustaw_napis(1, imie);
                                     ekran_statystyk.ustaw_napis(2, wiek);
+
                                 }
                                 else {
                                     instrukcja_logowania.setString("NIEPOPRAWNE HASLO. Podaj nazwe uzytkownika.");
@@ -936,6 +968,11 @@ int main()
         };
 
         okno.clear();
+
+        if (zalogowany && !glodniejemy) {
+            t = std::thread(zglodniej, (*inter.zwroc_baze_zwierzakow())[inter.pobierzzalogowany()]);
+            glodniejemy = true;
+        }
 
         //wyswietlamy rzeczy
         if (!zalogowany) {
@@ -1128,5 +1165,9 @@ int main()
 
     std::cout << "Minelo " << czas.getElapsedTime().asSeconds() << " sekund od uruchomienia programu." << std::endl;
     inter.zapisz_baze_uzytkownikow(plik_uzytkownikow);
+    wylacz_sie = false;
+    cv.notify_all();
+    if(t.joinable())
+        t.join();
     return 0;
 }
