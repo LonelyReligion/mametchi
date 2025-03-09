@@ -23,7 +23,9 @@ bool DEBUG = true;
 
 /*
 TODO/ZNANE PROBLEMY
-> zeby najedzenie schodzilo w czasie
+> zapisywanie i wczytywanie stanu zwierzaja (glodny)
+> przy odczycie glodnego zwierzaka przycisk gry wciaz powinien byc zdezaktywowany
+> zeby szczescie schodzilo w czasie
 > przycisk anuluj/cofnij w logowaniu
 > moze w ekranie powinien byc bool - visible i set i get visible (refaktoryzacja)
 > zmienic tlo jedzenia
@@ -129,7 +131,7 @@ std::atomic<bool> wylacz_sie(true);
 std::mutex mtx;
 std::condition_variable cv;
 
-void zglodniej(stworzenie* s)
+void zglodniej(stworzenie* s, przycisk &zabaw)
 {
     while (wylacz_sie){
         if (s != NULL) {
@@ -137,6 +139,11 @@ void zglodniej(stworzenie* s)
             {
                 std::cout << "zglodnialem" << std::endl;
                 (*s).ustaw_glod((*s).zwroc_glod() - 1);
+                if ((*s).zwroc_glod() == 0)
+                {
+                    (*s).ustaw_glodny(true);
+                    zabaw.dezaktywuj();
+                }
             }
             else
             {
@@ -145,7 +152,7 @@ void zglodniej(stworzenie* s)
         }
 
         std::unique_lock<std::mutex> lock(mtx);
-        cv.wait_for(lock, std::chrono::milliseconds(100000), [] { return !wylacz_sie; });
+        cv.wait_for(lock, std::chrono::milliseconds(1000), [] { return !wylacz_sie; }); //100000
     }
 }
 
@@ -970,7 +977,7 @@ int main()
         okno.clear();
 
         if (zalogowany && !glodniejemy) {
-            t = std::thread(zglodniej, (*inter.zwroc_baze_zwierzakow())[inter.pobierzzalogowany()]);
+            t = std::thread(zglodniej, (*inter.zwroc_baze_zwierzakow())[inter.pobierzzalogowany()], std::ref(zabaw));
             glodniejemy = true;
         }
 

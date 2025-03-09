@@ -12,6 +12,9 @@ export class przycisk {
 private:
 	sf::RectangleShape prostokat;
 	sf::Text tekst;
+
+	sf::RectangleShape prostokat_w_zapasie;
+	bool dezaktywowany = false;
 protected:
 public:
 	przycisk() {};
@@ -53,22 +56,42 @@ public:
 	};
 
 	bool myszanad(sf::RenderWindow& okno) {
-		double myszax = sf::Mouse::getPosition(okno).x;
-		double myszay = sf::Mouse::getPosition(okno).y;
+		if (!dezaktywowany)
+		{
+			double myszax = sf::Mouse::getPosition(okno).x;
+			double myszay = sf::Mouse::getPosition(okno).y;
 
-		double guzikx = prostokat.getPosition().x;
-		double guziky = prostokat.getPosition().y;
+			double guzikx = prostokat.getPosition().x;
+			double guziky = prostokat.getPosition().y;
 
-		double xplusszer = guzikx + prostokat.getLocalBounds().width;
-		double ypluswys = guziky + prostokat.getLocalBounds().height;
+			double xplusszer = guzikx + prostokat.getLocalBounds().width;
+			double ypluswys = guziky + prostokat.getLocalBounds().height;
 
-		if (myszax < xplusszer && myszax > guzikx && myszay < ypluswys && myszay > guziky) //czy jest w konturze
-			return true;
-		else
-			return false;
+			if (myszax < xplusszer && myszax > guzikx && myszay < ypluswys && myszay > guziky) //czy jest w konturze
+				return true;
+			else
+				return false;
+		}
+		return false;
 	};
 
 	std::string zwroc_tekst() {
 		return tekst.getString().toAnsiString();
+	}
+
+	void dezaktywuj() 
+	{
+		prostokat_w_zapasie = prostokat;
+
+		dezaktywowany = true;
+		
+		ustawkolortla(sf::Color(197, 197, 197));
+		ustawkolortekstu(sf::Color(76, 91, 97));
+	}
+
+	void aktywuj() 
+	{
+		prostokat = prostokat_w_zapasie;
+		dezaktywowany = false;
 	}
 };

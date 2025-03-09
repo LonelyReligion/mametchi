@@ -24,7 +24,7 @@ private:
 	int wygrane_pod_rzad = 0; /*liczba wygranych gier prawo-lewo pod rzad, decyduje o bonusie, roboczo: resetuj¹ sie przy ka¿dej nowej sesji gry*/
 
 	//bool chory = 0;
-	//bool glodny = 0;
+	bool glodny = 0;
 	//bool zmeczony = 0;
 	//bool smutny = 0;
 
@@ -40,15 +40,25 @@ protected:
 	sf::Sprite duszek_spiacego;
 	sf::Texture tekstura_spiacego;
 
+	std::filesystem::path zwykly;
+
 	std::filesystem::path lewy_profil;
 	std::filesystem::path wygrana;
 	std::filesystem::path przegrana;
+
+	std::filesystem::path spiacy;
+	std::filesystem::path zglodnialy;
 public:
 	stworzenie() : glod(0), szczescie(0), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) { if (DEBUG_Z) std::cout << "wywolano konstruktor bezargumentowy klasy stworzenie" << std::endl; };
-	stworzenie(std::filesystem::path lp, std::filesystem::path w, std::filesystem::path p) : glod(0), szczescie(0), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) { 
+	stworzenie(std::filesystem::path z, std::filesystem::path lp, std::filesystem::path w, std::filesystem::path p, std::filesystem::path s, std::filesystem::path g) : glod(0), szczescie(0), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) {
+		zwykly = z;
+
 		lewy_profil = lp;
 		wygrana = w;
 		przegrana = p;
+
+		spiacy = s;
+		zglodnialy = g;
 
 		if (DEBUG_Z) std::cout << "wywolano konstruktor 3argumentowy klasy stworzenie" << std::endl; 
 	};
@@ -70,18 +80,18 @@ public:
 		if (DEBUG_Z) std::cout << "Jemy" << std::endl;
 		//if (!chory) {
 			if ((glod + jedzenie.zwroc_wo()) < 5) {
-				glod = glod + jedzenie.zwroc_wo();
+				ustaw_glod(glod + jedzenie.zwroc_wo());
 				if (DEBUG_Z) std::cout << zwroc_glod() << std::endl;
 			}
 			else {
-				glod = 5;
+				ustaw_glod(5);
 			};
 
 			if (jedzenie.zwroc_r()) { //mamy do czynienia ze slodyczem
 				if ((szczescie + jedzenie.zwroc_r()) < 5)
-					szczescie = szczescie + jedzenie.zwroc_r();
+					ustaw_szczescie(szczescie + jedzenie.zwroc_r());
 				else {
-					szczescie = 5;
+					ustaw_szczescie(5);
 				};
 			};
 		//};
@@ -95,7 +105,12 @@ public:
 	void ustaw_imie(const std::string& miano) { imie = miano; };
 
 	int zwroc_glod() { return glod; };
-	void ustaw_glod(const int& am) { glod = am; };
+	void ustaw_glod(const int& am) 
+	{ 
+		if (glod == 0 && am != 0)
+			ustaw_glodny(false);
+		glod = am;
+	};
 
 	int zwroc_szczescie() { return szczescie; };
 	void ustaw_szczescie(const int& radowanie) { szczescie = radowanie; };
@@ -120,6 +135,29 @@ public:
 
 	void dodaj_przekaske(produkt p) { przekaski.push_back(p); };
 	std::vector<produkt> pobierz_przekaski() { return przekaski; };
+
+	void ustaw_glodny(bool b) 
+	{ 
+		if (!b) 
+		{
+			if (!tekstura.loadFromFile(zwykly.string())) {
+				std::cout << "ladowanie tekstury podrostka zakonczone niepowodzeniem" << std::endl;
+			};
+			tekstura.setSmooth(false);
+			duszek.setTexture(tekstura);
+		}
+		else 
+		{
+			if (!tekstura.loadFromFile(zglodnialy.string())) {
+				std::cout << "ladowanie tekstury podrostka zakonczone niepowodzeniem" << std::endl;
+			};
+			tekstura.setSmooth(false);
+			duszek.setTexture(tekstura);
+		}
+		glodny = b;
+	};
+
+	bool zwroc_glodny() { return glodny; };
 
 	//czy nast¹pi ewolucja
 	bool spij(sf::Clock& budzik, sf::RenderWindow& okno) {
@@ -152,9 +190,9 @@ export class Bobas : public stworzenie {
 private:
 protected:
 public:
-	Bobas() : stworzenie("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png",
+	Bobas() : stworzenie("obrazki/postaci/niemowle.png", "OBRAZKI/POSTACI/NIEMOWLE_LEWO.png",
 		"OBRAZKI/POSTACI/NIEMOWLE_RADOSC.png",
-		"OBRAZKI/POSTACI/NIEMOWLE_SMUTEK.png") {
+		"OBRAZKI/POSTACI/NIEMOWLE_SMUTEK.png", "obrazki/postaci/niemowle_spi.png", "obrazki/postaci/NIEMOWLE_GLODNY.png") {
 		(*this).ustaw_dania({});
 		(*this).ustaw_przekaski({});
 	};
@@ -162,9 +200,9 @@ public:
 	Bobas(const std::string rodzic, const std::string miano, const int& glodzik,
 		const int& radosc, const int& lata, const bool& zyje, const bool& wypoczety,
 		const std::vector <produkt>& pozywienie, const std::vector <produkt>& slodycze) 
-		: stworzenie("OBRAZKI/POSTACI/NIEMOWLE_LEWO.png",
+		: stworzenie("obrazki/postaci/niemowle.png", "OBRAZKI/POSTACI/NIEMOWLE_LEWO.png",
 			"OBRAZKI/POSTACI/NIEMOWLE_RADOSC.png",
-			"OBRAZKI/POSTACI/NIEMOWLE_SMUTEK.png")
+			"OBRAZKI/POSTACI/NIEMOWLE_SMUTEK.png", "obrazki/postaci/niemowle_spi.png", "obrazki/postaci/NIEMOWLE_GLODNY.png")
 	{
 		ustaw_imie_rodzica(rodzic);
 		ustaw_imie(miano);
@@ -182,7 +220,7 @@ public:
 
 	virtual void wczytaj_sprite() { 
 		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl; 
-		if (!tekstura.loadFromFile("obrazki/postaci/niemowle.png")) {
+		if (!tekstura.loadFromFile(zwykly.string())) {
 			std::cout << "ladowanie tekstury bobasa zakonczone niepowodzeniem" << std::endl;
 		};
 		tekstura.setSmooth(false);
@@ -192,7 +230,7 @@ public:
 		duszek.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
 
 		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy bobas" << std::endl;
-		if (!tekstura_spiacego.loadFromFile("obrazki/postaci/niemowle_spi.png")) {
+		if (!tekstura_spiacego.loadFromFile(spiacy.string())) {
 			std::cout << "ladowanie tekstury spiacego bobasa zakonczone niepowodzeniem" << std::endl;
 		};
 		tekstura_spiacego.setSmooth(false);
@@ -212,17 +250,17 @@ public:
 export class Podrostek : public stworzenie {	
 	public:
 
-	Podrostek() : stworzenie("OBRAZKI/POSTACI/podrostek_lewo.png",
+	Podrostek() : stworzenie("obrazki/postaci/podrostek.png", "OBRAZKI/POSTACI/podrostek_lewo.png",
 	"OBRAZKI/POSTACI/podrostek_RADOSC.png",
-	"OBRAZKI/POSTACI/podrostek_SMUTEK.png") {
+	"OBRAZKI/POSTACI/podrostek_SMUTEK.png", "obrazki/postaci/podrostek_spi.png", "obrazki/postaci/PODROSTEK_GLODNY.png") {
 		(*this).ustaw_dania({});
 		(*this).ustaw_przekaski({});
 		wczytaj_sprite();
 	};
 
-	Podrostek(stworzenie bazowe) : stworzenie("OBRAZKI/POSTACI/podrostek_lewo.png",
+	Podrostek(stworzenie bazowe) : stworzenie("obrazki/postaci/podrostek.png", "OBRAZKI/POSTACI/podrostek_lewo.png",
 		"OBRAZKI/POSTACI/podrostek_RADOSC.png",
-		"OBRAZKI/POSTACI/podrostek_SMUTEK.png") {
+		"OBRAZKI/POSTACI/podrostek_SMUTEK.png", "obrazki/postaci/podrostek_spi.png", "obrazki/postaci/PODROSTEK_GLODNY.png") {
 		ustaw_imie_rodzica(bazowe.zwroc_imie_rodzica());
 		ustaw_imie(bazowe.zwroc_imie());
 
@@ -239,9 +277,9 @@ export class Podrostek : public stworzenie {
 	Podrostek(const std::string rodzic, const std::string miano, const int& glodzik,
 		const int& radosc, const int& lata, const bool& zyje, const bool& wypoczety,
 		const std::vector <produkt>& pozywienie, const std::vector <produkt>& slodycze)
-		: stworzenie("OBRAZKI/POSTACI/podrostek_lewo.png",
+		: stworzenie("obrazki/postaci/podrostek.png", "OBRAZKI/POSTACI/podrostek_lewo.png",
 			"OBRAZKI/POSTACI/podrostek_RADOSC.png",
-			"OBRAZKI/POSTACI/podrostek_SMUTEK.png")
+			"OBRAZKI/POSTACI/podrostek_SMUTEK.png", "obrazki/postaci/podrostek_spi.png", "obrazki/postaci/PODROSTEK_GLODNY.png")
 	{
 		ustaw_imie_rodzica(rodzic);
 		ustaw_imie(miano);
@@ -263,7 +301,7 @@ export class Podrostek : public stworzenie {
 
 	virtual void wczytaj_sprite() {
 		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy podrostek" << std::endl;
-		if (!tekstura.loadFromFile("obrazki/postaci/podrostek.png")) {
+		if (!tekstura.loadFromFile(zwykly.string())) {
 			std::cout << "ladowanie tekstury podrostka zakonczone niepowodzeniem" << std::endl;
 		};
 		tekstura.setSmooth(false);
@@ -273,7 +311,7 @@ export class Podrostek : public stworzenie {
 		duszek.setOrigin(sf::Vector2f(-300.f, -250.f)); //x, y (0,0) jest w lewym gornym rogu
 
 		if (DEBUG_Z) std::cout << "Wczytuje sprite'y dla klasy podrostek" << std::endl;
-		if (!tekstura_spiacego.loadFromFile("obrazki/postaci/podrostek_spi.png")) {
+		if (!tekstura_spiacego.loadFromFile(spiacy.string())) {
 			std::cout << "ladowanie tekstury spiacego bobasa zakonczone niepowodzeniem" << std::endl;
 		};
 		tekstura_spiacego.setSmooth(false);
