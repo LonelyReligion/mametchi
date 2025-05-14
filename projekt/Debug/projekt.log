@@ -1,0 +1,543 @@
+﻿  gra.ixx
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\filesystem(13): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(8,17): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(8,8): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „interfejs”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(9,16): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(9,1): error C2086: "int import": zmiana definicji
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(8,1): message : zobacz deklarację „import”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(9,8): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „zwierzak”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(11,1): error C3378: deklarację można eksportować tylko z jednostki interfejsu modułu
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(11,18): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(11,15): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „gra”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(13,1): error C3378: deklarację można eksportować tylko z jednostki interfejsu modułu
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(23,8): error C3646: "widok_gry": nieznany specyfikator przesłonięcia
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(23,17): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(24,14): error C2065: "przycisk": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(24,7): error C2923: „std::vector”: „przycisk” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(24,14): message : zobacz deklarację „przycisk”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(24,7): error C2976: „std::vector”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(45,27): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(45,39): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\random(34,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(45,44): error C2061: błąd składniowy: identyfikator „path”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(69,14): error C2065: "przycisk": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(69,23): error C2059: błąd składniowy: „>”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(85,19): error C2061: błąd składniowy: identyfikator „ekran”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(98,45): error C2061: błąd składniowy: identyfikator „stworzenie”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(32,12): error C2512: "std::vector": niedostępny odpowiedni konstruktor domyślny
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(37,23): error C3861: "przycisk": identyfikatora nie odnaleziono
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(38,23): error C3861: "przycisk": identyfikatora nie odnaleziono
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(40,3): error C2065: "widok_gry": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(41,3): error C2065: "widok_gry": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(42,3): error C2065: "widok_gry": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(42,32): error C2678: dwuargumentowy "[": nie znaleziono żadnego operatora, który przyjmuje lewostronny operand typu "std::vector" (lub nie istnieje akceptowalna konwersja)
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(1890,40): message : może to być „const _Ty &std::vector<_Ty,_Alloc>::operator [](const allocator_traits<allocator_traits<_Alloc>::rebind_alloc<_Ty>>::size_type) noexcept const”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(1880,34): message : lub       "_Ty &std::vector<_Ty,_Alloc>::operator [](const allocator_traits<allocator_traits<_Alloc>::rebind_alloc<_Ty>>::size_type) noexcept"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(42,32): message : podczas próby dopasowania listy argumentów "(std::vector, int)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(42,47): error C2678: dwuargumentowy "[": nie znaleziono żadnego operatora, który przyjmuje lewostronny operand typu "std::vector" (lub nie istnieje akceptowalna konwersja)
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(1890,40): message : może to być „const _Ty &std::vector<_Ty,_Alloc>::operator [](const allocator_traits<allocator_traits<_Alloc>::rebind_alloc<_Ty>>::size_type) noexcept const”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(1880,34): message : lub       "_Ty &std::vector<_Ty,_Alloc>::operator [](const allocator_traits<allocator_traits<_Alloc>::rebind_alloc<_Ty>>::size_type) noexcept"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(42,47): message : podczas próby dopasowania listy argumentów "(std::vector, int)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(46,32): error C2065: "p": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(70,10): error C2065: "widok_gry": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(85,31): error C2065: "widok_gry": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(85,43): error C2065: "e": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(88,3): error C2065: "widok_gry": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(101,21): error C2065: "gracz": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(101,4): error C2660: "prawo_lewo::wczytaj_sprite": funkcja nie przyjmuje 1 argumentów
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(45,7): message : zobacz deklarację „prawo_lewo::wczytaj_sprite”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(101,4): message : podczas próby dopasowania listy argumentów "()"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(103,6): error C2065: "gracz": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(103,31): error C2065: "gracz": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(104,16): error C2065: "gracz": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(105,6): error C2065: "gracz": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(110,21): error C2065: "gracz": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(110,4): error C2660: "prawo_lewo::wczytaj_sprite": funkcja nie przyjmuje 1 argumentów
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(45,7): message : zobacz deklarację „prawo_lewo::wczytaj_sprite”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(110,4): message : podczas próby dopasowania listy argumentów "()"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(112,6): error C2065: "gracz": niezadeklarowany identyfikator
+  interfejs.ixx
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\filesystem(13): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(12,21): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(12,8): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „pole_tekstowe”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(13,13): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(13,1): error C2086: "int import": zmiana definicji
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(12,1): message : zobacz deklarację „import”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(13,8): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „guzik”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(14,16): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(14,1): error C2086: "int import": zmiana definicji
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(12,1): message : zobacz deklarację „import”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(14,8): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „zwierzak”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(15,16): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(15,1): error C2086: "int import": zmiana definicji
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(12,1): message : zobacz deklarację „import”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(15,8): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „jedzenie”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(19,1): error C3378: deklarację można eksportować tylko z jednostki interfejsu modułu
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(19,24): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(19,15): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „interfejs”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(21,1): error C3378: deklarację można eksportować tylko z jednostki interfejsu modułu
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(58,1): error C3378: deklarację można eksportować tylko z jednostki interfejsu modułu
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(63,24): error C2065: "stworzenie": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(63,35): error C2059: błąd składniowy: „>”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(65,24): error C2065: "Bobas": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(65,7): error C2923: „std::map”: „Bobas” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(65,24): message : zobacz deklarację „Bobas”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(65,7): error C2976: „std::map”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(73,1): message : zobacz deklarację „std::map”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(66,24): error C2065: "Podrostek": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(66,7): error C2923: „std::map”: „Podrostek” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(66,24): message : zobacz deklarację „Podrostek”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(66,7): error C2976: „std::map”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(73,1): message : zobacz deklarację „std::map”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(74,32): error C2061: błąd składniowy: identyfikator „Bobas”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(97,43): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(97,55): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(97,59): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(97,59): error C2143: błąd składniowy: brakuje „,” przed „&”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(106,41): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(106,53): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(106,57): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(106,57): error C2143: błąd składniowy: brakuje „,” przed „&”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(161,44): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(161,56): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(161,61): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(161,61): error C2143: błąd składniowy: brakuje „,” przed „&”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(185,42): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(185,54): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(185,58): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(185,58): error C2143: błąd składniowy: brakuje „,” przed „&”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(284,24): error C2065: "stworzenie": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(284,35): error C2059: błąd składniowy: „>”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(286,22): error C2061: błąd składniowy: identyfikator „stworzenie”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(77,25): error C2065: "bobo": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(84,23): error C2065: "bobo": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(98,20): error C2065: "p": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(107,20): error C2065: "p": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): error C2672: „begin”: nie znaleziono zgodnej przeciążonej funkcji
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\xutility(1612,27): message : może to być „_Ty *std::begin(_Ty (&)[_Size]) noexcept”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : „_Ty *std::begin(_Ty (&)[_Size]) noexcept”: nie można wywnioskować argumentu szablon dla elementu „_Ty (&)[_Size]” z „unknown-type”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\xutility(1594,30): message : lub       "unknown-type std::begin(const _Container &) noexcept(<expr>)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : Specjalizacja szablonu funkcji „unknown-type std::begin(const _Container &) noexcept(<expr>)” nie powiodła się
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : Z następującymi argumentami szablonu:
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : "_Container=unknown-type"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\xutility(1588,30): message : lub       "unknown-type std::begin(_Container &) noexcept(<expr>)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : Specjalizacja szablonu funkcji „unknown-type std::begin(_Container &) noexcept(<expr>)” nie powiodła się
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : Z następującymi argumentami szablonu:
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : "_Container=unknown-type"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\initializer_list(55,35): message : lub       "const _Elem *std::begin(std::initializer_list<_Elem>) noexcept"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : „const _Elem *std::begin(std::initializer_list<_Elem>) noexcept”: nie można wywnioskować argumentu szablon dla elementu „std::initializer_list<_Elem>” z „unknown-type”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): error C2672: „end”: nie znaleziono zgodnej przeciążonej funkcji
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\xutility(1617,27): message : może to być „_Ty *std::end(_Ty (&)[_Size]) noexcept”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : „_Ty *std::end(_Ty (&)[_Size]) noexcept”: nie można wywnioskować argumentu szablon dla elementu „_Ty (&)[_Size]” z „unknown-type”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\xutility(1606,30): message : lub       "unknown-type std::end(const _Container &) noexcept(<expr>)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : Specjalizacja szablonu funkcji „unknown-type std::end(const _Container &) noexcept(<expr>)” nie powiodła się
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : Z następującymi argumentami szablonu:
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : "_Container=unknown-type"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\xutility(1600,30): message : lub       "unknown-type std::end(_Container &) noexcept(<expr>)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : Specjalizacja szablonu funkcji „unknown-type std::end(_Container &) noexcept(<expr>)” nie powiodła się
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : Z następującymi argumentami szablonu:
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : "_Container=unknown-type"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\initializer_list(60,35): message : lub       "const _Elem *std::end(std::initializer_list<_Elem>) noexcept"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,18): message : „const _Elem *std::end(std::initializer_list<_Elem>) noexcept”: nie można wywnioskować argumentu szablon dla elementu „std::initializer_list<_Elem>” z „unknown-type”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,1): error C3536: "<begin>$L0" : nie można użyć, zanim zostanie zainicjowany
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,1): error C3536: "<end>$L0" : nie można użyć, zanim zostanie zainicjowany
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(109,33): error C2100: niedozwolony operator pośredni
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(111): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(111,59): error C2146: błąd składniowy: brakuje „>” przed identyfikatorem „Bobas”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(111,1): error C2143: błąd składniowy: brakuje „;” przed „{”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(117,1): error C3531: „danie”: symbol, którego typ zawiera „auto”, musi mieć inicjator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(117,21): error C2143: błąd składniowy: brakuje „;” przed „:”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(117,46): error C2143: błąd składniowy: brakuje „;” przed „)”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(124,1): error C3531: „przekaska”: symbol, którego typ zawiera „auto”, musi mieć inicjator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(124,25): error C2143: błąd składniowy: brakuje „;” przed „:”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(124,54): error C2143: błąd składniowy: brakuje „;” przed „)”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(132,1): error C2181: niedozwolony else bez instrukcji if
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(132): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(132,64): error C2146: błąd składniowy: brakuje „>” przed identyfikatorem „Podrostek”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(133,1): error C2143: błąd składniowy: brakuje „;” przed „{”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(139,1): error C3531: „danie”: symbol, którego typ zawiera „auto”, musi mieć inicjator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(139,21): error C2143: błąd składniowy: brakuje „;” przed „:”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(139,46): error C2143: błąd składniowy: brakuje „;” przed „)”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(146,1): error C3531: „przekaska”: symbol, którego typ zawiera „auto”, musi mieć inicjator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(146,25): error C2143: błąd składniowy: brakuje „;” przed „:”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(146,54): error C2143: błąd składniowy: brakuje „;” przed „)”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(154,1): error C2181: niedozwolony else bez instrukcji if
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(166,20): error C2065: "p": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(188,9): error C2662: "void std::_Tree<_Traits>::clear(void) noexcept": nie można konwertować wskaźnika "this" z "std::map" do "std::_Tree<_Traits> &"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(188,3): message : Przyczyna: nie można skonwertować z "std::map" na "std::_Tree<_Traits>"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(188,3): message : Konwersja wymaga drugiego operatora konwersji zdefiniowanego przez użytkownika lub konstruktora
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\xtree(1353,10): message : zobacz deklarację „std::_Tree<_Traits>::clear”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(188,9): message : podczas próby dopasowania listy argumentów "()"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(189,12): error C2662: "void std::_Tree<_Traits>::clear(void) noexcept": nie można konwertować wskaźnika "this" z "std::map" do "std::_Tree<_Traits> &"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(189,3): message : Przyczyna: nie można skonwertować z "std::map" na "std::_Tree<_Traits>"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(189,3): message : Konwersja wymaga drugiego operatora konwersji zdefiniowanego przez użytkownika lub konstruktora
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\xtree(1353,10): message : zobacz deklarację „std::_Tree<_Traits>::clear”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(189,12): message : podczas próby dopasowania listy argumentów "()"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(191,20): error C2065: "p": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(201,17): error C2065: "produkt": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(201,9): error C2923: „std::vector”: „produkt” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(201,17): message : zobacz deklarację „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(201,9): error C2976: „std::vector”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(201,26): error C2133: "dania": nieznany rozmiar
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(201,26): error C2512: "std::vector": niedostępny odpowiedni konstruktor domyślny
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(202,17): error C2065: "produkt": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(202,9): error C2923: „std::vector”: „produkt” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(202,17): message : zobacz deklarację „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(202,9): error C2976: „std::vector”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(202,26): error C2133: "przekaski": nieznany rozmiar
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(202,26): error C2512: "std::vector": niedostępny odpowiedni konstruktor domyślny
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(214,23): error C2065: "baza_dan": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(214,12): error C2663: „std::vector<_Ty,_Alloc>::push_back”: żadna przeciążona funkcja nie ma prawidłowej konwersji dla wskaźnika „ten”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(874,23): message : może to być „void std::vector<_Ty,_Alloc>::push_back(_Ty &&)”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(214,12): message : "void std::vector<_Ty,_Alloc>::push_back(_Ty &&)": nie można konwertować wskaźnika "this" z "std::vector" do "std::vector<_Ty,_Alloc> &"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(214,7): message : Przyczyna: nie można skonwertować z "std::vector" na "std::vector<_Ty,_Alloc>"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(214,7): message : Konwersja wymaga drugiego operatora konwersji zdefiniowanego przez użytkownika lub konstruktora
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(870,23): message : lub       "void std::vector<_Ty,_Alloc>::push_back(const _Ty &)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(214,12): message : "void std::vector<_Ty,_Alloc>::push_back(const _Ty &)": nie można konwertować wskaźnika "this" z "std::vector" do "std::vector<_Ty,_Alloc> &"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(214,7): message : Przyczyna: nie można skonwertować z "std::vector" na "std::vector<_Ty,_Alloc>"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(214,7): message : Konwersja wymaga drugiego operatora konwersji zdefiniowanego przez użytkownika lub konstruktora
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(214,12): message : podczas próby dopasowania listy argumentów "()"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(228,22): error C2065: "baza_dan": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(228,11): error C2663: „std::vector<_Ty,_Alloc>::push_back”: żadna przeciążona funkcja nie ma prawidłowej konwersji dla wskaźnika „ten”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(874,23): message : może to być „void std::vector<_Ty,_Alloc>::push_back(_Ty &&)”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(228,11): message : "void std::vector<_Ty,_Alloc>::push_back(_Ty &&)": nie można konwertować wskaźnika "this" z "std::vector" do "std::vector<_Ty,_Alloc> &"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(228,6): message : Przyczyna: nie można skonwertować z "std::vector" na "std::vector<_Ty,_Alloc>"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(228,6): message : Konwersja wymaga drugiego operatora konwersji zdefiniowanego przez użytkownika lub konstruktora
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(870,23): message : lub       "void std::vector<_Ty,_Alloc>::push_back(const _Ty &)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(228,11): message : "void std::vector<_Ty,_Alloc>::push_back(const _Ty &)": nie można konwertować wskaźnika "this" z "std::vector" do "std::vector<_Ty,_Alloc> &"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(228,6): message : Przyczyna: nie można skonwertować z "std::vector" na "std::vector<_Ty,_Alloc>"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(228,6): message : Konwersja wymaga drugiego operatora konwersji zdefiniowanego przez użytkownika lub konstruktora
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(228,11): message : podczas próby dopasowania listy argumentów "()"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(239,27): error C2065: "baza_dan": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(239,16): error C2663: „std::vector<_Ty,_Alloc>::push_back”: żadna przeciążona funkcja nie ma prawidłowej konwersji dla wskaźnika „ten”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(874,23): message : może to być „void std::vector<_Ty,_Alloc>::push_back(_Ty &&)”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(239,16): message : "void std::vector<_Ty,_Alloc>::push_back(_Ty &&)": nie można konwertować wskaźnika "this" z "std::vector" do "std::vector<_Ty,_Alloc> &"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(239,7): message : Przyczyna: nie można skonwertować z "std::vector" na "std::vector<_Ty,_Alloc>"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(239,7): message : Konwersja wymaga drugiego operatora konwersji zdefiniowanego przez użytkownika lub konstruktora
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(870,23): message : lub       "void std::vector<_Ty,_Alloc>::push_back(const _Ty &)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(239,16): message : "void std::vector<_Ty,_Alloc>::push_back(const _Ty &)": nie można konwertować wskaźnika "this" z "std::vector" do "std::vector<_Ty,_Alloc> &"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(239,7): message : Przyczyna: nie można skonwertować z "std::vector" na "std::vector<_Ty,_Alloc>"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(239,7): message : Konwersja wymaga drugiego operatora konwersji zdefiniowanego przez użytkownika lub konstruktora
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(239,16): message : podczas próby dopasowania listy argumentów "()"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(253,26): error C2065: "baza_dan": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(253,15): error C2663: „std::vector<_Ty,_Alloc>::push_back”: żadna przeciążona funkcja nie ma prawidłowej konwersji dla wskaźnika „ten”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(874,23): message : może to być „void std::vector<_Ty,_Alloc>::push_back(_Ty &&)”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(253,15): message : "void std::vector<_Ty,_Alloc>::push_back(_Ty &&)": nie można konwertować wskaźnika "this" z "std::vector" do "std::vector<_Ty,_Alloc> &"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(253,6): message : Przyczyna: nie można skonwertować z "std::vector" na "std::vector<_Ty,_Alloc>"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(253,6): message : Konwersja wymaga drugiego operatora konwersji zdefiniowanego przez użytkownika lub konstruktora
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(870,23): message : lub       "void std::vector<_Ty,_Alloc>::push_back(const _Ty &)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(253,15): message : "void std::vector<_Ty,_Alloc>::push_back(const _Ty &)": nie można konwertować wskaźnika "this" z "std::vector" do "std::vector<_Ty,_Alloc> &"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(253,6): message : Przyczyna: nie można skonwertować z "std::vector" na "std::vector<_Ty,_Alloc>"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(253,6): message : Konwersja wymaga drugiego operatora konwersji zdefiniowanego przez użytkownika lub konstruktora
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(253,15): message : podczas próby dopasowania listy argumentów "()"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(263,5): error C2065: "Bobas": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(263,11): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „nowy”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(263,11): error C3861: "nowy": identyfikatora nie odnaleziono
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(264,5): error C2678: dwuargumentowy "[": nie znaleziono żadnego operatora, który przyjmuje lewostronny operand typu "std::map" (lub nie istnieje akceptowalna konwersja)
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(344,18): message : może to być „_Ty &std::map<_Kty,_Ty,_Pr,_Alloc>::operator [](const _Kty &)”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(173,18): message : lub       "_Ty &std::map<_Kty,_Ty,_Pr,_Alloc>::operator [](_Kty &&)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(264,5): message : podczas próby dopasowania listy argumentów "(std::map, std::string)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(264,22): error C2065: "nowy": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(265,5): error C2678: dwuargumentowy "[": nie znaleziono żadnego operatora, który przyjmuje lewostronny operand typu "std::map" (lub nie istnieje akceptowalna konwersja)
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(344,18): message : może to być „_Ty &std::map<_Kty,_Ty,_Pr,_Alloc>::operator [](const _Kty &)”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(173,18): message : lub       "_Ty &std::map<_Kty,_Ty,_Pr,_Alloc>::operator [](_Kty &&)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(265,5): message : podczas próby dopasowania listy argumentów "(std::map, std::string)"
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(266,27): error C2677: dwuargumentowy "[": nie znaleziono żadnego globalnego operatora, który przyjmuje typ "std::string" (lub nie istnieje akceptowalna konwersja)
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(266,43): error C2061: błąd składniowy: identyfikator „stworzenie”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(271,5): error C2065: "Podrostek": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(271,1): fatal  error C1003: Licznik błędów przekracza 100; zatrzymywanie kompilacji
+  jedzenie.ixx
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\filesystem(13): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(7,1): error C3378: deklarację można eksportować tylko z jednostki interfejsu modułu
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(7,23): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(7,15): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „jedzenie”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(9,1): error C3378: deklarację można eksportować tylko z jednostki interfejsu modułu
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(16,7): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(16,19): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(25,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(16,24): error C3646: "sciezka": nieznany specyfikator przesłonięcia
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(16,31): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(21,46): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(21,58): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(25,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(21,9): error C2061: błąd składniowy: identyfikator „path”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(30,26): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(30,38): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(25,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(30,43): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(30,43): error C2146: błąd składniowy: brakuje „)” przed identyfikatorem „sciezka”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(30,43): error C3646: "sciezka": nieznany specyfikator przesłonięcia
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(30,50): error C2059: błąd składniowy: „)”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(21,140): error C2065: "n": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(22,3): error C2065: "sciezka": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(22,13): error C2065: "p": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(23,10): error C2065: "ects": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(24,11): error C2065: "sciezka": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(31,30): error C2065: "sciezka": niezadeklarowany identyfikator
+  przycisk.ixx
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\przycisk.ixx(9,1): error C3378: deklarację można eksportować tylko z jednostki interfejsu modułu
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\przycisk.ixx(9,20): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\przycisk.ixx(9,15): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „guzik”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\przycisk.ixx(11,1): error C3378: deklarację można eksportować tylko z jednostki interfejsu modułu
+  pole_tekstowe.ixx
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\pole_tekstowe.ixx(9,1): error C3378: deklarację można eksportować tylko z jednostki interfejsu modułu
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\pole_tekstowe.ixx(9,28): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\pole_tekstowe.ixx(9,15): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „pole_tekstowe”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\pole_tekstowe.ixx(11,1): error C3378: deklarację można eksportować tylko z jednostki interfejsu modułu
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\pole_tekstowe.ixx(39,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\pole_tekstowe.ixx(87,22): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\pole_tekstowe.ixx(111,31): warning C4018: "<=": niezgodność typu ze znakiem/bez znaku
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\pole_tekstowe.ixx(114,36): warning C4018: ">": niezgodność typu ze znakiem/bez znaku
+  zwierzak.ixx
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\filesystem(13): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(9,16): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(9,8): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „jedzenie”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(13,1): error C3378: deklarację można eksportować tylko z jednostki interfejsu modułu
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(13,23): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(13,15): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „zwierzak”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(15,1): error C3378: deklarację można eksportować tylko z jednostki interfejsu modułu
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(34,15): error C2065: "produkt": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(34,7): error C2923: „std::vector”: „produkt” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(34,15): message : zobacz deklarację „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(34,7): error C2976: „std::vector”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(35,15): error C2065: "produkt": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(35,7): error C2923: „std::vector”: „produkt” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(35,15): message : zobacz deklarację „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(35,7): error C2976: „std::vector”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(43,7): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(43,19): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(43,24): error C3646: "zwykly": nieznany specyfikator przesłonięcia
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(43,30): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(45,7): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(45,19): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(45,24): error C3646: "lewy_profil": nieznany specyfikator przesłonięcia
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(45,35): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(46,7): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(46,19): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(46,24): error C3646: "wygrana": nieznany specyfikator przesłonięcia
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(46,31): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(47,7): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(47,19): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(47,24): error C3646: "przegrana": nieznany specyfikator przesłonięcia
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(47,33): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(49,7): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(49,19): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(49,24): error C3646: "spiacy": nieznany specyfikator przesłonięcia
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(49,30): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(50,7): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(50,19): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(50,24): error C3646: "zglodnialy": nieznany specyfikator przesłonięcia
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(50,34): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(53,18): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(53,30): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(53,12): error C2061: błąd składniowy: identyfikator „path”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(53,2): error C2535: „stworzenie::stworzenie(void)”: Funkcja składowa już zdefiniowana lub zadeklarowana
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(52,2): message : zobacz deklarację „stworzenie::stworzenie”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(79,27): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(79,27): error C2143: błąd składniowy: brakuje „,” przed „&”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(127,15): error C2065: "produkt": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(127,7): error C2923: „std::vector”: „produkt” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(127,15): message : zobacz deklarację „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(127,7): error C2976: „std::vector”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(128,38): error C2065: "produkt": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(128,30): error C2923: „std::vector”: „produkt” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(128,38): message : zobacz deklarację „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(128,30): error C2976: „std::vector”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(130,15): error C2065: "produkt": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(130,7): error C2923: „std::vector”: „produkt” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(130,15): message : zobacz deklarację „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(130,7): error C2976: „std::vector”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(131,42): error C2065: "produkt": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(131,34): error C2923: „std::vector”: „produkt” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(131,42): message : zobacz deklarację „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(131,34): error C2976: „std::vector”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(133,19): error C2061: błąd składniowy: identyfikator „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(134,14): error C2065: "produkt": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(134,7): error C2923: „std::vector”: „produkt” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(134,14): message : zobacz deklarację „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(134,7): error C2976: „std::vector”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(136,23): error C2061: błąd składniowy: identyfikator „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(137,14): error C2065: "produkt": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(137,7): error C2923: „std::vector”: „produkt” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(137,14): message : zobacz deklarację „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(137,7): error C2976: „std::vector”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(181,7): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(181,19): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(181,24): error C3646: "pobierz_wygrana": nieznany specyfikator przesłonięcia
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(181,39): error C2059: błąd składniowy: „(”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(181,42): error C2334: nieoczekiwany(e) token(y) poprzedzające "{"; pomijanie treści widocznych funkcji
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(182,7): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(182,19): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(182,24): error C3646: "pobierz_przegrana": nieznany specyfikator przesłonięcia
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(182,41): error C2059: błąd składniowy: „(”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(182,44): error C2334: nieoczekiwany(e) token(y) poprzedzające "{"; pomijanie treści widocznych funkcji
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(183,7): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(183,19): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(26,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(183,24): error C3646: "pobierz_lewy_profil": nieznany specyfikator przesłonięcia
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(183,43): error C2059: błąd składniowy: „(”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(183,46): error C2334: nieoczekiwany(e) token(y) poprzedzające "{"; pomijanie treści widocznych funkcji
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(52,117): error C2512: "std::vector": niedostępny odpowiedni konstruktor domyślny
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(53,266): error C2512: "std::vector": niedostępny odpowiedni konstruktor domyślny
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\vector(438,1): message : zobacz deklarację „std::vector”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(54,3): error C2065: "zwykly": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(54,12): error C2065: "z": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(56,3): error C2065: "lewy_profil": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(56,17): error C2065: "lp": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(57,3): error C2065: "wygrana": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(57,13): error C2065: "w": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(58,3): error C2065: "przegrana": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(58,15): error C2065: "p": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(60,3): error C2065: "spiacy": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(60,12): error C2065: "s": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(61,3): error C2065: "zglodnialy": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(61,1): fatal  error C1003: Licznik błędów przekracza 100; zatrzymywanie kompilacji
+  projekt.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\filesystem(13): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(15,16): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(15,8): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „zwierzak”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(16,17): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(16,1): error C2086: "int import": zmiana definicji
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(15,1): message : zobacz deklarację „import”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(16,8): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „interfejs”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(17,16): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(17,1): error C2086: "int import": zmiana definicji
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(15,1): message : zobacz deklarację „import”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(17,8): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „jedzenie”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(18,21): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(18,1): error C2086: "int import": zmiana definicji
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(15,1): message : zobacz deklarację „import”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(18,8): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „pole_tekstowe”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(19,13): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(19,1): error C2086: "int import": zmiana definicji
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(15,1): message : zobacz deklarację „import”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(19,8): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „guzik”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(20,11): error C4430: brak specyfikatora typu - założono, że int. Uwaga: C++ nie obsługuje domyślnie typu int
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(20,1): error C2086: "int import": zmiana definicji
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(15,1): message : zobacz deklarację „import”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(20,8): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „gra”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(50,51): error C2061: błąd składniowy: identyfikator „interfejs”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(51,27): error C2065: "stworzenie": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(51,38): error C2059: błąd składniowy: „>”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(51,41): error C2039: „iterator”: nie jest składową elementu „`global namespace'”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(51,50): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „it”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(51,50): error C2065: "it": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(51,57): error C2065: "inter": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(52,12): error C2065: "it": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(52,20): error C2065: "inter": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(53,13): error C2065: "it": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(56,9): error C2065: "it": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(89,56): error C2061: błąd składniowy: identyfikator „stworzenie”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(90,9): error C2065: "czas_od_poludnia": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(93,9): error C2065: "stwor": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,19): error C2065: "interfejs": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,30): error C2065: "inter": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,59): error C2065: "produkt": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,42): error C2923: „std::map”: „produkt” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,59): message : zobacz deklarację „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,42): error C2976: „std::map”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(73,1): message : zobacz deklarację „std::map”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,42): error C2955: „std::map”: użycie klasy klasa szablon wymaga listy argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(73,1): message : zobacz deklarację „std::map”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,69): error C2065: "baza_dan": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,84): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,96): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\future(37,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,101): error C2065: "path": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,101): error C2146: błąd składniowy: brakuje „)” przed identyfikatorem „plik_uzytkownikow”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,125): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,137): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\future(37,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,159): error C2143: błąd składniowy: brakuje „;” przed „{”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(99,159): error C2447: "{": brak nagłówka funkcji (stary styl formalnej listy?)
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(134,6): error C2182: „zglodniej“: to użycie elementu „void“ jest nieprawidłowe
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(134,16): error C2065: "stworzenie": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(134,28): error C2065: "s": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(134,31): error C2065: "przycisk": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(134,41): error C2065: "zabaw": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(135,1): error C2143: błąd składniowy: brakuje „;” przed „{”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(136,5): error C2059: błąd składniowy: „while”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(136,23): error C2143: błąd składniowy: brakuje „;” przed „{”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(136,23): error C2447: "{": brak nagłówka funkcji (stary styl formalnej listy?)
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(157,1): error C2059: błąd składniowy: „}”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(157,1): error C2143: błąd składniowy: brakuje „;” przed „}”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(159,61): error C2065: "produkt": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(159,44): error C2923: „std::map”: „produkt” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(159,61): message : zobacz deklarację „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(159,44): error C2976: „std::map”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(73,1): message : zobacz deklarację „std::map”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(159,174): error C2143: błąd składniowy: brakuje „;” przed „{”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(159,174): error C2447: "{": brak nagłówka funkcji (stary styl formalnej listy?)
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(210,10): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(210,22): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\future(37,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(210,27): error C2065: "path": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(210,27): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „plik_uzytkownikow”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(210,27): error C3861: "plik_uzytkownikow": identyfikatora nie odnaleziono
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(211,10): error C3083: "filesystem" : symbol po lewej stronie "::" musi być typem
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(211,22): error C2039: „path”: nie jest składową elementu „std”
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\future(37,1): message : zobacz deklarację „std”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(211,27): error C2065: "path": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(211,27): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „plik_zwierzakow”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(211,27): error C3861: "plik_zwierzakow": identyfikatora nie odnaleziono
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(227,5): error C2065: "interfejs": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(227,15): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „inter”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(227,15): error C2065: "inter": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(233,5): error C2065: "prawo_lewo": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(233,16): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „pl”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(233,16): error C3861: "pl": identyfikatora nie odnaleziono
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(237,27): error C2065: "produkt": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(237,10): error C2923: „std::map”: „produkt” nie jest prawidłowym argumentem typu szablon dla parametru „_Ty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(237,27): message : zobacz deklarację „produkt”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(237,10): error C2976: „std::map”: za mało argumentów szablon
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(73,1): message : zobacz deklarację „std::map”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(237,36): error C2133: "baza_dan": nieznany rozmiar
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(237,36): error C2512: "std::map": niedostępny odpowiedni konstruktor domyślny
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\map(73,1): message : zobacz deklarację „std::map”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(238,23): error C2065: "inter": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(238,40): error C2065: "plik_uzytkownikow": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(238,59): error C2065: "plik_zwierzakow": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(251,5): error C2065: "stworzenie": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(251,16): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „zwierze”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(251,16): error C2065: "zwierze": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(254,5): error C2065: "Bobas": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(254,11): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „bobasek”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(254,11): error C2065: "bobasek": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(255,5): error C2065: "bobasek": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(263,5): error C2065: "przycisk": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(263,14): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „dobranoc”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(263,14): error C3861: "dobranoc": identyfikatora nie odnaleziono
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(265,5): error C2065: "przycisk": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(265,14): error C2146: błąd składniowy: brakuje „;” przed identyfikatorem „staty”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(265,14): error C3861: "staty": identyfikatora nie odnaleziono
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(266,5): error C2065: "przycisk": niezadeklarowany identyfikator
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(266,19): fatal  error C1003: Licznik błędów przekracza 100; zatrzymywanie kompilacji
+  Generowanie kodu...
