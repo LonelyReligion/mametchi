@@ -1,19 +1,8 @@
 ﻿  Trwa skanowanie źródeł pod kątem zależności modułów...
   przycisk.ixx
-  pole_tekstowe.ixx
-  zwierzak.ixx
-  gra.ixx
-  interfejs.ixx
-  jedzenie.ixx
   Trwa kompilowanie…
-  jedzenie.ixx
-  pole_tekstowe.ixx
   przycisk.ixx
 C:\Users\user\Desktop\C++\pk4\mametchi\projekt\przycisk.ixx(9,20): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
-C:\Users\user\Desktop\C++\pk4\mametchi\projekt\pole_tekstowe.ixx(9,28): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
-C:\Users\user\Desktop\C++\pk4\mametchi\projekt\jedzenie.ixx(7,23): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
-  zwierzak.ixx
-C:\Users\user\Desktop\C++\pk4\mametchi\projekt\zwierzak.ixx(13,23): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
   interfejs.ixx
 C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(19,24): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
 C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(77,24): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
@@ -27,6 +16,6 @@ C:\Users\user\Desktop\C++\pk4\mametchi\projekt\interfejs.ixx(255,37): warning C4
   gra.ixx
 C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(11,18): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
   projekt.cpp
-C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(885,76): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
-C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(887,68): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(890,76): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(892,68): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
   projekt.vcxproj -> C:\Users\user\Desktop\C++\pk4\mametchi\x64\Debug\projekt.exe

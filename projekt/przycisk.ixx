@@ -14,9 +14,11 @@ private:
 	sf::Text tekst;
 
 	sf::RectangleShape prostokat_w_zapasie;
-	bool dezaktywowany = false;
+	sf::Color kolor_aktywnego_napisu;
 protected:
 public:
+	bool dezaktywowany = false;
+
 	przycisk() {};
 	
 	przycisk(std::string tresc, sf::Vector2f rozmiar, int wielkosc, sf::Color tlo, sf::Color barwa, sf::Vector2f xy, sf::Font& font) {
@@ -82,7 +84,7 @@ public:
 	void dezaktywuj() 
 	{
 		prostokat_w_zapasie = prostokat;
-
+		kolor_aktywnego_napisu = tekst.getFillColor();
 		dezaktywowany = true;
 		
 		ustawkolortla(sf::Color(197, 197, 197));
@@ -91,7 +93,9 @@ public:
 
 	void aktywuj() 
 	{
+		tekst.setFillColor(kolor_aktywnego_napisu);
 		prostokat = prostokat_w_zapasie;
+
 		dezaktywowany = false;
 	}
 };

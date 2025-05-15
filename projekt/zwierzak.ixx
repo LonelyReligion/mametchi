@@ -109,11 +109,11 @@ public:
 	{ 
 		if (glod == 0 && am != 0)
 			ustaw_glodny(false);
-		glod = am;
+		am > 5 ? glod = 5 : glod = am;
 	};
 
 	int zwroc_szczescie() { return szczescie; };
-	void ustaw_szczescie(const int& radowanie) { szczescie = radowanie; };
+	void ustaw_szczescie(const int& radowanie) { radowanie > 5 ? szczescie = 5 : szczescie = radowanie; };
 
 	int zwroc_wiek() { return wiek; };
 	void ustaw_wiek(const int& lata) { wiek = lata; };

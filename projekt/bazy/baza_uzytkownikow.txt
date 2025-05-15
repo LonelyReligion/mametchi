@@ -1,8 +1,2 @@
 nazwa_uzytkownika		haslo		ects
-MARIO		MARIO		0
-adam		adam		0
-guattari		guattari		9500
-guitari		gu		30
-logowanie		logowanie		0
-mario		mario		2907
-tama		amat		30
+guattari		guattari		0

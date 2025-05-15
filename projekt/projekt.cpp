@@ -47,6 +47,7 @@ TODO/ZNANE PROBLEMY
 > miganie
 */
 
+//to powinna byc metoda interfejsu
 bool unikatowa_nazwa_zwierzaka(std::string nazwa, interfejs inter) {
     std::map<std::string, stworzenie*>::iterator it = (*inter.zwroc_baze_zwierzakow()).begin();
     while (it != (*inter.zwroc_baze_zwierzakow()).end()) {
@@ -96,6 +97,7 @@ void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::C
         
 };
 
+//metoda interfejsu?
 bool wczytaj_bazy(interfejs* inter, std::map<std::string, produkt>& baza_dan, std::filesystem::path plik_uzytkownikow, std::filesystem::path plik_zwierzakow) {
     produkt truskawka(2, 2, "OBRAZKI/kantyna/truskawka.png", "Soczysta truskawka", 0);
     produkt salatka(3, 0, "OBRAZKI/kantyna/salatka.png", "Pyszna salatka", 0);
@@ -143,6 +145,7 @@ void zglodniej(stworzenie* s, przycisk &zabaw)
                 {
                     (*s).ustaw_glodny(true);
                     zabaw.dezaktywuj();
+                    std::cout << "nie ma juz zabawy dla cb" << std::endl;
                 }
             }
             else
@@ -152,7 +155,7 @@ void zglodniej(stworzenie* s, przycisk &zabaw)
         }
 
         std::unique_lock<std::mutex> lock(mtx);
-        cv.wait_for(lock, std::chrono::milliseconds(1000), [] { return !wylacz_sie; }); //100000
+        cv.wait_for(lock, std::chrono::milliseconds(10000), [] { return !wylacz_sie; }); //100000
     }
 }
 
@@ -751,6 +754,8 @@ int main()
                         if (p->myszanad(okno)) {
                             std::string nazwa_dania = (p->zwroc_tekst()).substr((p->zwroc_tekst()).find_first_of(" \t") + 1);
                             (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(baza_dan.at(nazwa_dania));
+                            if(zabaw.dezaktywowany)
+                                zabaw.aktywuj();
                             if (DEBUG) std::cout << "Nasz zwierzak zjadl " + p->zwroc_tekst() << std::endl;
                         }
                     }

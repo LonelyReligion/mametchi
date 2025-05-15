@@ -227,7 +227,12 @@
             "c:\\users\\user\\desktop\\c++\\pk4\\sfml\\include\\sfml\\graphics\\text.hpp",
             "c:\\users\\user\\desktop\\c++\\pk4\\sfml\\include\\sfml\\graphics\\vertexbuffer.hpp"
         ],
-        "ImportedModules": [],
+        "ImportedModules": [
+            {
+                "Name": "jedzenie",
+                "BMI": "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\jedzenie.ixx.ifc.dt"
+            }
+        ],
         "ImportedHeaderUnits": []
     }
 }
