@@ -1,2 +1,2 @@
 nazwa_uzytkownika		haslo		ects
-guattari		guattari		0
+guattari		guattari		700

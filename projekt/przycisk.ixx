@@ -98,4 +98,9 @@ public:
 
 		dezaktywowany = false;
 	}
+
+	sf::Color getKolorPostokata() 
+	{
+		return prostokat.getFillColor();
+	}
 };

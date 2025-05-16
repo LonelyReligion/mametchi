@@ -88,8 +88,8 @@ void idle_animation(std::promise<sf::Vector2f> & prom, bool restart) {
 };
 
 void pozycja_slonca(std::promise<sf::Vector2f>&& prom, stworzenie & stwor, sf::Clock &czas_od_poludnia) {
-    if (czas_od_poludnia.getElapsedTime().asSeconds() < 230) //230
-        prom.set_value(sf::Vector2f(0.015f, 0.01f));
+    if (czas_od_poludnia.getElapsedTime().asSeconds() < 60 /*230*/)
+        prom.set_value(sf::Vector2f(0.06f, 0.04f));
     else {
         stwor.ustaw_wyspany(false);
         prom.set_value(sf::Vector2f(0.f, 0.f));
@@ -155,7 +155,7 @@ void zglodniej(stworzenie* s, przycisk &zabaw)
         }
 
         std::unique_lock<std::mutex> lock(mtx);
-        cv.wait_for(lock, std::chrono::milliseconds(10000), [] { return !wylacz_sie; }); //100000
+        cv.wait_for(lock, std::chrono::milliseconds(30000), [] { return !wylacz_sie; }); //100000
     }
 }
 
@@ -658,7 +658,7 @@ int main()
                     dobranoc.ustawkolortla(sf::Color(48, 48, 255));
                     staty.ustawkolortla(kolor_tla_przyciskow);
                     lodow.ustawkolortla(kolor_tla_przyciskow);
-                    zabaw.ustawkolortla(kolor_tla_przyciskow);
+                    zabaw.dezaktywowany ? zabaw.ustawkolortla(zabaw.getKolorPostokata()) : zabaw.ustawkolortla(kolor_tla_przyciskow);
                     sprza.ustawkolortla(kolor_tla_przyciskow);
                     wczyt.ustawkolortla(kolor_tla_przyciskow);
                     zapis.ustawkolortla(kolor_tla_przyciskow);
@@ -675,7 +675,8 @@ int main()
                     lodow.ustawkolortla(kolor_tla_wcisniete);
                 }
                 else if (zabaw.myszanad(okno)) {
-                    zabaw.ustawkolortla(kolor_tla_wcisniete);
+                    if(!zabaw.dezaktywowany)
+                        zabaw.ustawkolortla(kolor_tla_wcisniete);
                 }
                 else if (sprza.myszanad(okno)) {
                     sprza.ustawkolortla(kolor_tla_wcisniete);
@@ -693,7 +694,7 @@ int main()
                     dobranoc.ustawkolortla(sf::Color(48, 48, 255));
                     staty.ustawkolortla(kolor_tla_przyciskow);
                     lodow.ustawkolortla(kolor_tla_przyciskow);
-                    zabaw.ustawkolortla(kolor_tla_przyciskow);
+                    zabaw.dezaktywowany ? zabaw.ustawkolortla(zabaw.getKolorPostokata()) : zabaw.ustawkolortla(kolor_tla_przyciskow);
                     sprza.ustawkolortla(kolor_tla_przyciskow);
                     wczyt.ustawkolortla(kolor_tla_przyciskow);
                     zapis.ustawkolortla(kolor_tla_przyciskow);
@@ -754,8 +755,10 @@ int main()
                         if (p->myszanad(okno)) {
                             std::string nazwa_dania = (p->zwroc_tekst()).substr((p->zwroc_tekst()).find_first_of(" \t") + 1);
                             (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(baza_dan.at(nazwa_dania));
-                            if(zabaw.dezaktywowany)
+                            if (zabaw.dezaktywowany) {
                                 zabaw.aktywuj();
+                                zabaw.ustawkolortla(kolor_tla_przyciskow);
+                            }
                             if (DEBUG) std::cout << "Nasz zwierzak zjadl " + p->zwroc_tekst() << std::endl;
                         }
                     }
@@ -1110,7 +1113,7 @@ int main()
 
             std::thread pozycja_sloneczna(pozycja_slonca, std::move(prom_sloneczne), std::ref(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())), std::ref(czas_od_poludnia));
 
-            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 230)//230
+            if (czas_od_poludnia.getElapsedTime().asSeconds() >= 60/*230*/)
             {
                 if (!(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_wyspany()) { //jesli nie wyspany
                     //////////////
@@ -1135,7 +1138,7 @@ int main()
                     };
                 }
                 else { //jezeli wyspany
-
+                    std::cout << "Wyspalem sie!" << std::endl;
                     (*(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_sprite()).setPosition(sf::Vector2f(0.f, 0.f));
                     czas_od_poludnia.restart();
                     raz_po = 1;
