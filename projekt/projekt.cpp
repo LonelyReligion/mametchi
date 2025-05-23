@@ -264,6 +264,7 @@ int main()
     sf::Vector2f rozmiar_przyciskow = { 200, 50 };
 
     przycisk dobranoc("DOBRANOC", { 200,50 }, 20, sf::Color(48, 90, 255), sf::Color(250, 233, 135), {300, 400}, font);
+    dobranoc.dezaktywuj();
 
     przycisk staty("Statystyki", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 50, 20 }, font); //wezszy, inne kolory
     przycisk lodow("Bufet", rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 300, 20 }, font);
@@ -692,12 +693,13 @@ int main()
                 }
                 else {
                     dobranoc.ustawkolortla(sf::Color(48, 48, 255));
-                    staty.ustawkolortla(kolor_tla_przyciskow);
-                    lodow.ustawkolortla(kolor_tla_przyciskow);
+                    //przerobic na petle
+                    staty.dezaktywowany ? staty.ustawkolortla(staty.getKolorPostokata()) : staty.ustawkolortla(kolor_tla_przyciskow);
+                    lodow.dezaktywowany ? lodow.ustawkolortla(lodow.getKolorPostokata()) : lodow.ustawkolortla(kolor_tla_przyciskow);
                     zabaw.dezaktywowany ? zabaw.ustawkolortla(zabaw.getKolorPostokata()) : zabaw.ustawkolortla(kolor_tla_przyciskow);
-                    sprza.ustawkolortla(kolor_tla_przyciskow);
-                    wczyt.ustawkolortla(kolor_tla_przyciskow);
-                    zapis.ustawkolortla(kolor_tla_przyciskow);
+                    //sprza.dezaktywowany ? zabaw.ustawkolortla(zabaw.getKolorPostokata()) : zabaw.ustawkolortla(kolor_tla_przyciskow);
+                    wczyt.dezaktywowany ? wczyt.ustawkolortla(wczyt.getKolorPostokata()) : wczyt.ustawkolortla(kolor_tla_przyciskow);
+                    zapis.dezaktywowany ? zapis.ustawkolortla(zapis.getKolorPostokata()) : zapis.ustawkolortla(kolor_tla_przyciskow);
 
                     (*pl.zwroc_przyciski()[1]).ustawkolortla(sf::Color(238, 255, 204));
                     (*pl.zwroc_przyciski()[1]).ustawkolortekstu(sf::Color(17, 26, 0));
@@ -745,6 +747,10 @@ int main()
                         if (p->myszanad(okno)) {
                             std::string nazwa_dania = (p->zwroc_tekst()).substr((p->zwroc_tekst()).find_first_of(" \t") + 1);
                             (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(baza_dan.at(nazwa_dania));
+                            if (zabaw.dezaktywowany && baza_dan.at(nazwa_dania).zwroc_wo() > 0) {
+                                zabaw.aktywuj();
+                                zabaw.ustawkolortla(kolor_tla_przyciskow);
+                            }
                             if (DEBUG) std::cout << "Nasz zwierzak zjadl " + p->zwroc_tekst() << std::endl;
                         }
                     }
@@ -1120,9 +1126,14 @@ int main()
                     okno.clear(sf::Color(71, 108, 194));//ok
                     okno.draw(duszek_gwiazd);
                     ekran_pokoju.rysuj_tlo(okno);
+
+                    for (przycisk* p : ekran_pokoju.zwroc_przyciski()) {
+                        (*p).dezaktywuj();
+                    }
+                    dobranoc.aktywuj();
                     //////////////
 
-                    if (spimy) {//jezeli guzik zostal wcisniety
+                    if (spimy && !gramy) {//jezeli guzik zostal wcisniety
                         if (!b) budzik.restart(); //raz na spanie
                         bool ewoluujemy = (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).spij(budzik, okno);
                         if (ewoluujemy) {
@@ -1141,6 +1152,11 @@ int main()
                     std::cout << "Wyspalem sie!" << std::endl;
                     (*(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_sprite()).setPosition(sf::Vector2f(0.f, 0.f));
                     czas_od_poludnia.restart();
+                    for (przycisk* p : ekran_pokoju.zwroc_przyciski()) {
+                        (*p).aktywuj();
+                        (*p).ustawkolortla(kolor_tla_przyciskow);
+                    }
+                    dobranoc.dezaktywuj();
                     raz_po = 1;
                 }
                 //zmieniamy niebo i wyswietlamy przycisk, gdy przycisk animacja spania, reset zegara, reset nieba
@@ -1156,6 +1172,7 @@ int main()
             };
 
             if (raz_po) {
+                //moze tu resetowac slonce?
                 std::thread pozycja(idle_animation, std::ref(prom), 1);//resetujemy pozycje bobasa
                 (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).drukuj_do(okno, fut.get());
                 pozycja.join();

@@ -93,7 +93,7 @@ public:
 
 	void aktywuj() 
 	{
-		tekst.setFillColor(kolor_aktywnego_napisu);
+		tekst.setFillColor(kolor_aktywnego_napisu); //nie dziala przy spaniu, dlaczego?
 		prostokat = prostokat_w_zapasie;
 
 		dezaktywowany = false;

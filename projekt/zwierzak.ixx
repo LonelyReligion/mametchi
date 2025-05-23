@@ -49,8 +49,8 @@ protected:
 	std::filesystem::path spiacy;
 	std::filesystem::path zglodnialy;
 public:
-	stworzenie() : glod(0), szczescie(0), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) { if (DEBUG_Z) std::cout << "wywolano konstruktor bezargumentowy klasy stworzenie" << std::endl; };
-	stworzenie(std::filesystem::path z, std::filesystem::path lp, std::filesystem::path w, std::filesystem::path p, std::filesystem::path s, std::filesystem::path g) : glod(0), szczescie(0), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) {
+	stworzenie() : glod(2), szczescie(2), /*chory(0), glodny(1), zmeczony(0), smutny(1), */ imie(""), wiek(0), zywy(1) { if (DEBUG_Z) std::cout << "wywolano konstruktor bezargumentowy klasy stworzenie" << std::endl; };
+	stworzenie(std::filesystem::path z, std::filesystem::path lp, std::filesystem::path w, std::filesystem::path p, std::filesystem::path s, std::filesystem::path g) : stworzenie(){
 		zwykly = z;
 
 		lewy_profil = lp;
