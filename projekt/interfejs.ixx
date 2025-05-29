@@ -108,7 +108,8 @@ public:
 		os << "typ\timie_rodzica\timie\tglod\tszczescie\twiek\tzywy\twyspany\tdania\tprzekaski" << std::endl;
 		for (auto& z : baza_zwierzakow) {
 			std::string typ;
-			if (z.second->zwroc_imie() != "" && dynamic_cast<const Bobas*>(z.second) != nullptr) {
+
+			if (z.second->zwroc_imie() != "" && bobasy.find(z.first) != bobasy.end()) {
 				typ = "bobas";
 				os << typ << "\t" << z.second->zwroc_imie_rodzica() << "\t"
 					<< z.second->zwroc_imie() << "\t" << z.second->zwroc_glod() << "\t"
@@ -129,7 +130,7 @@ public:
 				}
 				os << "\n";
 			}
-			else if (z.second->zwroc_imie() != "" && dynamic_cast<const Podrostek*>(z.second) != nullptr)
+			else if (z.second->zwroc_imie() != "" && podrostki.find(z.first) != podrostki.end())
 			{
 				typ = "podrostek";
 				os << typ << "\t" << z.second->zwroc_imie_rodzica() << "\t"
@@ -196,14 +197,24 @@ public:
 			std::stringstream ss(linijka);
 
 			std::string typ, rodzic, imie;
-			int glod, szczescie, wiek;
+			int glod, szczescie, wiek, zywy_int;
 			bool zywy, wyspany;
+			
 			std::vector <produkt> dania;
 			std::vector <produkt> przekaski;
 
-			if (!(ss >> typ >> rodzic>> imie >> glod >> szczescie >> wiek >> zywy >> wyspany)) {
-				if (DEBUG_I) std::cout << "nie wczytalismy zwierzaka" << std::endl;
-				break;
+			if (!(ss >> typ >> rodzic>> imie >> glod >> szczescie >> wiek >> zywy_int >> wyspany)) {
+				if (DEBUG_I) std::cout << "nie wczytalismy zwierzaka " << ss.rdstate() << std::endl;
+				return false;
+			}
+			else {
+				if (zywy_int > 1 || zywy_int < 0) 
+				{
+					if (DEBUG_I) std::cout << "nie wczytalismy zwierzaka " << ss.rdstate() << std::endl;
+					if (DEBUG_I) std::cout << "Nie mozna zrzutowac zywy na bool" << std::endl;
+					return false;
+				}
+				zywy = (bool)zywy_int;
 			}; // blad: niepelna linijka
 			
 			char c;

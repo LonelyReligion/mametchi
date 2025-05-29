@@ -1,3 +1,4 @@
 nazwa_uzytkownika		haslo		ects
 guattari		guattari		700
 hej		aga		25060
+mario		mario		3810
