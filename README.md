@@ -28,4 +28,4 @@ Tamagotchi fangame made in C++ with sfml libriary. All sprites by me and uleczal
 10) wait for symbols to load <br>
 
 <h2>Warning</h2>
-Playing on older version is advised. Newer version implemnting hunger mechanic is very unstable and currently unplayable.
+Sleeping or lack of it may cause some issues.
