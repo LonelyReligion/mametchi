@@ -798,11 +798,11 @@ int main()
                     ekran_statystyk.ustaw_aktywny(true);
                 } 
                 else if (lodow.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() &&  !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
-                    std::cout << "lodow przycisniety" << std::endl;
+                    //std::cout << "lodow przycisniety" << std::endl;
                     ekran_jedzenia.ustaw_aktywny(true);
                 }
                 else if (zabaw.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
-                    std::cout << "zabaw przycisniety " << (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).pobierz_lewy_profil() << std::endl;
+                    //std::cout << "zabaw przycisniety " << (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).pobierz_lewy_profil() << std::endl;
                     pl.wczytaj_sprite((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).pobierz_lewy_profil());
                     gramy = 1;
                     pl.wynik = 0;
@@ -1099,7 +1099,7 @@ int main()
             (baza_dan.at("serek")).rysuj(okno, sf::Vector2f(-530.f, -350.f));
         }
         else if (gramy) {
-            pl.rysuj(okno);  
+            pl.rysuj(okno, (*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany()));
             if (zaklad && opoznienie.getElapsedTime().asSeconds() >= 5) {
                 gramy = 0;
                 zaklad = 0;

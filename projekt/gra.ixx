@@ -71,12 +71,16 @@ public:
 	};
 
 	//moze zmienic po prostu na licznik i modulo :')
-	bool animacja_stworka() {
+	bool animacja_stworka(stworzenie* gracz) {
+		double skala = 0.5;
+		double dv = (*gracz).get_wygrane_pod_rzad() * skala;
+		if (dv > 4) dv = 4;
+
 		static bool moneta = 1;
-		static int licznik = 50;
+		static int licznik = 50/(dv + 1);
 		if (!licznik) {
 			moneta = !moneta;
-			licznik = 50;
+			licznik = 50/(dv + 1);
 		}else
 			licznik--;
 		return moneta;
@@ -84,19 +88,19 @@ public:
 
 	void ustaw_ekran(ekran& e) { widok_gry = e; };
 
-	void rysuj(sf::RenderWindow& okno) {
+	void rysuj(sf::RenderWindow& okno, stworzenie* gracz) {
 		widok_gry.rysuj_tlo(okno);
 
 		if (wynik == 0)
-			okno.draw(obroty[animacja_stworka()]);
+			okno.draw(obroty[animacja_stworka(gracz)]);
 		else if(wynik == 1)
-			okno.draw(skoki[animacja_stworka()]);
+			okno.draw(skoki[animacja_stworka(gracz)]);
 		else
-			okno.draw(trzesienie[animacja_stworka()]);
+			okno.draw(trzesienie[animacja_stworka(gracz)]);
 	};
 
 	int zwroc_nagrode(bool obstawiana_wartosc, stworzenie * gracz) {
-		if (obstawiana_wartosc == animacja_stworka()) {
+		if (obstawiana_wartosc == animacja_stworka(gracz)) {
 			wynik = 1;
 			wczytaj_sprite((*gracz).pobierz_wygrana());
 			
