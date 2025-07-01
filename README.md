@@ -28,6 +28,6 @@ Tamagotchi fangame made in C++ with sfml libriary. All sprites by me and uleczal
 10) wait for symbols to load <br>
 
 <h2>Known issuess</h2>
-1) night sometimes never comes
-2) buttons text change colours sometimes
-3) buttons rectangles/background may disappear completely, but remain functional
+1) night sometimes never comes<br>
+2) buttons text change colours sometimes<br>
+3) buttons rectangles/background may disappear completely, but remain functional<br>
