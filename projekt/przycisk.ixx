@@ -2,13 +2,15 @@
 #include <iostream>
 #include <string>
 
+import klikalny;
+
 /* TODO:
 	- sprawdzic czy nie mozna gdzies wpisac consta i referencji na koniec
 */
 bool DEBUG_P = 1;
 export module guzik;
 
-export class przycisk {
+export class przycisk : public klikalny {
 private:
 	sf::RectangleShape prostokat;
 	sf::Text tekst;
@@ -17,8 +19,6 @@ private:
 	sf::Color kolor_aktywnego_napisu;
 protected:
 public:
-	bool dezaktywowany = false;
-
 	przycisk() {};
 	
 	przycisk(std::string tresc, sf::Vector2f rozmiar, int wielkosc, sf::Color tlo, sf::Color barwa, sf::Vector2f xy, sf::Font& font) {
@@ -31,6 +31,12 @@ public:
 
 		this->ustawpozycje(xy);
 		this->ustawFont(font);
+
+
+		guzikx = prostokat.getPosition().x;
+		guziky = prostokat.getPosition().y;
+		xplusszer = guzikx + prostokat.getLocalBounds().width;
+		ypluswys = guziky + prostokat.getLocalBounds().height;
 	};
 
 	void ustawFont(sf::Font& font) {
@@ -50,31 +56,16 @@ public:
 			(tekst.getLocalBounds().height / 2);
 
 		tekst.setPosition({x, y});
+
+		guzikx = prostokat.getPosition().x;
+		guziky = prostokat.getPosition().y;
+		xplusszer = guzikx + prostokat.getLocalBounds().width;
+		ypluswys = guziky + prostokat.getLocalBounds().height;
 	};
 
 	void drukujdo(sf::RenderWindow &okno) {
 		okno.draw(prostokat);
 		okno.draw(tekst);
-	};
-
-	bool myszanad(sf::RenderWindow& okno) {
-		if (!dezaktywowany)
-		{
-			double myszax = sf::Mouse::getPosition(okno).x;
-			double myszay = sf::Mouse::getPosition(okno).y;
-
-			double guzikx = prostokat.getPosition().x;
-			double guziky = prostokat.getPosition().y;
-
-			double xplusszer = guzikx + prostokat.getLocalBounds().width;
-			double ypluswys = guziky + prostokat.getLocalBounds().height;
-
-			if (myszax < xplusszer && myszax > guzikx && myszay < ypluswys && myszay > guziky) //czy jest w konturze
-				return true;
-			else
-				return false;
-		}
-		return false;
 	};
 
 	std::string zwroc_tekst() {

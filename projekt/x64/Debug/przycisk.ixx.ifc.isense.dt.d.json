@@ -200,7 +200,12 @@
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\iostream",
             "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.36.32532\\include\\istream"
         ],
-        "ImportedModules": [],
+        "ImportedModules": [
+            {
+                "Name": "klikalny",
+                "BMI": "C:\\Users\\user\\Desktop\\C++\\pk4\\mametchi\\projekt\\x64\\Debug\\klikalny.ixx.ifc.dt"
+            }
+        ],
         "ImportedHeaderUnits": []
     }
 }

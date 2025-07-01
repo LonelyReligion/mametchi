@@ -3,7 +3,9 @@
     "Data": {
         "Source": "c:\\users\\user\\desktop\\c++\\pk4\\mametchi\\projekt\\przycisk.ixx",
         "ProvidedModule": "guzik",
-        "ImportedModules": [],
+        "ImportedModules": [
+            "klikalny"
+        ],
         "ImportedHeaderUnits": []
     }
 }

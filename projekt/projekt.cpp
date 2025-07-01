@@ -240,9 +240,6 @@ int main()
     if(!wczytaj_bazy(&inter, baza_dan, plik_uzytkownikow, plik_zwierzakow))
         return 1; //blad
 
-    //Bobas testowy_bobas("admin1", "portos", 4, 1, 3, 1, 1, { salatka }, { truskawka });
-    //inter.dodaj_do_bazy_zwierzakow(testowy_bobas);
-
     /*The OFL allows the licensed fonts to be used, studied, modified and redistributed freely as
     long as they are not sold by themselves. The fonts, including any derivative works, can be bundled,
     embedded, redistributed and/or sold with any software provided that any reserved names are not used
@@ -421,6 +418,17 @@ int main()
         glod.push_back({nasycony, wyglodzony});
         szczescie.push_back({ uszczesliwiony, zasmucony });
     };
+    
+    sf::Texture strzalka_w_prawo;
+    if (!strzalka_w_prawo.loadFromFile("obrazki/statystyki/strzalka.png")) {
+        std::cout << "ladowanie tekstury ikonka chichrok zakonczone niepowodzeniem" << std::endl;
+    };
+    strzalka_w_prawo.setSmooth(false);
+    sf::Sprite strzalka_p(strzalka_w_prawo);
+    strzalka_p.setOrigin(sf::Vector2f(-675.f, -225.f));
+
+    //staty 2
+    ekran ekran_statystyk2("obrazki/statystyki/statystyki.png", { statystyki });
 
     //jedzenie
     sf::Text informacje_o_daniu = sf::Text("", font, 20);
@@ -746,14 +754,16 @@ int main()
                         if (p->myszanad(okno)) {
                             std::string nazwa_dania = (p->zwroc_tekst()).substr((p->zwroc_tekst()).find_first_of(" \t") + 1);
                             (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).nakarm(baza_dan.at(nazwa_dania));
+                            
+                            //sytuacja: zwierzak przestal byc glodny moze na nowo grac :)
                             if (zabaw.dezaktywowany && baza_dan.at(nazwa_dania).zwroc_wo() > 0) {
                                 zabaw.aktywuj();
                                 zabaw.ustawkolortla(kolor_tla_przyciskow);
                             }
                             if (DEBUG) std::cout << "Nasz zwierzak zjadl " + p->zwroc_tekst() << std::endl;
+                            ekran_slodyczy.ustaw_aktywny(false);
                         }
-                    }
-                    ekran_slodyczy.ustaw_aktywny(false);
+                    }                    
                 }
                 else if (ekran_dan.zwroc_aktywny() && inter.zwroc_baze_zwierzakow()->at(inter.pobierzzalogowany())->zwroc_dania().size() != 0 && !ekran_popupu.zwroc_aktywny()) {
                     for (przycisk* p : ekran_dan.zwroc_przyciski()) {
@@ -765,9 +775,9 @@ int main()
                                 zabaw.ustawkolortla(kolor_tla_przyciskow);
                             }
                             if (DEBUG) std::cout << "Nasz zwierzak zjadl " + p->zwroc_tekst() << std::endl;
+                            ekran_dan.ustaw_aktywny(false);
                         }
-                    }
-                    ekran_dan.ustaw_aktywny(false);
+                    }                    
                 }
                 else if (sklepu.zwroc_aktywny() && produkt_1.myszanad(okno) && !ekran_popupu.zwroc_aktywny()) {
                     sf::Text nowy;
@@ -796,7 +806,7 @@ int main()
                     ekran_statystyk.ustaw_napis(3, suma);
                     ekran_statystyk.ustaw_aktywny(true);
                 } 
-                else if (lodow.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() &&  !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
+                else if (lodow.myszanad(okno) && !sklepu.zwroc_aktywny() && !ekran_popupu.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() &&  !ekran_dan.zwroc_aktywny() && !gramy && !ekran_jedzenia.zwroc_aktywny()) {
                     //std::cout << "lodow przycisniety" << std::endl;
                     ekran_jedzenia.ustaw_aktywny(true);
                 }
@@ -1025,6 +1035,7 @@ int main()
                 okno.draw(glod[i][g]);
                 okno.draw(szczescie[i][s]);
             };
+            okno.draw(strzalka_p);
         
         }
         else if (ekran_jedzenia.zwroc_aktywny()) {

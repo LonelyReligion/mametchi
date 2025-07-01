@@ -144,6 +144,7 @@
     <ClCompile Include="gra.ixx" />
     <ClCompile Include="interfejs.ixx" />
     <ClCompile Include="jedzenie.ixx" />
+    <ClCompile Include="klikalny.ixx" />
     <ClCompile Include="przycisk.ixx" />
     <ClCompile Include="pole_tekstowe.ixx" />
     <ClCompile Include="zwierzak.ixx" />

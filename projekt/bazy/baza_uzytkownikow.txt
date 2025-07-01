@@ -1,6 +1,6 @@
 nazwa_uzytkownika		haslo		ects
 aga		hej		540
 guattari		guattari		700
-hej		aga		25060
+hej		aga		25390
 mario		mario		3810
 naninf		naninf		460
