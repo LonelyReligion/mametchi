@@ -274,6 +274,9 @@ public:
 				Bobas nowy(rodzic, imie, glod, szczescie, wiek, zywy, wyspany, dania, przekaski);
 				bobasy[rodzic] = nowy;//tu sie rozjezdza pierwszy
 				bobasy[rodzic].wczytaj_sprite();
+				if (glod == 0) {
+					bobasy[rodzic].ustaw_glodny(true);
+				}
 				baza_zwierzakow[rodzic] = static_cast<stworzenie*> (&bobasy[rodzic]);
 
 				//i++;
@@ -282,6 +285,9 @@ public:
 				Podrostek nowy(rodzic, imie, glod, szczescie, wiek, zywy, wyspany, dania, przekaski);
 				podrostki[rodzic] = nowy;//tu sie rozjezdza pierwszy
 				podrostki[rodzic].wczytaj_sprite();
+				if (glod == 0) {
+					podrostki[rodzic].ustaw_glodny(true);
+				}
 				baza_zwierzakow[rodzic] = static_cast<stworzenie*> (&podrostki[rodzic]);
 			};
 

@@ -23,8 +23,6 @@ bool DEBUG = true;
 
 /*
 TODO/ZNANE PROBLEMY
-> zapisywanie i wczytywanie stanu zwierzaja (glodny)
-> przy odczycie glodnego zwierzaka przycisk gry wciaz powinien byc zdezaktywowany
 > zeby szczescie schodzilo w czasie
 > przycisk anuluj/cofnij w logowaniu
 > moze w ekranie powinien byc bool - visible i set i get visible (refaktoryzacja)
@@ -144,6 +142,7 @@ void zglodniej(stworzenie* s, przycisk &zabaw)
                 if ((*s).zwroc_glod() == 0)
                 {
                     (*s).ustaw_glodny(true);
+
                     zabaw.dezaktywuj();
                     std::cout << "nie ma juz zabawy dla cb" << std::endl;
                 }
@@ -915,6 +914,10 @@ int main()
                                     ekran_statystyk.ustaw_napis(1, imie);
                                     ekran_statystyk.ustaw_napis(2, wiek);
 
+                                    if ((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_glodny() == true) {
+                                        zabaw.dezaktywuj();
+                                        std::cout << "nie ma juz zabawy dla cb" << std::endl;
+                                    }
                                 }
                                 else {
                                     instrukcja_logowania.setString("NIEPOPRAWNE HASLO. Podaj nazwe uzytkownika.");
@@ -970,6 +973,11 @@ int main()
 
                             ekran_statystyk.ustaw_napis(1, imie);
                             ekran_statystyk.ustaw_napis(2, wiek);
+
+                            if ((*nasze).zwroc_glodny() == true) {
+                                zabaw.dezaktywuj();
+                                std::cout << "nie ma juz zabawy dla cb" << std::endl;
+                            }
                         }
                         else {
                             std::cout << "zwierzak o podanej nazwie juz istnieje" << std::endl;

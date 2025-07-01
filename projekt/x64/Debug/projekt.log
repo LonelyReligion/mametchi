@@ -1,11 +1,5 @@
 ﻿  Trwa skanowanie źródeł pod kątem zależności modułów...
-  gra.ixx
-  Trwa kompilowanie…
-  gra.ixx
-C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(11,18): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
-C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(80,22): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
-C:\Users\user\Desktop\C++\pk4\mametchi\projekt\gra.ixx(83,16): warning C4244: "=": konwersja z "double" do "int", możliwa utrata danych
   projekt.cpp
-C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(899,76): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
-C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(901,68): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(901,76): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(903,68): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
   projekt.vcxproj -> C:\Users\user\Desktop\C++\pk4\mametchi\x64\Debug\projekt.exe
