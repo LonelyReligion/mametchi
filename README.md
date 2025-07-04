@@ -27,5 +27,7 @@ Tamagotchi fangame made in C++ with sfml libriary. All sprites by me and uleczal
 9) run in debug <br>
 10) wait for symbols to load <br>
 
-<h2>Warning</h2>
-Sleeping or lack of it may cause some issues.
+<h2>Known issuess</h2>
+1) night sometimes never comes<br>
+2) buttons text change colours sometimes<br>
+3) buttons rectangles/background may disappear completely, but remain functional<br>
