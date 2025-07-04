@@ -1,5 +1,9 @@
 ﻿  Trwa skanowanie źródeł pod kątem zależności modułów...
+  obrazek.ixx
+  Trwa kompilowanie…
+  obrazek.ixx
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\obrazek.ixx(8,22): warning C5201: deklaracja modułu może występować tylko na początku jednostki translacji, chyba że zostanie użyty fragment modułu globalnego
   projekt.cpp
-C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(908,76): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
-C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(910,68): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(911,76): warning C4834: odrzucanie zwracanej wartości funkcji z atrybutem „nodiscard”
+C:\Users\user\Desktop\C++\pk4\mametchi\projekt\projekt.cpp(913,68): warning C4101: "oor": lokalna zmienna, do której nie istnieje odwołanie
   projekt.vcxproj -> C:\Users\user\Desktop\C++\pk4\mametchi\x64\Debug\projekt.exe

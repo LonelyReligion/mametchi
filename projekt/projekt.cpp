@@ -18,6 +18,7 @@ import jedzenie;
 import pole_tekstowe;
 import guzik;
 import gra;
+import obrazek;
 
 bool DEBUG = true;
 
@@ -419,14 +420,8 @@ int main()
         szczescie.push_back({ uszczesliwiony, zasmucony });
     };
     
-    sf::Texture strzalka_w_prawo;
-    if (!strzalka_w_prawo.loadFromFile("obrazki/statystyki/strzalka.png")) {
-        std::cout << "ladowanie tekstury ikonka chichrok zakonczone niepowodzeniem" << std::endl;
-    };
-    strzalka_w_prawo.setSmooth(false);
-    sf::Sprite strzalka_p(strzalka_w_prawo);
-    strzalka_p.setOrigin(sf::Vector2f(-675.f, -225.f));
-
+    obrazek strzalka_w_prawo("obrazki/statystyki/strzalka.png");
+    
     //staty 2
     ekran ekran_statystyk2("obrazki/statystyki/statystyki.png", { statystyki });
 
@@ -726,6 +721,10 @@ int main()
                     }
                     else if (nie.myszanad(okno) && !ekran_jedzenia.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy)
                         ekran_popupu.ustaw_aktywny(false);
+                }
+                else if (ekran_statystyk.zwroc_aktywny()) {
+                    if (strzalka_w_prawo.myszanad(okno))
+                        std::cout << "Klik strzalki" << std::endl;
                 }
                 else if (ekran_jedzenia.zwroc_aktywny()) {
                     if (dania.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !gramy) {
@@ -1035,8 +1034,8 @@ int main()
                 okno.draw(glod[i][g]);
                 okno.draw(szczescie[i][s]);
             };
-            okno.draw(strzalka_p);
-        
+            strzalka_w_prawo.rysuj(okno, sf::Vector2f(-675.f, -225.f));
+
         }
         else if (ekran_jedzenia.zwroc_aktywny()) {
             ekran_jedzenia.rysuj_tlo(okno);
