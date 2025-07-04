@@ -24,6 +24,7 @@ bool DEBUG = true;
 
 /*
 TODO/ZNANE PROBLEMY
+> dezaktywowac przycisk statystyki bedac w statystykach2
 > zeby szczescie schodzilo w czasie
 > przycisk anuluj/cofnij w logowaniu
 > moze w ekranie powinien byc bool - visible i set i get visible (refaktoryzacja)
@@ -424,6 +425,7 @@ int main()
     
     //staty 2
     ekran ekran_statystyk2("obrazki/statystyki/statystyki.png", { statystyki });
+    obrazek strzalka_w_lewo("obrazki/statystyki/strzalka.png");
 
     //jedzenie
     sf::Text informacje_o_daniu = sf::Text("", font, 20);
@@ -470,13 +472,16 @@ int main()
             {
             ///
             case sf::Event::KeyReleased:
-                if (zdarzenie.key.code == sf::Keyboard::Escape && !ekran_jedzenia.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy && !sklepu.zwroc_aktywny())//wychodzimy
+                //zmienic kolejnosc warunkow
+                if (zdarzenie.key.code == sf::Keyboard::Escape && !ekran_jedzenia.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_statystyk2.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy && !sklepu.zwroc_aktywny())//wychodzimy
                 {
                     if (DEBUG) std::cout << "wywolano sekwencje wyjscia" << std::endl;
                     ekran_popupu.ustaw_aktywny(!ekran_popupu.zwroc_aktywny());
                 }
                 else if (ekran_statystyk.zwroc_aktywny())
                     ekran_statystyk.ustaw_aktywny(false);
+                else if (ekran_statystyk2.zwroc_aktywny())
+                    ekran_statystyk2.ustaw_aktywny(false);
                 else if (ekran_jedzenia.zwroc_aktywny())
                     ekran_jedzenia.ustaw_aktywny(false);
                 else if (ekran_dan.zwroc_aktywny())
@@ -723,8 +728,18 @@ int main()
                         ekran_popupu.ustaw_aktywny(false);
                 }
                 else if (ekran_statystyk.zwroc_aktywny()) {
-                    if (strzalka_w_prawo.myszanad(okno))
-                        std::cout << "Klik strzalki" << std::endl;
+                    if (strzalka_w_prawo.myszanad(okno)) {
+                        ekran_statystyk.ustaw_aktywny(false);
+                        ekran_statystyk2.ustaw_aktywny(true);
+                    }
+                }
+                else if (ekran_statystyk2.zwroc_aktywny()) {
+                    if (strzalka_w_lewo.myszanad(okno)) 
+                    {
+                        std::cout << "lewa strzalka" << std::endl;
+                        ekran_statystyk2.ustaw_aktywny(false);
+                        ekran_statystyk.ustaw_aktywny(true);
+                    }
                 }
                 else if (ekran_jedzenia.zwroc_aktywny()) {
                     if (dania.myszanad(okno) && !ekran_popupu.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !gramy) {
@@ -1034,8 +1049,16 @@ int main()
                 okno.draw(glod[i][g]);
                 okno.draw(szczescie[i][s]);
             };
-            strzalka_w_prawo.rysuj(okno, sf::Vector2f(-675.f, -225.f));
+            strzalka_w_prawo.rysuj(okno, sf::Vector2f(-675.f, -225.f), false);
 
+        }
+        else if (ekran_statystyk2.zwroc_aktywny()) {
+            ekran_statystyk2.rysuj_tlo(okno);
+            //rysuj strzalke w lewo
+            strzalka_w_lewo.rysuj(okno, sf::Vector2f(-0.f, -225.f), true);
+            //rysuj wage
+            //rysuj numer generacji (na razie 1)
+            //wytrenowanie
         }
         else if (ekran_jedzenia.zwroc_aktywny()) {
             ekran_jedzenia.rysuj_tlo(okno);

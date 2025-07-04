@@ -19,6 +19,7 @@ public:
 		sciezka = p;
 		wczytaj(p); 
 	}
+
 	void wczytaj(const std::filesystem::path sciezka) {
 		if (!tekstura.loadFromFile(sciezka.string())) {
 			std::cout << "ladowanie tekstury obrazka zakonczone niepowodzeniem" << std::endl;
@@ -26,13 +27,18 @@ public:
 		tekstura.setSmooth(false);
 	};
 
-	void rysuj(sf::RenderWindow& okno, sf::Vector2f gdzie) {
+	void rysuj(sf::RenderWindow& okno, sf::Vector2f gdzie, bool odbij_w_pionie) {
 		duch.setTexture(tekstura);
-		duch.setOrigin(gdzie);
+		duch.setPosition(-gdzie);
+
+		if (odbij_w_pionie) {
+			duch.setTextureRect(sf::IntRect(duch.getLocalBounds().height, 0, -duch.getLocalBounds().width, duch.getLocalBounds().height));
+		}
 		okno.draw(duch);
 
 		guzikx = -gdzie.x;
 		guziky = -gdzie.y;
+
 		xplusszer = guzikx + duch.getLocalBounds().width;
 		ypluswys = guziky + duch.getLocalBounds().height;
 	};
