@@ -264,14 +264,17 @@ export class Podrostek : public stworzenie {
 		ustaw_imie_rodzica(bazowe.zwroc_imie_rodzica());
 		ustaw_imie(bazowe.zwroc_imie());
 
+		wczytaj_sprite();
+
 		(*this).ustaw_glod(bazowe.zwroc_glod());
+		(*this).ustaw_glodny(bazowe.zwroc_glodny());
+
 		(*this).ustaw_szczescie(bazowe.zwroc_szczescie());
 		(*this).ustaw_wiek(bazowe.zwroc_wiek());
 		(*this).ustaw_zywy(bazowe.zwroc_zywy());
 		(*this).ustaw_wyspany(bazowe.zwroc_wyspany());
 		(*this).ustaw_dania(bazowe.zwroc_dania());
 		(*this).ustaw_przekaski(bazowe.zwroc_przekaski());
-		wczytaj_sprite();
 	}
 
 	Podrostek(const std::string rodzic, const std::string miano, const int& glodzik,
@@ -285,12 +288,15 @@ export class Podrostek : public stworzenie {
 		ustaw_imie(miano);
 
 		(*this).ustaw_glod(glodzik);
+		(*this).ustaw_glodny(glodzik == 0);
+
 		(*this).ustaw_szczescie(radosc);
 		(*this).ustaw_wiek(lata);
 		(*this).ustaw_zywy(zyje);
 		(*this).ustaw_wyspany(wypoczety);
 		(*this).ustaw_dania(pozywienie);
 		(*this).ustaw_przekaski(slodycze);
+
 		wczytaj_sprite();
 	};
 

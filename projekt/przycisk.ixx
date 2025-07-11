@@ -16,9 +16,9 @@ private:
 	sf::Text tekst;
 
 	sf::RectangleShape prostokat_w_zapasie;
-	sf::Color kolor_aktywnego_napisu;
 protected:
 public:
+	sf::Color kolor_aktywnego_napisu;
 	przycisk() {};
 	
 	przycisk(std::string tresc, sf::Vector2f rozmiar, int wielkosc, sf::Color tlo, sf::Color barwa, sf::Vector2f xy, sf::Font& font) {
@@ -50,7 +50,8 @@ public:
 	void ustawpozycje(sf::Vector2f xy) { 
 		prostokat.setPosition(xy); 
 		
-		float x = (xy.x + prostokat.getLocalBounds().width / 3.5f) -
+		//moze sprawdzac dlugosci i dla tych < 9 3.5f wciaz
+		float x = (xy.x + prostokat.getLocalBounds().width / 4.5f) -
 			(tekst.getLocalBounds().width / 2);
 		float y = (xy.y + prostokat.getLocalBounds().height / 3.5f) -
 			(tekst.getLocalBounds().height / 2);

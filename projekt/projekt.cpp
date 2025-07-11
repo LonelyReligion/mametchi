@@ -1107,8 +1107,8 @@ int main()
                 if (licznik_1 < dania_uzytkownika.size() && dania_uzytkownika.size() != ekran_slodyczy.zwroc_przyciski().size()) {
                     sf::Vector2f rozmiar = rozmiar_przyciskow;
                     if (danie.zwroc_nazwa().length() > 16)
-                        rozmiar = { 300, 50 };
-                    przycisk p(danie.zwroc_nazwa(), rozmiar_przyciskow, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 160.f + 270 * (licznik_1 % 2), 280 + 220.f * ((licznik_1 > 0 ? licznik_1 - 1 : 0) % 2) }, font);
+                        rozmiar = { 250, 50 };
+                    przycisk p(danie.zwroc_nazwa(), rozmiar, 20, kolor_tla_przyciskow, kolor_tekstu_przyciskow, { 160.f + 270 * (licznik_1 % 2), 280 + 220.f * ((licznik_1 > 0 ? licznik_1 - 1 : 0) % 2) }, font);
                     przyciski_dania = ekran_slodyczy.zwroc_przyciski();
                     przyciski_slodyczy[licznik_1] = p;
                 }
@@ -1181,6 +1181,19 @@ int main()
                             //ewolucja
                             Podrostek* ewoluowany = new Podrostek((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())));
                             inter.dodajZwierzaka(ewoluowany);
+                            
+                            // wylacz glodnienie
+                            wylacz_sie = false;
+                            cv.notify_all();
+                            while (!t.joinable()) { ; }
+                            t.join();
+                            //
+                            
+                            //wlacz glodnienie
+                            wylacz_sie = true;
+                            t = std::thread(zglodniej, ewoluowany, std::ref(zabaw));
+                            glodniejemy = true;
+                            //
                         }; 
                         //w koncu robi sie wyspany
                         b = true;
@@ -1191,12 +1204,18 @@ int main()
                 }
                 else { //jezeli wyspany
                     std::cout << "Wyspalem sie!" << std::endl;
-                    (*(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_sprite()).setPosition(sf::Vector2f(0.f, 0.f));
-                    czas_od_poludnia.restart();
+                    (*(*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_sprite()).setPosition(sf::Vector2f(0.f, 0.f)); czas_od_poludnia.restart();
                     for (przycisk* p : ekran_pokoju.zwroc_przyciski()) {
+                        (*p).kolor_aktywnego_napisu = kolor_tekstu_przyciskow;
                         (*p).aktywuj();
                         (*p).ustawkolortla(kolor_tla_przyciskow);
+
                     }
+
+                    if ((*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_glodny()) {
+                        zabaw.dezaktywuj();
+                    };
+
                     dobranoc.dezaktywuj();
                     raz_po = 1;
                 }
