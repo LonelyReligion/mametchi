@@ -301,6 +301,62 @@ public:
 	std::map<std::string, stworzenie*>* zwroc_baze_zwierzakow() { return &baza_zwierzakow; };
 	void dodajUzytkownika(uzytkownik nowy) { baza_uzytkownikow[nowy.zwroc_nazwa_uzytkownika()] = nowy; };
 	void dodajZwierzaka(stworzenie* nowe) { baza_zwierzakow[nowe->zwroc_imie_rodzica()] = nowe; }
+
+
+	bool glodniejemy = false;
+	std::atomic<bool> wylacz_sie = true;
+	std::mutex mtx;
+	std::condition_variable cv;
+
+	void zglodniej(stworzenie* s, przycisk& zabaw)
+	{
+		while (wylacz_sie) {
+			if (s != NULL) {
+				if ((*s).zwroc_glod() != 0)
+				{
+					std::cout << "zglodnialem" << std::endl;
+					(*s).ustaw_glod((*s).zwroc_glod() - 1);
+					if ((*s).zwroc_glod() == 0)
+					{
+						(*s).ustaw_glodny(true);
+
+						zabaw.dezaktywuj();
+						std::cout << "nie ma juz zabawy dla cb" << std::endl;
+					}
+				}
+				else
+					std::cout << "jestem zbyt glodny!" << std::endl;
+			}
+
+			std::unique_lock<std::mutex> lock(mtx);
+			cv.wait_for(lock, std::chrono::milliseconds(30000), [this] { return !wylacz_sie; }); //100000
+		}
+	}
+
+	bool smutniejemy = false;
+	std::atomic<bool> wylacz_sie_smutek = true;
+	std::mutex mtx_smutek;
+	std::condition_variable cv_smutek;
+
+	void smutniej(stworzenie* s)
+	{
+		while (wylacz_sie_smutek) {
+			if (s != NULL) {
+				if ((*s).zwroc_szczescie() != 0)
+				{
+					std::cout << "posmutnialem" << std::endl;
+					(*s).ustaw_szczescie((*s).zwroc_szczescie() - 1);
+					if ((*s).zwroc_szczescie() == 0)
+						(*s).ustaw_smutny(true);
+				}
+				else
+					std::cout << "jestem zbyt smutny!" << std::endl;
+			}
+
+			std::unique_lock<std::mutex> lock(mtx_smutek);
+			cv_smutek.wait_for(lock, std::chrono::milliseconds(25000), [this] { return !wylacz_sie_smutek; }); //100000
+		}
+	}
 };
 
 export class ekran {
@@ -316,6 +372,7 @@ public:
 		guziki.reserve(9);
 	};
 	ekran(const std::filesystem::path& sciezka, std::vector<sf::Text> t = {}, std::vector<przycisk*> p = {}) :teksty(t), guziki(p) { wczytaj_tlo(sciezka); };
+
 	void wczytaj_tlo(const std::filesystem::path & sciezka){
 		if (!tekstura.loadFromFile(sciezka.string())){
 			std::cout << "ladowanie tekstury tla zakonczone niepowodzeniem" << std::endl;

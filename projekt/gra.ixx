@@ -86,7 +86,7 @@ public:
 		return moneta;
 	};
 
-	void ustaw_ekran(ekran& e) { widok_gry = e; };
+	void ustaw_ekran(ekran e) { widok_gry = e; };
 
 	void rysuj(sf::RenderWindow& okno, stworzenie* gracz) {
 		widok_gry.rysuj_tlo(okno);

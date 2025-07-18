@@ -26,6 +26,7 @@ bool DEBUG = true;
 TODO/ZNANE PROBLEMY
 > dezaktywowac przycisk statystyki bedac w statystykach2
 > odswiezanie statystyk w czasie ich wyswietlanie
+> zamknac wlaczanie/wylaczanie smutnienia/glodnienia w fcjach interfejsu
 > sprite smutnego zwierzaka
 > przycisk anuluj/cofnij w logowaniu
 > moze w ekranie powinien byc bool - visible i set i get visible (refaktoryzacja)
@@ -49,9 +50,9 @@ TODO/ZNANE PROBLEMY
 */
 
 //to powinna byc metoda interfejsu
-bool unikatowa_nazwa_zwierzaka(std::string nazwa, interfejs inter) {
-    std::map<std::string, stworzenie*>::iterator it = (*inter.zwroc_baze_zwierzakow()).begin();
-    while (it != (*inter.zwroc_baze_zwierzakow()).end()) {
+bool unikatowa_nazwa_zwierzaka(std::string nazwa, interfejs * inter) {
+    std::map<std::string, stworzenie*>::iterator it = (*inter->zwroc_baze_zwierzakow()).begin();
+    while (it != (*inter->zwroc_baze_zwierzakow()).end()) {
         if (it->second->zwroc_imie() == nazwa) {
             return false;
         }
@@ -127,61 +128,6 @@ bool wczytaj_bazy(interfejs* inter, std::map<std::string, produkt>& baza_dan, st
         return 0;
     };
     return 1;
-}
-
-bool glodniejemy = false;
-std::atomic<bool> wylacz_sie(true);
-std::mutex mtx;
-std::condition_variable cv;
-
-void zglodniej(stworzenie* s, przycisk &zabaw)
-{
-    while (wylacz_sie){
-        if (s != NULL) {
-            if ((*s).zwroc_glod() != 0)
-            {
-                std::cout << "zglodnialem" << std::endl;
-                (*s).ustaw_glod((*s).zwroc_glod() - 1);
-                if ((*s).zwroc_glod() == 0)
-                {
-                    (*s).ustaw_glodny(true);
-
-                    zabaw.dezaktywuj();
-                    std::cout << "nie ma juz zabawy dla cb" << std::endl;
-                }
-            }
-            else
-                std::cout << "jestem zbyt glodny!" << std::endl;
-        }
-
-        std::unique_lock<std::mutex> lock(mtx);
-        cv.wait_for(lock, std::chrono::milliseconds(30000), [] { return !wylacz_sie; }); //100000
-    }
-}
-
-bool smutniejemy = false;
-std::atomic<bool> wylacz_sie_smutek(true);
-std::mutex mtx_smutek;
-std::condition_variable cv_smutek;
-
-void smutniej(stworzenie* s)
-{
-    while (wylacz_sie_smutek) {
-        if (s != NULL) {
-            if ((*s).zwroc_szczescie() != 0)
-            {
-                std::cout << "posmutnialem" << std::endl;
-                (*s).ustaw_szczescie((*s).zwroc_szczescie() - 1);
-                if ((*s).zwroc_szczescie() == 0)
-                    (*s).ustaw_smutny(true);
-            }
-            else
-                std::cout << "jestem zbyt smutny!" << std::endl;
-        }
-
-        std::unique_lock<std::mutex> lock(mtx_smutek);
-        cv_smutek.wait_for(lock, std::chrono::milliseconds(25000), [] { return !wylacz_sie_smutek; }); //100000
-    }
 }
 
 void zakup_produkt(interfejs & inter, std::map<std::string, produkt> baza_dan, bool czy_danie, sf::Font & font, ekran & sklepu, std::string nazwa_produktu, sf::Text & nowy) {
@@ -743,13 +689,13 @@ int main()
             case sf::Event::MouseButtonPressed:
                 if (ekran_popupu.zwroc_aktywny()) {
                     if (tak.myszanad(okno) && !ekran_jedzenia.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy) {
-                        wylacz_sie_smutek = false;
-                        cv_smutek.notify_all();
+                        inter.wylacz_sie_smutek = false;
+                        inter.cv_smutek.notify_all();
                         if (ts.joinable())
                             ts.join();
 
-                        wylacz_sie = false;
-                        cv.notify_all();
+                        inter.wylacz_sie = false;
+                        inter.cv.notify_all();
                         if(t.joinable())
                             t.join();
                         return 0;
@@ -1015,7 +961,7 @@ int main()
                 //blad - naprawiony? 31.07: po powrocie do ekranu logowania bez zapisania zwierzaka i kliknieciu escape jest wyjatek
                 else if (zalogowany && ((*inter.zwroc_baze_zwierzakow()).find(inter.pobierzzalogowany()) != (*inter.zwroc_baze_zwierzakow()).end()) && (*(*inter.zwroc_baze_zwierzakow()).at(inter.pobierzzalogowany())).zwroc_imie() == "") {
                     if (zdarzenie.key.code == sf::Keyboard::LShift || zdarzenie.key.code == sf::Keyboard::RShift) { //zatwierdzony
-                        if (unikatowa_nazwa_zwierzaka(login.zwroctekst(), inter)) {
+                        if (unikatowa_nazwa_zwierzaka(login.zwroctekst(), &inter)) {
                             std::map<std::string, stworzenie*> baza_zwierzakow = *inter.zwroc_baze_zwierzakow();
                             stworzenie* nasze = baza_zwierzakow.at(inter.pobierzzalogowany());
                             (*nasze).ustaw_imie(login.zwroctekst());
@@ -1052,11 +998,11 @@ int main()
 
         okno.clear();
 
-        if (zalogowany && !glodniejemy && !smutniejemy) {
-            t = std::thread(zglodniej, (*inter.zwroc_baze_zwierzakow())[inter.pobierzzalogowany()], std::ref(zabaw));
-            glodniejemy = true;
-            ts = std::thread(smutniej, (*inter.zwroc_baze_zwierzakow())[inter.pobierzzalogowany()]);
-            smutniejemy = true;
+        if (zalogowany && !inter.glodniejemy && !inter.smutniejemy) {
+            t = std::thread(&interfejs::zglodniej, &inter, (*inter.zwroc_baze_zwierzakow())[inter.pobierzzalogowany()], std::ref(zabaw));
+            inter.glodniejemy = true;
+            ts = std::thread(&interfejs::smutniej, &inter, (*inter.zwroc_baze_zwierzakow())[inter.pobierzzalogowany()]);
+            inter.smutniejemy = true;
         }
 
         //wyswietlamy rzeczy
@@ -1215,29 +1161,29 @@ int main()
                             inter.dodajZwierzaka(ewoluowany);
                             
                             // wylacz glodnienie
-                            wylacz_sie = false;
-                            cv.notify_all();
+                            inter.wylacz_sie = false;
+                            inter.cv.notify_all();
                             while (!t.joinable()) { ; }
                             t.join();
                             //
                             
                             //wlacz glodnienie
-                            wylacz_sie = true;
-                            t = std::thread(zglodniej, ewoluowany, std::ref(zabaw));
-                            glodniejemy = true;
+                            inter.wylacz_sie = true;
+                            t = std::thread(&interfejs::zglodniej, &inter, ewoluowany, std::ref(zabaw));
+                            inter.glodniejemy = true;
                             //
 
                             // wylacz smutnienie
-                            wylacz_sie_smutek = false;
-                            cv_smutek.notify_all();
+                            inter.wylacz_sie_smutek = false;
+                            inter.cv_smutek.notify_all();
                             while (!ts.joinable()) { ; }
                             ts.join();
                             //
 
                             //wlacz smutnienie
-                            wylacz_sie_smutek = true;
-                            ts = std::thread(smutniej, ewoluowany);
-                            smutniejemy = true;
+                            inter.wylacz_sie_smutek = true;
+                            ts = std::thread(&interfejs::smutniej, &inter, ewoluowany);
+                            inter.smutniejemy = true;
                             //
                         }; 
                         //w koncu robi sie wyspany
@@ -1303,13 +1249,13 @@ int main()
     std::cout << "Minelo " << czas.getElapsedTime().asSeconds() << " sekund od uruchomienia programu." << std::endl;
     inter.zapisz_baze_uzytkownikow(plik_uzytkownikow);
 
-    wylacz_sie_smutek = false;
-    cv_smutek.notify_all();
+    inter.wylacz_sie_smutek = false;
+    inter.cv_smutek.notify_all();
     if (ts.joinable())
         ts.join();
 
-    wylacz_sie = false;
-    cv.notify_all();
+    inter.wylacz_sie = false;
+    inter.cv.notify_all();
     if(t.joinable())
         t.join();
     return 0;
