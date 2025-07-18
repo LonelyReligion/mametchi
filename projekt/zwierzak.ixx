@@ -26,7 +26,7 @@ private:
 	//bool chory = 0;
 	bool glodny = 0;
 	//bool zmeczony = 0;
-	//bool smutny = 0;
+	bool smutny = 0;
 
 	bool zywy = 1;
 	bool wyspany = 1;
@@ -114,6 +114,9 @@ public:
 
 	int zwroc_szczescie() { return szczescie; };
 	void ustaw_szczescie(const int& radowanie) { radowanie > 5 ? szczescie = 5 : szczescie = radowanie; };
+
+	bool zwroc_smutny() { return smutny; };
+	void ustaw_smutny(const bool& smutny) { this->smutny = smutny; };
 
 	int zwroc_wiek() { return wiek; };
 	void ustaw_wiek(const int& lata) { wiek = lata; };

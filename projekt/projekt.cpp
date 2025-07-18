@@ -25,7 +25,8 @@ bool DEBUG = true;
 /*
 TODO/ZNANE PROBLEMY
 > dezaktywowac przycisk statystyki bedac w statystykach2
-> zeby szczescie schodzilo w czasie
+> odswiezanie statystyk w czasie ich wyswietlanie
+> sprite smutnego zwierzaka
 > przycisk anuluj/cofnij w logowaniu
 > moze w ekranie powinien byc bool - visible i set i get visible (refaktoryzacja)
 > zmienic tlo jedzenia
@@ -150,13 +151,36 @@ void zglodniej(stworzenie* s, przycisk &zabaw)
                 }
             }
             else
-            {
                 std::cout << "jestem zbyt glodny!" << std::endl;
-            }
         }
 
         std::unique_lock<std::mutex> lock(mtx);
         cv.wait_for(lock, std::chrono::milliseconds(30000), [] { return !wylacz_sie; }); //100000
+    }
+}
+
+bool smutniejemy = false;
+std::atomic<bool> wylacz_sie_smutek(true);
+std::mutex mtx_smutek;
+std::condition_variable cv_smutek;
+
+void smutniej(stworzenie* s)
+{
+    while (wylacz_sie_smutek) {
+        if (s != NULL) {
+            if ((*s).zwroc_szczescie() != 0)
+            {
+                std::cout << "posmutnialem" << std::endl;
+                (*s).ustaw_szczescie((*s).zwroc_szczescie() - 1);
+                if ((*s).zwroc_szczescie() == 0)
+                    (*s).ustaw_smutny(true);
+            }
+            else
+                std::cout << "jestem zbyt smutny!" << std::endl;
+        }
+
+        std::unique_lock<std::mutex> lock(mtx_smutek);
+        cv_smutek.wait_for(lock, std::chrono::milliseconds(25000), [] { return !wylacz_sie_smutek; }); //100000
     }
 }
 
@@ -218,7 +242,8 @@ int main()
     sf::Clock czas; //_od_wlaczenia_programu;
     sf::Clock budzik;
     
-    std::thread t;
+    std::thread t; //watek do glodnienia
+    std::thread ts; //watek do smutnienia
 
     sf::Font font;
     if (!font.loadFromFile("munro.ttf"))
@@ -718,6 +743,11 @@ int main()
             case sf::Event::MouseButtonPressed:
                 if (ekran_popupu.zwroc_aktywny()) {
                     if (tak.myszanad(okno) && !ekran_jedzenia.zwroc_aktywny() && !ekran_statystyk.zwroc_aktywny() && !ekran_slodyczy.zwroc_aktywny() && !ekran_dan.zwroc_aktywny() && !gramy) {
+                        wylacz_sie_smutek = false;
+                        cv_smutek.notify_all();
+                        if (ts.joinable())
+                            ts.join();
+
                         wylacz_sie = false;
                         cv.notify_all();
                         if(t.joinable())
@@ -1022,9 +1052,11 @@ int main()
 
         okno.clear();
 
-        if (zalogowany && !glodniejemy) {
+        if (zalogowany && !glodniejemy && !smutniejemy) {
             t = std::thread(zglodniej, (*inter.zwroc_baze_zwierzakow())[inter.pobierzzalogowany()], std::ref(zabaw));
             glodniejemy = true;
+            ts = std::thread(smutniej, (*inter.zwroc_baze_zwierzakow())[inter.pobierzzalogowany()]);
+            smutniejemy = true;
         }
 
         //wyswietlamy rzeczy
@@ -1194,6 +1226,19 @@ int main()
                             t = std::thread(zglodniej, ewoluowany, std::ref(zabaw));
                             glodniejemy = true;
                             //
+
+                            // wylacz smutnienie
+                            wylacz_sie_smutek = false;
+                            cv_smutek.notify_all();
+                            while (!ts.joinable()) { ; }
+                            ts.join();
+                            //
+
+                            //wlacz smutnienie
+                            wylacz_sie_smutek = true;
+                            ts = std::thread(smutniej, ewoluowany);
+                            smutniejemy = true;
+                            //
                         }; 
                         //w koncu robi sie wyspany
                         b = true;
@@ -1257,6 +1302,12 @@ int main()
 
     std::cout << "Minelo " << czas.getElapsedTime().asSeconds() << " sekund od uruchomienia programu." << std::endl;
     inter.zapisz_baze_uzytkownikow(plik_uzytkownikow);
+
+    wylacz_sie_smutek = false;
+    cv_smutek.notify_all();
+    if (ts.joinable())
+        ts.join();
+
     wylacz_sie = false;
     cv.notify_all();
     if(t.joinable())
